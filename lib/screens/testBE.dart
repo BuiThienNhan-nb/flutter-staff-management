@@ -29,6 +29,7 @@ class _TestBEState extends State<TestBE> {
     employeeDataSource = EmployeeDataSource(
         employeeData: employeeController.listEmployee,
         onRefresh: () {
+          employeeController.retreiveDetailData();
           setState(() {});
         });
 
