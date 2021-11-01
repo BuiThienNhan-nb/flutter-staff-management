@@ -1,0 +1,45 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:staff_management/models/quota.dart';
+
+class QuotaRepo {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Stream<List<Quota>> quotaStream() {
+    return _db
+        .collection('quotas')
+        // .orderBy('name')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<Quota> list = [];
+      query.docs.forEach((element) {
+        //add data
+        list.add(Quota.fromJson(element));
+      });
+      return list;
+    });
+  }
+
+  Stream<Quota> quotaByIdStream(String _uid) {
+    return _db
+        .collection('quotas')
+        // .orderBy('name')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      Quota quota = Quota(
+        uid: 'uid',
+        duration: 0,
+        name: '',
+        ranks: [],
+      );
+      // query.docs.forEach((element)
+      for (var element in query.docs) {
+        //get data
+        if (element.id == _uid) {
+          quota = Quota.fromJson(element);
+          break;
+        }
+      }
+      return quota;
+    });
+  }
+}
