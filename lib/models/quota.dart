@@ -4,7 +4,7 @@ class Quota {
   String uid = '';
   int duration;
   String name;
-  List<int> ranks;
+  List<double> ranks;
 
   Quota({
     required this.uid,
@@ -24,7 +24,7 @@ class Quota {
           ? data['name'] as String
           : '',
       ranks: (data.containsKey('ranks') && data['ranks'] != null)
-          ? (data['ranks'] as List<dynamic>).cast<int>()
+          ? (data['ranks'] as List<dynamic>).cast<double>()
           : [],
     );
   }

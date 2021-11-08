@@ -3,34 +3,38 @@ import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-class TestBE extends StatefulWidget {
-  const TestBE({Key? key}) : super(key: key);
+class EmployeeDataGridView extends StatefulWidget {
+  const EmployeeDataGridView({Key? key}) : super(key: key);
 
   @override
   _TestBEState createState() => _TestBEState();
 }
 
-class _TestBEState extends State<TestBE> {
+class _TestBEState extends State<EmployeeDataGridView> {
   late EmployeeDataSource employeeDataSource;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   retrieveData();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    calculateSalary();
+  }
 
-  void onRefresh() {
-    setState(() {});
+  void calculateSalary() {
+    employeeController.listEmployees.forEach((element) {
+      element.calculateSalary();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     // retrieveData();
     employeeDataSource = EmployeeDataSource(
-        employeeData: employeeController.listEmployee,
+        employeeData: employeeController.listEmployees,
         onRefresh: () {
           employeeController.retreiveDetailData();
-          setState(() {});
+          setState(() {
+            calculateSalary();
+          });
         });
 
     // Build UI
@@ -118,8 +122,9 @@ class EmployeeDataSource extends DataGridSource {
               DataGridCell<String>(
                   columnName: 'position',
                   value: e.workHistory.last.position.value.name),
-              DataGridCell<double>(
-                  columnName: 'salary', value: e.getSalaryWithoutAdditions()),
+              DataGridCell<String>(
+                  columnName: 'salary',
+                  value: e.getSalaryWithoutAdditionsToCurrency()),
             ],
           ),
         )
@@ -152,7 +157,7 @@ class EmployeeDataSource extends DataGridSource {
   @override
   Future<void> handleRefresh() {
     // TODO: implement handleRefresh
-    // employeeController.retreiveDetailData();
+    employeeController.retreiveDetailData();
     onRefresh();
     return super.handleRefresh();
   }

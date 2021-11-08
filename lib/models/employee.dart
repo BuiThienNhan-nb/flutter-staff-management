@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:staff_management/const_value/controller.dart';
+import 'package:staff_management/const_value/value.dart';
 import 'package:staff_management/models/addition.dart';
 import 'package:staff_management/models/quota.dart';
 import 'package:staff_management/models/relative.dart';
-import 'package:staff_management/models/salaryRecords.dart';
+import 'package:intl/intl.dart';
 import 'package:staff_management/models/workHistory.dart';
 
 class Employee {
@@ -20,6 +22,7 @@ class Employee {
   RxList<Relative> relative;
   RxList<WorkHistory> workHistory;
   RxList<Addition> addition;
+  int salary;
 
   Employee({
     required this.uid,
@@ -35,6 +38,7 @@ class Employee {
     required this.relative,
     required this.workHistory,
     required this.addition,
+    required this.salary,
   });
 
   factory Employee.fromJson(DocumentSnapshot doc) {
@@ -95,6 +99,7 @@ class Employee {
       //     unitId: ''),
       workHistory: <WorkHistory>[].obs,
       addition: <Addition>[].obs,
+      salary: 0,
     );
   }
 
@@ -112,17 +117,34 @@ class Employee {
     };
   }
 
-  double getSalaryWithoutAdditions() {
-    // int _currentminimumSalary;
-    // SalaryRecord _salaryRecord;
-    // switch (DateTime.now().month) {
-    //   case 1:
-    //   case 2:
-    //   case 3:
-    //     _currentminimumSalary = _salaryRecord.minimumSalary[0];
-    //     break;
-    //   default:
-    // }
-    return 0.0;
+  void calculateSalary() {
+    var date = DateTime.fromMillisecondsSinceEpoch(
+        workHistory[0].dismissDate.seconds * 1000);
+    double workYear = (DateTime.now().year - date.year) / quota.value.duration;
+    double salaryPoint = quota.value.ranks[workYear.toInt()];
+    double dSalary =
+        (salaryPoint + workHistory[0].position.value.allowancePoint) *
+            salaryRecordController.listSalaryRecords[0].currentSalary() *
+            (1 -
+                ConsInsurancetValue.healthInsurance -
+                ConsInsurancetValue.socialInsurance -
+                ConsInsurancetValue.unemploymentInsurance);
+    salary = dSalary.ceil();
+  }
+
+  int getSalaryWithAdditions() {
+    int totalAddition = 0;
+    addition.forEach((element) {
+      if (element.isReward)
+        totalAddition += element.value * 1000;
+      else
+        totalAddition -= element.value * 1000;
+    });
+    return salary += totalAddition;
+  }
+
+  String getSalaryWithoutAdditionsToCurrency() {
+    final oCcy = new NumberFormat("#,##0", "en_US");
+    return "${oCcy.format(salary)} VNĐ";
   }
 }

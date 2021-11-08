@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:staff_management/const_value/controller.dart';
-import 'package:staff_management/screens/testBE.dart';
+import 'package:staff_management/screens/mainContainer.dart';
 
-class LoadBE extends StatefulWidget {
-  const LoadBE({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoadBEState createState() => _LoadBEState();
 }
 
-class _LoadBEState extends State<LoadBE> {
+class _LoadBEState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     employeeController.retreiveDetailData();
@@ -20,7 +20,7 @@ class _LoadBEState extends State<LoadBE> {
         child: Center(
           child: FlatButton(
             onPressed: () {
-              Get.to(() => TestBE());
+              Get.to(() => MainContainer());
             },
             child: Text('Dzô test BE nè'),
           ),

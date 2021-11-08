@@ -8,15 +8,15 @@ import 'package:staff_management/services/unitRepo.dart';
 class EmployeeController extends GetxController {
   static EmployeeController instance = Get.find();
 
-  RxList<Employee> listEmployee = <Employee>[].obs;
+  RxList<Employee> _listEmployee = <Employee>[].obs;
 
   //get function
-  List<Employee> get listEmployees => listEmployee.value;
+  List<Employee> get listEmployees => _listEmployee.value;
 
   @override
   void onInit() {
     super.onInit();
-    listEmployee.bindStream(EmployeeRepo().employeeStream());
+    _listEmployee.bindStream(EmployeeRepo().employeeStream());
   }
 
   void retreiveDetailData() {

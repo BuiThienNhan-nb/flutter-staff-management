@@ -7,7 +7,7 @@ class SalaryRecordRepo {
   Stream<List<SalaryRecord>> salaryRecordStream() {
     return _db
         .collection('salaryRecords')
-        .orderBy('year')
+        .orderBy('year', descending: true)
         .snapshots()
         .map((QuerySnapshot query) {
       List<SalaryRecord> list = [];

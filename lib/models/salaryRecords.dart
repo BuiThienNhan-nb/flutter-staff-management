@@ -37,17 +37,17 @@ class SalaryRecord {
       case 4:
       case 5:
       case 6:
-        return minimumSalary[1];
+        return minimumSalary[1] * 1000;
       case 7:
       case 8:
       case 9:
-        return minimumSalary[2];
+        return minimumSalary[2] * 1000;
       case 10:
       case 11:
       case 12:
-        return minimumSalary[3];
+        return minimumSalary[3] * 1000;
       default:
-        return minimumSalary[0];
+        return minimumSalary[0] * 1000;
     }
   }
 }
