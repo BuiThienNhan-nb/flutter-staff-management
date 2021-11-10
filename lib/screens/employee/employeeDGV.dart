@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/employee.dart';
+import 'package:staff_management/screens/employee/detailScreen/employeeDetail.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class EmployeeDataGridView extends StatefulWidget {
   const EmployeeDataGridView({Key? key}) : super(key: key);
 
   @override
-  _TestBEState createState() => _TestBEState();
+  _EmployeeDataGridViewState createState() => _EmployeeDataGridViewState();
 }
 
-class _TestBEState extends State<EmployeeDataGridView> {
+class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
   late EmployeeDataSource employeeDataSource;
 
   @override
@@ -43,20 +45,41 @@ class _TestBEState extends State<EmployeeDataGridView> {
         body: SfDataGrid(
           gridLinesVisibility: GridLinesVisibility.both,
           headerGridLinesVisibility: GridLinesVisibility.horizontal,
-          columnWidthMode: ColumnWidthMode.lastColumnFill,
+          columnWidthMode: ColumnWidthMode.auto,
           allowSorting: true,
+          sortingGestureType: SortingGestureType.tap,
+          showSortNumbers: true,
           allowPullToRefresh: true,
           source: employeeDataSource,
+          selectionMode: SelectionMode.single,
+          onCellTap: (DataGridCellTapDetails details) {
+            if (details.rowColumnIndex.rowIndex > 0) {
+              String _uidSorted = employeeDataSource.effectiveRows
+                  .elementAt(details.rowColumnIndex.rowIndex - 1)
+                  .getCells()
+                  .first
+                  .value as String;
+              // print(_uidSorted);
+
+              Get.to(
+                () => EmployeeDetail(
+                    employee: employeeController.listEmployees
+                        .firstWhere((element) => element.uid == _uidSorted)),
+                transition: Transition.rightToLeft,
+                duration: const Duration(milliseconds: 400),
+              );
+            }
+          },
           columns: [
-            // GridColumn(
-            //     columnName: 'uid',
-            //     label: Container(
-            //         // padding: EdgeInsets.all(8.0),
-            //         alignment: Alignment.center,
-            //         child: Text(
-            //           'ID',
-            //           overflow: TextOverflow.ellipsis,
-            //         ))),
+            GridColumn(
+                columnName: 'uid',
+                label: Container(
+                    // padding: EdgeInsets.all(8.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'ID',
+                      overflow: TextOverflow.ellipsis,
+                    ))),
             GridColumn(
                 columnName: 'name',
                 label: Container(
@@ -91,18 +114,6 @@ class _TestBEState extends State<EmployeeDataGridView> {
   }
 }
 
-// void retrieveData() {
-//   employeeController.listEmployees.forEach((item) {
-//     item.addition
-//         .bindStream(AdditionRepo().additionByEmployeeStream(item.addition));
-//     item.workHistory.forEach((element) {
-//       element.position
-//           .bindStream(PositionRepo().positionByIdStream(element.positionId));
-//       element.unit.bindStream(UnitRepo().unitByIdStream(element.unitId));
-//     });
-//   });
-// }
-
 class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource(
       {required List<Employee> employeeData, required this.onRefresh}) {
@@ -112,12 +123,11 @@ class EmployeeDataSource extends DataGridSource {
   final VoidCallback onRefresh;
 
   void buildDataGridRow(List<Employee> employeeData) {
-    _employees = employeeData;
     _employeeData = employeeData
         .map<DataGridRow>(
           (e) => DataGridRow(
             cells: [
-              // DataGridCell<String>(columnName: 'uid', value: e.uid),
+              DataGridCell<String>(columnName: 'uid', value: e.uid),
               DataGridCell<String>(columnName: 'name', value: e.name),
               DataGridCell<String>(
                   columnName: 'position',
@@ -132,7 +142,6 @@ class EmployeeDataSource extends DataGridSource {
   }
 
   List<DataGridRow> _employeeData = [];
-  List<Employee> _employees = [];
 
   @override
   List<DataGridRow> get rows => _employeeData;
@@ -142,7 +151,7 @@ class EmployeeDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
       return Container(
-        alignment: (e.columnName == 'salary')
+        alignment: (e.columnName == "salary")
             ? Alignment.center
             : Alignment.centerLeft,
         padding: EdgeInsets.all(8.0),
@@ -156,7 +165,6 @@ class EmployeeDataSource extends DataGridSource {
 
   @override
   Future<void> handleRefresh() {
-    // TODO: implement handleRefresh
     employeeController.retreiveDetailData();
     onRefresh();
     return super.handleRefresh();

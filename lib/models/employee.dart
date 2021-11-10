@@ -140,11 +140,21 @@ class Employee {
       else
         totalAddition -= element.value * 1000;
     });
-    return salary += totalAddition;
+    return (salary + totalAddition);
   }
 
   String getSalaryWithoutAdditionsToCurrency() {
     final oCcy = new NumberFormat("#,##0", "en_US");
     return "${oCcy.format(salary)} VNĐ";
+  }
+
+  String getSalaryWithAdditionsToCurrency() {
+    final oCcy = new NumberFormat("#,##0", "en_US");
+    return "${oCcy.format(getSalaryWithAdditions())} VNĐ";
+  }
+
+  String getBirthdateToString() {
+    return DateFormat.yMMMd()
+        .format(DateTime.fromMillisecondsSinceEpoch(birthdate.seconds * 1000));
   }
 }

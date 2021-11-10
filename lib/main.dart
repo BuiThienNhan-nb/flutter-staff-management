@@ -45,8 +45,6 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: "/loadingScreen",
           page: () => LoadingScreen(),
-          // transition: Transition.rightToLeft,
-          // transitionDuration: Duration(milliseconds: 350),
         ),
         GetPage(
           name: "/loginScreen",

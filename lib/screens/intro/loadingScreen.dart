@@ -16,9 +16,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    // employeeController.retreiveDetailData();
-
-    _timer = new Timer(const Duration(milliseconds: 4000), () {
+    _timer = new Timer(const Duration(milliseconds: 4200), () {
       Get.offAllNamed('/loginScreen');
     });
   }
