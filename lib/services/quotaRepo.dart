@@ -45,6 +45,10 @@ class QuotaRepo {
             newList.last.qhId = currentId;
             break;
           }
+          if (element.uid == item.id) {
+            newList.add(Quota.fromJson(item));
+            break;
+          }
         }
       });
       return newList;

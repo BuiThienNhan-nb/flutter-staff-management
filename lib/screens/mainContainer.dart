@@ -38,7 +38,7 @@ class _MainContainerState extends State<MainContainer> {
         EmployeeDataGridView(),
         LoginScreen(),
         TestScreen(),
-        EmployeeDataGridView(),
+        LoginScreen(),
       ];
     }
 
