@@ -15,7 +15,8 @@ class Employee {
   String folk;
   String identityCard;
   String name;
-  Rx<Quota> quota;
+  // Rx<Quota> quota;
+  RxList<Quota> quotaHistories;
   Timestamp retirementDate;
   String sex;
   Timestamp workDate;
@@ -31,7 +32,7 @@ class Employee {
     required this.folk,
     required this.identityCard,
     required this.name,
-    required this.quota,
+    required this.quotaHistories,
     required this.retirementDate,
     required this.sex,
     required this.workDate,
@@ -61,25 +62,14 @@ class Employee {
       name: (data.containsKey('name') && data['name'] != null)
           ? data['name'] as String
           : '',
-      quota: (data.containsKey('quotaId') && data['quotaId'] != null)
-          ? new Quota(
-              uid: data['quotaId'] as String,
-              duration: 0,
-              name: '',
-              ranks: []).obs
-          : new Quota(uid: 'uid', duration: 0, name: '', ranks: []).obs,
-      // ? Quota(
-      //     uid: data['quotaId'] as String,
-      //     duration: 0,
-      //     name: '',
-      //     ranks: [],
-      //   ).obs
-      // : Quota(
-      //     uid: 'uid',
-      //     duration: 0,
-      //     name: '',
-      //     ranks: [],
-      //   ),
+      // quota: (data.containsKey('quotaId') && data['quotaId'] != null)
+      //     ? new Quota(
+      //         uid: data['quotaId'] as String,
+      //         duration: 0,
+      //         name: '',
+      //         ranks: []).obs
+      //     : new Quota(uid: 'uid', duration: 0, name: '', ranks: []).obs,
+      quotaHistories: <Quota>[].obs,
       retirementDate:
           (data.containsKey('retirementDate') && data['retirementDate'] != null)
               ? data['retirementDate'] as Timestamp
@@ -91,12 +81,6 @@ class Employee {
           ? data['workDate'] as Timestamp
           : Timestamp.fromDate(DateTime.now()),
       relative: <Relative>[].obs,
-      // workHistory: WorkHistory(
-      //     uid: '',
-      //     dismissDate: Timestamp.fromDate(DateTime.now()),
-      //     joinDate: Timestamp.fromDate(DateTime.now()),
-      //     positionId: '',
-      //     unitId: ''),
       workHistory: <WorkHistory>[].obs,
       addition: <Addition>[].obs,
       salary: 0,
@@ -110,7 +94,7 @@ class Employee {
       'folk': folk,
       'identityCard': identityCard,
       'name': name,
-      'quotaId': quota.value.uid,
+      // 'quotaId': quota.value.uid,
       'retirementDate': retirementDate,
       'sex': sex,
       'workDate': workDate,
@@ -118,10 +102,12 @@ class Employee {
   }
 
   void calculateSalary() {
+    salary = 0;
     var date = DateTime.fromMillisecondsSinceEpoch(
         workHistory[0].dismissDate.seconds * 1000);
-    double workYear = (DateTime.now().year - date.year) / quota.value.duration;
-    double salaryPoint = quota.value.ranks[workYear.toInt()];
+    double workYear =
+        (DateTime.now().year - date.year) / quotaHistories.value[0].duration;
+    double salaryPoint = quotaHistories.value[0].ranks[workYear.toInt()];
     double dSalary =
         (salaryPoint + workHistory[0].position.value.allowancePoint) *
             salaryRecordController.listSalaryRecords[0].currentSalary() *
@@ -135,10 +121,12 @@ class Employee {
   int getSalaryWithAdditions() {
     int totalAddition = 0;
     addition.forEach((element) {
-      if (element.isReward)
-        totalAddition += element.value * 1000;
-      else
-        totalAddition -= element.value * 1000;
+      if (element.getDate().month == DateTime.now().month) {
+        if (element.isReward)
+          totalAddition += element.value * 1000;
+        else
+          totalAddition -= element.value * 1000;
+      }
     });
     return (salary + totalAddition);
   }

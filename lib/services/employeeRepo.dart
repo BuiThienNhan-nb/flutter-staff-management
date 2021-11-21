@@ -14,8 +14,10 @@ class EmployeeRepo {
       query.docs.forEach((element) {
         //add data
         list.add(Employee.fromJson(element));
-        list.last.quota
-            .bindStream(QuotaRepo().quotaByIdStream(list.last.quota.value.uid));
+        // list.last.quota
+        //     .bindStream(QuotaRepo().quotaByIdStream(list.last.quota.value.uid));
+        list.last.quotaHistories.bindStream(
+            QuotaRepo().quotaHistoryByEmployeeStream(element.reference));
         list.last.addition.bindStream(
             AdditionRepo().fetchAdditionIdStream(element.reference));
         list.last.relative.bindStream(

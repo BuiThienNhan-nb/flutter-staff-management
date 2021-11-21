@@ -23,7 +23,7 @@ class WorkHistoryRepo {
       DocumentReference _doc) {
     return _doc
         .collection('workHistories')
-        .orderBy('dismissDate', descending: true)
+        .orderBy('joinDate', descending: true)
         .snapshots()
         .map((QuerySnapshot query) {
       List<WorkHistory> list = [];

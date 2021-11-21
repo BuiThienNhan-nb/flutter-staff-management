@@ -35,7 +35,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _birthdateController.text = "${widget.employee.getBirthdateToString()}";
     // _identityCardController.text = "${widget.employee.identityCard}";
     _folkController.text = "${widget.employee.folk}";
-    _quotaController.text = "${widget.employee.quota.value.name}";
+    _quotaController.text = "${widget.employee.quotaHistories.value[0].name}";
     _positionController.text =
         "${widget.employee.workHistory.first.position.value.name}";
     _unitController.text =

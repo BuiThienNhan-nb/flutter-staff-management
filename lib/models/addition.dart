@@ -53,4 +53,8 @@ class Addition {
       'date': date,
     };
   }
+
+  DateTime getDate() {
+    return DateTime.fromMillisecondsSinceEpoch(date.seconds * 1000);
+  }
 }

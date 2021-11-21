@@ -19,27 +19,35 @@ class QuotaRepo {
     });
   }
 
-  Stream<Quota> quotaByIdStream(String _uid) {
-    return _db
-        .collection('quotas')
-        // .orderBy('name')
+  Stream<List<Quota>> quotaHistoryByEmployeeStream(DocumentReference _doc) {
+    return _doc
+        .collection('quotaHistories')
+        .orderBy('joinDate', descending: true)
         .snapshots()
         .map((QuerySnapshot query) {
-      Quota quota = Quota(
-        uid: 'uid',
-        duration: 0,
-        name: '',
-        ranks: [],
-      );
-      // query.docs.forEach((element)
-      for (var element in query.docs) {
-        //get data
-        if (element.id == _uid) {
-          quota = Quota.fromJson(element);
-          break;
+      List<Quota> list = [];
+      query.docs.forEach((element) {
+        //add data
+        list.add(Quota.fromJson(element));
+      });
+      return list;
+    });
+  }
+
+  Stream<List<Quota>> listQuotaByEmployeeStream(List<Quota> _list) {
+    return _db.collection('quotas').snapshots().map((QuerySnapshot query) {
+      List<Quota> newList = [];
+      _list.forEach((element) {
+        for (var item in query.docs) {
+          if (element.qhId == item.id) {
+            String currentId = element.uid;
+            newList.add(Quota.fromJson(item));
+            newList.last.qhId = currentId;
+            break;
+          }
         }
-      }
-      return quota;
+      });
+      return newList;
     });
   }
 }
