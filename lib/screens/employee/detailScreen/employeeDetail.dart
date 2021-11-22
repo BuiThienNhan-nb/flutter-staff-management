@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/utils/textField.dart';
+import 'package:staff_management/utils/textFieldBirthday.dart';
+import 'package:intl/intl.dart';
 
 class EmployeeDetail extends StatefulWidget {
   final Employee employee;
@@ -26,13 +28,18 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   final _unitController = TextEditingController();
   final _sexController = TextEditingController();
   final _salaryController = TextEditingController();
+  final _relativeNameController = TextEditingController();
+  final _workHistoryJoinDateController = TextEditingController();
+  String dropdownValue = 'Nam';
   bool editable = false;
+  bool ignore = true;
 
   @override
   void initState() {
     super.initState();
     _addressController.text = "${widget.employee.address}";
-    _birthdateController.text = "${widget.employee.getBirthdateToString()}";
+    _birthdateController.text =
+        '${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.millisecondsSinceEpoch))}';
     // _identityCardController.text = "${widget.employee.identityCard}";
     _folkController.text = "${widget.employee.folk}";
     _quotaController.text = "${widget.employee.quotaHistories.value[0].name}";
@@ -43,6 +50,9 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _sexController.text = "${widget.employee.sex}";
     _salaryController.text =
         "${widget.employee.getSalaryWithAdditionsToCurrency()}";
+    _relativeNameController.text = "${widget.employee.relative.first.name}";
+    _workHistoryJoinDateController.text =
+        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.joinDate.millisecondsSinceEpoch))}";
   }
 
   @override
@@ -154,13 +164,12 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         editable: editable,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
-                    TextFieldWidget(
-                        controller: _birthdateController,
-                        icon: Icon(Icons.cake_rounded),
-                        hintText: "Birthdate",
-                        editable: editable,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
+                    TextFieldBirthday(
+                      labelText: "Birthday",
+                      placeholder: "Sep 12, 1998",
+                      textEditingController: _birthdateController,
+                      editable: editable,
+                    ),
                     TextFieldWidget(
                         controller: _folkController,
                         icon: Icon(Icons.short_text),
@@ -168,13 +177,31 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         editable: editable,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
-                    TextFieldWidget(
-                        controller: _sexController,
-                        icon: Icon(Icons.male),
-                        hintText: "Gender",
-                        editable: editable,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
+                    Container(
+                      height: 60,
+                      child: IgnorePointer(
+                        ignoring: ignore,
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.male),
+                            labelText: 'Gender',
+                          ),
+                          value: dropdownValue,
+                          items: <String>['Nam', 'Nữ'].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: new Text(value),
+                            );
+                          }).toList(),
+                          hint: Text('Gender'),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
                     TextFieldWidget(
                         controller: _salaryController,
                         icon: Icon(Icons.attach_money),
@@ -182,6 +209,62 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         editable: false,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
+                    ExpansionTile(
+                      tilePadding: EdgeInsets.only(left: 12),
+                      title: Row(
+                        children: [
+                          Icon(Icons.person),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Thân nhân",
+                            style: TextStyle(
+                              fontSize: 17.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      children: <Widget>[
+                        ListTile(
+                          title: TextFieldWidget(
+                              controller: _relativeNameController,
+                              icon: Icon(Icons.person),
+                              hintText: "Em trai",
+                              editable: editable,
+                              textInputFormatter: FilteringTextInputFormatter
+                                  .singleLineFormatter),
+                        )
+                      ],
+                    ),
+                    ExpansionTile(
+                      tilePadding: EdgeInsets.only(left: 12),
+                      title: Row(
+                        children: [
+                          Icon(Icons.person_pin_rounded),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Quá trình công tác",
+                            style: TextStyle(
+                              fontSize: 17.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      children: <Widget>[
+                        ListTile(
+                          title: TextFieldWidget(
+                              controller: _workHistoryJoinDateController,
+                              icon: Icon(Icons.access_time_outlined),
+                              hintText: "Ngày vào làm",
+                              editable: editable,
+                              textInputFormatter: FilteringTextInputFormatter
+                                  .singleLineFormatter),
+                        )
+                      ],
+                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -189,6 +272,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                       onPressed: () {
                         setState(() {
                           editable = !editable;
+                          ignore = !ignore;
                         });
                       },
                       child: Text(editable ? "Save changes" : "Edit Employee"),
