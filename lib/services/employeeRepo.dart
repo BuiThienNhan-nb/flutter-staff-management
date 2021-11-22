@@ -31,4 +31,39 @@ class EmployeeRepo {
       return list;
     });
   }
+
+  Future<void> updateEmployee(Employee _employee) async {
+    await _db
+        .collection("employees")
+        .doc("${_employee.uid}")
+        .update(_employee.toMap());
+    _employee.addition.forEach((element) async {
+      await _db
+          .collection("employees")
+          .doc("${_employee.uid}")
+          .collection("additions")
+          .add(element.toChildMap());
+    });
+    _employee.quotaHistories.forEach((element) async {
+      await _db
+          .collection("employees")
+          .doc("${_employee.uid}")
+          .collection("quotaHistories")
+          .add(element.toChildMap());
+    });
+    _employee.relative.forEach((element) async {
+      await _db
+          .collection("employees")
+          .doc("${_employee.uid}")
+          .collection("relatives")
+          .add(element.toMap());
+    });
+    _employee.workHistory.forEach((element) async {
+      await _db
+          .collection("employees")
+          .doc("${_employee.uid}")
+          .collection("workHistories")
+          .add(element.toMap());
+    });
+  }
 }

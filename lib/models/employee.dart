@@ -94,7 +94,6 @@ class Employee {
       'folk': folk,
       'identityCard': identityCard,
       'name': name,
-      // 'quotaId': quota.value.uid,
       'retirementDate': retirementDate,
       'sex': sex,
       'workDate': workDate,
