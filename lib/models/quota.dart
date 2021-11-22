@@ -7,6 +7,7 @@ class Quota {
   String name;
   List<double> ranks;
   Timestamp joinDate;
+  Timestamp dismissDate;
 
   Quota({
     required this.uid,
@@ -15,6 +16,7 @@ class Quota {
     required this.name,
     required this.ranks,
     required this.joinDate,
+    required this.dismissDate,
   });
 
   factory Quota.fromJson(DocumentSnapshot doc) {
@@ -36,6 +38,10 @@ class Quota {
       joinDate: (data.containsKey('joinDate') && data['joinDate'] != null)
           ? data['joinDate'] as Timestamp
           : Timestamp.fromDate(DateTime.now().add(const Duration(days: 1))),
+      dismissDate:
+          (data.containsKey('dismissDate') && data['dismissDate'] != null)
+              ? data['dismissDate'] as Timestamp
+              : Timestamp.fromDate(DateTime.now()),
     );
   }
 
