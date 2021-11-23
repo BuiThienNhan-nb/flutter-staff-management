@@ -16,7 +16,7 @@ class TextFieldBirthday extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime _selectedDate =
-        new DateFormat.yMMMd().parse(textEditingController.text);
+        DateFormat('dd/MM/yyyy').parse(textEditingController.text);
 
     _selectDate(BuildContext context) async {
       DateTime? newSelectedDate = await showDatePicker(
@@ -29,7 +29,7 @@ class TextFieldBirthday extends StatelessWidget {
       if (newSelectedDate != null) {
         _selectedDate = newSelectedDate;
         textEditingController
-          ..text = DateFormat.yMMMd().format(_selectedDate)
+          ..text = DateFormat('dd/MM/yyyy').format(_selectedDate)
           ..selection = TextSelection.fromPosition(TextPosition(
               offset: textEditingController.text.length,
               affinity: TextAffinity.upstream));

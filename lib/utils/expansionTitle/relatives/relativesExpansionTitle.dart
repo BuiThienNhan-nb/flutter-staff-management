@@ -1,142 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:staff_management/utils/dropdown/dropdownButton.dart';
-// import 'package:staff_management/utils/textField/textField.dart';
-
-// class RelativesExpansionTitle extends StatelessWidget {
-//   const RelativesExpansionTitle({
-//     Key? key,
-//     required TextEditingController relativeNameController,
-//     required this.editable,
-//     required TextEditingController relativeTypeController,
-//     required TextEditingController relativeJobController,
-//     required TextEditingController relativeBirthdayController,
-//     required String expansionName,
-//   })  : _relativeNameController = relativeNameController,
-//         _relativeTypeController = relativeTypeController,
-//         _relativeJobController = relativeJobController,
-//         _relativeBirthdayController = relativeBirthdayController,
-//         _expansionName = expansionName,
-//         super(key: key);
-
-//   final TextEditingController _relativeNameController;
-//   final bool editable;
-//   final TextEditingController _relativeTypeController;
-//   final TextEditingController _relativeJobController;
-//   final TextEditingController _relativeBirthdayController;
-//   final String _expansionName;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ExpansionTile(
-//       tilePadding: EdgeInsets.only(left: 12),
-//       title: Row(
-//         children: [
-//           Icon(
-//             Icons.person,
-//             color: Colors.grey,
-//           ),
-//           SizedBox(
-//             width: 10,
-//           ),
-//           Text(
-//             _expansionName,
-//             style: TextStyle(
-//               fontSize: 17.0,
-//             ),
-//           ),
-//         ],
-//       ),
-//       children: <Widget>[
-//         ChildExpansionTitle(
-//             relativeNameController: _relativeNameController,
-//             editable: editable,
-//             relativeTypeController: _relativeTypeController,
-//             relativeJobController: _relativeJobController,
-//             relativeBirthdayController: _relativeBirthdayController)
-//       ],
-//     );
-//   }
-// }
-
-// class ChildExpansionTitle extends StatelessWidget {
-//   const ChildExpansionTitle({
-//     Key? key,
-//     required TextEditingController relativeNameController,
-//     required this.editable,
-//     required TextEditingController relativeTypeController,
-//     required TextEditingController relativeJobController,
-//     required TextEditingController relativeBirthdayController,
-//   })  : _relativeNameController = relativeNameController,
-//         _relativeTypeController = relativeTypeController,
-//         _relativeJobController = relativeJobController,
-//         _relativeBirthdayController = relativeBirthdayController,
-//         super(key: key);
-
-//   final TextEditingController _relativeNameController;
-//   final bool editable;
-//   final TextEditingController _relativeTypeController;
-//   final TextEditingController _relativeJobController;
-//   final TextEditingController _relativeBirthdayController;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ExpansionTile(
-//       // tilePadding: EdgeInsets.only(left: 12),
-//       title: TextFieldWidget(
-//         controller: _relativeNameController,
-//         icon: Icon(Icons.person),
-//         hintText: "Name",
-//         onEdit: editable,
-//         textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
-//       ),
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 30),
-//           child: editable
-//               ? MyDropdownButton(
-//                   selectedValue: _relativeTypeController.text,
-//                   values: <String>["Vợ/Chồng", "Con cái"],
-//                   icon: Icon(Icons.merge_type),
-//                   lable: "Type",
-//                   callback: (String _newValue) {
-//                     _relativeTypeController.text = _newValue;
-//                   },
-//                 )
-//               : TextFieldWidget(
-//                   controller: _relativeTypeController,
-//                   icon: Icon(Icons.merge_type),
-//                   hintText: "Type",
-//                   onEdit: false,
-//                   textInputFormatter:
-//                       FilteringTextInputFormatter.singleLineFormatter,
-//                 ),
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 30),
-//           child: TextFieldWidget(
-//             controller: _relativeJobController,
-//             icon: Icon(Icons.person),
-//             hintText: "Job",
-//             onEdit: editable,
-//             textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
-//           ),
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 30),
-//           child: TextFieldWidget(
-//             controller: _relativeBirthdayController,
-//             icon: Icon(Icons.person),
-//             hintText: "Birthday",
-//             onEdit: editable,
-//             textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -144,6 +6,7 @@ import 'package:staff_management/models/relative.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:intl/intl.dart';
+import 'package:staff_management/utils/textField/textFieldBirthday.dart';
 
 class RelativesExpansionTitle extends StatelessWidget {
   final List<Relative> _relatives;
@@ -222,7 +85,7 @@ class _ChildRelativeExpansionTitleState
     _relativeTypeController.text = widget._relative.type;
     _relativeJobController.text = widget._relative.job;
     _relativeBirthdateController.text =
-        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget._relative.birthdate.seconds * 1000))}";
+        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget._relative.birthdate.seconds * 1000))}";
     super.initState();
   }
 
@@ -230,6 +93,8 @@ class _ChildRelativeExpansionTitleState
     widget._relative.name = _relativeNameController.text;
     widget._relative.type = _relativeTypeController.text;
     widget._relative.job = _relativeJobController.text;
+    widget._relative.birthdate = Timestamp.fromDate(
+        DateFormat('dd/MM/yyyy').parse(_relativeBirthdateController.text));
   }
 
   @override
@@ -263,7 +128,7 @@ class _ChildRelativeExpansionTitleState
                   lable: "Type",
                   callback: (String _newValue) {
                     widget._relative.type = _newValue;
-                    _relativeNameController.text = _newValue;
+                    _relativeTypeController.text = _newValue;
                   },
                 )
               : TextFieldWidget(
@@ -279,7 +144,7 @@ class _ChildRelativeExpansionTitleState
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: TextFieldWidget(
             controller: _relativeJobController,
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.work),
             hintText: "Job",
             onEdit: widget._onEdit,
             textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
@@ -287,12 +152,11 @@ class _ChildRelativeExpansionTitleState
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: TextFieldWidget(
-            controller: _relativeBirthdateController,
-            icon: Icon(Icons.person),
-            hintText: "Birthday",
-            onEdit: widget._onEdit,
-            textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
+          child: TextFieldBirthday(
+            labelText: "Birthday",
+            placeholder: "Sep 12, 1998",
+            textEditingController: _relativeBirthdateController,
+            editable: widget._onEdit,
           ),
         ),
       ],

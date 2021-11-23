@@ -30,10 +30,6 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   final _unitController = TextEditingController();
   final _sexController = TextEditingController();
   final _salaryController = TextEditingController();
-  final _relativeNameController = TextEditingController();
-  final _relativeTypeController = TextEditingController();
-  final _relativeJobController = TextEditingController();
-  final _relativeBirthdayController = TextEditingController();
   final _workHistoryJoinDateController = TextEditingController();
   final _workHistoryDismissDateController = TextEditingController();
   final _workHistoryPositionController = TextEditingController();
@@ -47,7 +43,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     super.initState();
     _addressController.text = "${widget.employee.address}";
     _birthdateController.text =
-        '${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.seconds * 1000))}';
+        '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.seconds * 1000))}';
     // _identityCardController.text = "${widget.employee.identityCard}";
     _folkController.text = "${widget.employee.folk}";
     _quotaController.text = "${widget.employee.quotaHistories.value[0].name}";
@@ -58,15 +54,10 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _sexController.text = "${widget.employee.sex}";
     _salaryController.text =
         "${widget.employee.getSalaryWithAdditionsToCurrency()}";
-    _relativeNameController.text = "${widget.employee.relative.first.name}";
-    _relativeTypeController.text = "${widget.employee.relative.first.type}";
-    _relativeJobController.text = "${widget.employee.relative.first.job}";
-    _relativeBirthdayController.text =
-        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.relative.first.birthdate.seconds * 1000))}";
     _workHistoryJoinDateController.text =
-        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.joinDate.seconds * 1000))}";
+        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.joinDate.seconds * 1000))}";
     _workHistoryDismissDateController.text =
-        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.dismissDate.seconds * 1000))}";
+        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.dismissDate.seconds * 1000))}";
     _workHistoryPositionController.text =
         "${widget.employee.workHistory[0].position.value.name}";
     _workHistoryUnitController.text =
