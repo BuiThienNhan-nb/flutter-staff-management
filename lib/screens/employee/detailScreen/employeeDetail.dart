@@ -29,7 +29,13 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   final _sexController = TextEditingController();
   final _salaryController = TextEditingController();
   final _relativeNameController = TextEditingController();
+  final _relativeTypeController = TextEditingController();
+  final _relativeJobController = TextEditingController();
+  final _relativeBirthdayController = TextEditingController();
   final _workHistoryJoinDateController = TextEditingController();
+  final _workHistoryDismissDateController = TextEditingController();
+  final _workHistoryPositionController = TextEditingController();
+  final _workHistoryUnitController = TextEditingController();
   String dropdownValue = 'Nam';
   bool editable = false;
   bool ignore = true;
@@ -39,7 +45,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     super.initState();
     _addressController.text = "${widget.employee.address}";
     _birthdateController.text =
-        '${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.millisecondsSinceEpoch))}';
+        '${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.seconds))}';
     // _identityCardController.text = "${widget.employee.identityCard}";
     _folkController.text = "${widget.employee.folk}";
     _quotaController.text = "${widget.employee.quotaHistories.value[0].name}";
@@ -51,8 +57,18 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _salaryController.text =
         "${widget.employee.getSalaryWithAdditionsToCurrency()}";
     _relativeNameController.text = "${widget.employee.relative.first.name}";
+    _relativeTypeController.text = "${widget.employee.relative.first.type}";
+    _relativeJobController.text = "${widget.employee.relative.first.job}";
+    _relativeBirthdayController.text =
+        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.relative.first.birthdate.seconds))}";
     _workHistoryJoinDateController.text =
-        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.joinDate.millisecondsSinceEpoch))}";
+        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.joinDate.seconds))}";
+    _workHistoryDismissDateController.text =
+        "${DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.dismissDate.seconds))}";
+    _workHistoryPositionController.text =
+        "${widget.employee.workHistory[0].position.value.name}";
+    _workHistoryUnitController.text =
+        "${widget.employee.workHistory[0].unit.value.name}";
   }
 
   @override
@@ -209,62 +225,53 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         editable: false,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
-                    ExpansionTile(
-                      tilePadding: EdgeInsets.only(left: 12),
-                      title: Row(
-                        children: [
-                          Icon(Icons.person),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Thân nhân",
-                            style: TextStyle(
-                              fontSize: 17.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                      children: <Widget>[
-                        ListTile(
-                          title: TextFieldWidget(
-                              controller: _relativeNameController,
-                              icon: Icon(Icons.person),
-                              hintText: "Em trai",
-                              editable: editable,
-                              textInputFormatter: FilteringTextInputFormatter
-                                  .singleLineFormatter),
-                        )
-                      ],
-                    ),
-                    ExpansionTile(
-                      tilePadding: EdgeInsets.only(left: 12),
-                      title: Row(
-                        children: [
-                          Icon(Icons.person_pin_rounded),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Quá trình công tác",
-                            style: TextStyle(
-                              fontSize: 17.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                      children: <Widget>[
-                        ListTile(
-                          title: TextFieldWidget(
-                              controller: _workHistoryJoinDateController,
-                              icon: Icon(Icons.access_time_outlined),
-                              hintText: "Ngày vào làm",
-                              editable: editable,
-                              textInputFormatter: FilteringTextInputFormatter
-                                  .singleLineFormatter),
-                        )
-                      ],
-                    ),
+                    expansionTitle(
+                        expansionName: "Relatives",
+                        relativeNameController: _relativeNameController,
+                        editable: editable,
+                        relativeTypeController: _relativeTypeController,
+                        relativeJobController: _relativeJobController,
+                        relativeBirthdayController:
+                            _relativeBirthdayController),
+                    // ExpansionTile(
+                    //   tilePadding: EdgeInsets.only(left: 12),
+                    //   title: Row(
+                    //     children: [
+                    //       Icon(
+                    //         Icons.person_pin_rounded,
+                    //         color: Colors.grey,
+                    //       ),
+                    //       SizedBox(
+                    //         width: 10,
+                    //       ),
+                    //       Text(
+                    //         "Work histories",
+                    //         style: TextStyle(
+                    //           fontSize: 17.0,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    //   children: <Widget>[
+                    //     ListTile(
+                    //       title: TextFieldWidget(
+                    //           controller: _workHistoryJoinDateController,
+                    //           icon: Icon(Icons.access_time_outlined),
+                    //           hintText: "First day at work",
+                    //           editable: editable,
+                    //           textInputFormatter: FilteringTextInputFormatter
+                    //               .singleLineFormatter),
+                    //     )
+                    //   ],
+                    // ),
+                    expansionTitle(
+                        expansionName: 'Work histories',
+                        relativeNameController: _workHistoryUnitController,
+                        editable: editable,
+                        relativeTypeController: _workHistoryPositionController,
+                        relativeJobController: _workHistoryJoinDateController,
+                        relativeBirthdayController:
+                            _workHistoryDismissDateController),
                     SizedBox(
                       height: 20,
                     ),
@@ -284,6 +291,101 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class expansionTitle extends StatelessWidget {
+  const expansionTitle({
+    Key? key,
+    required TextEditingController relativeNameController,
+    required this.editable,
+    required TextEditingController relativeTypeController,
+    required TextEditingController relativeJobController,
+    required TextEditingController relativeBirthdayController,
+    required String expansionName,
+  })  : _relativeNameController = relativeNameController,
+        _relativeTypeController = relativeTypeController,
+        _relativeJobController = relativeJobController,
+        _relativeBirthdayController = relativeBirthdayController,
+        _expansionName = expansionName,
+        super(key: key);
+
+  final TextEditingController _relativeNameController;
+  final bool editable;
+  final TextEditingController _relativeTypeController;
+  final TextEditingController _relativeJobController;
+  final TextEditingController _relativeBirthdayController;
+  final String _expansionName;
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      tilePadding: EdgeInsets.only(left: 12),
+      title: Row(
+        children: [
+          Icon(
+            Icons.person,
+            color: Colors.grey,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            _expansionName,
+            style: TextStyle(
+              fontSize: 17.0,
+            ),
+          ),
+        ],
+      ),
+      children: <Widget>[
+        ExpansionTile(
+          // tilePadding: EdgeInsets.only(left: 12),
+          title: TextFieldWidget(
+            controller: _relativeNameController,
+            icon: Icon(Icons.person),
+            hintText: "Name",
+            editable: editable,
+            textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
+          ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: TextFieldWidget(
+                controller: _relativeTypeController,
+                icon: Icon(Icons.person),
+                hintText: "Type",
+                editable: editable,
+                textInputFormatter:
+                    FilteringTextInputFormatter.singleLineFormatter,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: TextFieldWidget(
+                controller: _relativeJobController,
+                icon: Icon(Icons.person),
+                hintText: "Job",
+                editable: editable,
+                textInputFormatter:
+                    FilteringTextInputFormatter.singleLineFormatter,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: TextFieldWidget(
+                controller: _relativeBirthdayController,
+                icon: Icon(Icons.person),
+                hintText: "Birthday",
+                editable: editable,
+                textInputFormatter:
+                    FilteringTextInputFormatter.singleLineFormatter,
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

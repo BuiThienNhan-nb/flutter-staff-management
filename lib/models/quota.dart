@@ -53,7 +53,7 @@ class Quota {
     };
   }
 
-  Map<String, dynamic> historyToMap() {
+  Map<String, dynamic> toChildMap() {
     return {
       'quotaId': uid,
       'joinDate': joinDate,
