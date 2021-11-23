@@ -3,18 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:staff_management/const_value/controller.dart';
-import 'package:staff_management/models/quota.dart';
-import 'package:staff_management/models/workHistory.dart';
+import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class QuotaHistoriesExpansionTitle extends StatelessWidget {
-  final List<Quota> _quotaHistories;
+  final List<QuotaHistory> _quotaHistories;
   final bool _onEdit;
   const QuotaHistoriesExpansionTitle(
-      {Key? key, required List<Quota> quotaHistories, required bool onEdit})
+      {Key? key,
+      required List<QuotaHistory> quotaHistories,
+      required bool onEdit})
       : _quotaHistories = quotaHistories,
         _onEdit = onEdit,
         super(key: key);
@@ -61,10 +62,10 @@ class QuotaHistoriesExpansionTitle extends StatelessWidget {
 
 // ignore: must_be_immutable
 class ChildRelativeExpansionTitle extends StatefulWidget {
-  Quota _quotaHistory;
+  QuotaHistory _quotaHistory;
   final bool _onEdit;
   ChildRelativeExpansionTitle(
-      {Key? key, required Quota quotaHistory, required bool onEdit})
+      {Key? key, required QuotaHistory quotaHistory, required bool onEdit})
       : _quotaHistory = quotaHistory,
         _onEdit = onEdit,
         super(key: key);
@@ -85,7 +86,7 @@ class _ChildRelativeExpansionTitleState
 
   @override
   void initState() {
-    _quotaHistoryNameController.text = widget._quotaHistory.name;
+    _quotaHistoryNameController.text = widget._quotaHistory.quota.value.name;
     _quotaHistoryJoinDateController.text =
         "${DateFormat('dd/MM/yyyy').format(widget._quotaHistory.joinDate.toDate())}";
     ;
@@ -96,7 +97,7 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    widget._quotaHistory.name = _quotaHistoryNameController.text;
+    widget._quotaHistory.quota.value.name = _quotaHistoryNameController.text;
     widget._quotaHistory.joinDate = Timestamp.fromDate(
         DateFormat('dd/MM/yyyy').parse(_quotaHistoryJoinDateController.text));
     widget._quotaHistory.dismissDate = Timestamp.fromDate(
@@ -118,12 +119,12 @@ class _ChildRelativeExpansionTitleState
     return ExpansionTile(
       title: widget._onEdit
           ? MyDropdownButton(
-              selectedValue: widget._quotaHistory.name,
+              selectedValue: widget._quotaHistory.quota.value.name,
               values: quotaController.listQuotaName,
               icon: Icon(Icons.hail),
               lable: "Quota",
               callback: (String _newValue) {
-                widget._quotaHistory.name = _newValue;
+                widget._quotaHistory.quota.value.name = _newValue;
                 _quotaHistoryNameController.text = _newValue;
               },
             )

@@ -34,24 +34,38 @@ class QuotaRepo {
     });
   }
 
-  Stream<List<Quota>> listQuotaByEmployeeStream(List<Quota> _list) {
+  // Stream<List<Quota>> listQuotaByEmployeeStream(List<Quota> _list) {
+  //   return _db.collection('quotas').snapshots().map((QuerySnapshot query) {
+  //     List<Quota> newList = [];
+  //     _list.forEach((element) {
+  //       for (var item in query.docs) {
+  //         if (element.qhId == item.id) {
+  //           String currentId = element.uid;
+  //           newList.add(Quota.fromJson(item));
+  //           newList.last.qhId = currentId;
+  //           break;
+  //         }
+  //         if (element.uid == item.id) {
+  //           newList.add(Quota.fromJson(item));
+  //           break;
+  //         }
+  //       }
+  //     });
+  //     return newList;
+  //   });
+  // }
+
+  Stream<Quota> quotaByIdStream(String _uid) {
     return _db.collection('quotas').snapshots().map((QuerySnapshot query) {
-      List<Quota> newList = [];
-      _list.forEach((element) {
-        for (var item in query.docs) {
-          if (element.qhId == item.id) {
-            String currentId = element.uid;
-            newList.add(Quota.fromJson(item));
-            newList.last.qhId = currentId;
-            break;
-          }
-          if (element.uid == item.id) {
-            newList.add(Quota.fromJson(item));
-            break;
-          }
+      Quota _quota = Quota(uid: 'uid', duration: 0, name: '', ranks: []);
+      for (var element in query.docs) {
+        //get data
+        if (element.id == _uid) {
+          _quota = Quota.fromJson(element);
+          break;
         }
-      });
-      return newList;
+      }
+      return _quota;
     });
   }
 }

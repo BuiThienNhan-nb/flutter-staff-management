@@ -47,7 +47,8 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _birthdateController.text =
         '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.seconds * 1000))}';
     _folkController.text = "${widget.employee.folk}";
-    _quotaController.text = "${widget.employee.quotaHistories.value[0].name}";
+    _quotaController.text =
+        "${widget.employee.quotaHistories.value[0].quota.value.name}";
     _positionController.text =
         "${widget.employee.workHistory.first.position.value.name}";
     _unitController.text =

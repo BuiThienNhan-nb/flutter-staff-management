@@ -3,6 +3,7 @@ import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/services/additionRepo.dart';
 import 'package:staff_management/services/employeeRepo.dart';
 import 'package:staff_management/services/positionRepo.dart';
+import 'package:staff_management/services/quotaHistoryRepo.dart';
 import 'package:staff_management/services/quotaRepo.dart';
 import 'package:staff_management/services/unitRepo.dart';
 
@@ -24,8 +25,9 @@ class EmployeeController extends GetxController {
     listEmployees.forEach((item) {
       item.addition
           .bindStream(AdditionRepo().additionByEmployeeStream(item.addition));
-      item.quotaHistories.bindStream(
-          QuotaRepo().listQuotaByEmployeeStream(item.quotaHistories));
+      item.quotaHistories.forEach((element) {
+        element.quota.bindStream(QuotaRepo().quotaByIdStream(element.quotaId));
+      });
       item.workHistory.forEach((element) {
         element.position
             .bindStream(PositionRepo().positionByIdStream(element.positionId));

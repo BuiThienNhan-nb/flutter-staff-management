@@ -4,6 +4,7 @@ import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/const_value/value.dart';
 import 'package:staff_management/models/addition.dart';
 import 'package:staff_management/models/quota.dart';
+import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/models/relative.dart';
 import 'package:intl/intl.dart';
 import 'package:staff_management/models/workHistory.dart';
@@ -15,8 +16,7 @@ class Employee {
   String folk;
   String identityCard;
   String name;
-  // Rx<Quota> quota;
-  RxList<Quota> quotaHistories;
+  RxList<QuotaHistory> quotaHistories;
   Timestamp retirementDate;
   String sex;
   Timestamp workDate;
@@ -69,7 +69,7 @@ class Employee {
       //         name: '',
       //         ranks: []).obs
       //     : new Quota(uid: 'uid', duration: 0, name: '', ranks: []).obs,
-      quotaHistories: <Quota>[].obs,
+      quotaHistories: <QuotaHistory>[].obs,
       retirementDate:
           (data.containsKey('retirementDate') && data['retirementDate'] != null)
               ? data['retirementDate'] as Timestamp
@@ -104,9 +104,10 @@ class Employee {
     salary = 0;
     var date = DateTime.fromMillisecondsSinceEpoch(
         workHistory[0].dismissDate.seconds * 1000);
-    double workYear =
-        (DateTime.now().year - date.year) / quotaHistories.value[0].duration;
-    double salaryPoint = quotaHistories.value[0].ranks[workYear.toInt()];
+    double workYear = (DateTime.now().year - date.year) /
+        quotaHistories.first.quota.value.duration;
+    double salaryPoint =
+        quotaHistories.first.quota.value.ranks[workYear.toInt()];
     double dSalary =
         (salaryPoint + workHistory[0].position.value.allowancePoint) *
             salaryRecordController.listSalaryRecords[0].currentSalary() *
