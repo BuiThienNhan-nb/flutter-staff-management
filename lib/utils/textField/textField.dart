@@ -5,7 +5,7 @@ class TextFieldWidget extends StatefulWidget {
   final TextEditingController controller;
   final Icon icon;
   final String hintText;
-  final bool editable;
+  final bool onEdit;
   final TextInputFormatter textInputFormatter;
 
   const TextFieldWidget({
@@ -13,7 +13,7 @@ class TextFieldWidget extends StatefulWidget {
     required this.controller,
     required this.icon,
     required this.hintText,
-    required this.editable,
+    required this.onEdit,
     required this.textInputFormatter,
   }) : super(key: key);
 
@@ -50,17 +50,17 @@ class _EmailFieldWidgetState extends State<TextFieldWidget> {
           hintText: "${widget.hintText}",
           labelText: "${widget.hintText}",
           prefixIcon: widget.icon,
-          suffixIcon:
-              (widget.controller.text.isEmpty || widget.editable == false)
-                  ? Container(
-                      width: 0,
-                    )
-                  : IconButton(
-                      onPressed: () => widget.controller.clear(),
-                      icon: Icon(Icons.close),
-                    ),
+          suffixIcon: (widget.controller.text.isEmpty || widget.onEdit == false)
+              ? Container(
+                  width: 0,
+                )
+              : IconButton(
+                  onPressed: () => widget.controller.clear(),
+                  icon: Icon(Icons.close),
+                ),
+          border: InputBorder.none,
         ),
-        enabled: widget.editable,
+        enabled: widget.onEdit,
         inputFormatters: [widget.textInputFormatter],
         keyboardType: TextInputType.emailAddress,
         // autofillHints: [AutofillHints.email],

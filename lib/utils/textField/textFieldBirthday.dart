@@ -58,6 +58,7 @@ class TextFieldBirthday extends StatelessWidget {
                   onPressed: () => textEditingController.clear(),
                   icon: Icon(Icons.close),
                 ),
+          border: InputBorder.none,
         ),
         enabled: editable,
       ),
