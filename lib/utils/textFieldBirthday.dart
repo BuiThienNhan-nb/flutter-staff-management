@@ -11,11 +11,31 @@ class TextFieldBirthday extends StatelessWidget {
   final String labelText;
   final String placeholder;
   final bool editable;
-  DateTime _selectedDate = DateTime(2020);
   final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
+    DateTime _selectedDate =
+        new DateFormat.yMMMd().parse(textEditingController.text);
+
+    _selectDate(BuildContext context) async {
+      DateTime? newSelectedDate = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2021),
+      );
+
+      if (newSelectedDate != null) {
+        _selectedDate = newSelectedDate;
+        textEditingController
+          ..text = DateFormat.yMMMd().format(_selectedDate)
+          ..selection = TextSelection.fromPosition(TextPosition(
+              offset: textEditingController.text.length,
+              affinity: TextAffinity.upstream));
+      }
+    }
+
     return Container(
       height: 60,
       child: TextFormField(
@@ -42,24 +62,6 @@ class TextFieldBirthday extends StatelessWidget {
         enabled: editable,
       ),
     );
-  }
-
-  _selectDate(BuildContext context) async {
-    DateTime? newSelectedDate = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate != null ? _selectedDate : DateTime(2020),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2021),
-    );
-
-    if (newSelectedDate != null) {
-      _selectedDate = newSelectedDate;
-      textEditingController
-        ..text = DateFormat.yMMMd().format(_selectedDate)
-        ..selection = TextSelection.fromPosition(TextPosition(
-            offset: textEditingController.text.length,
-            affinity: TextAffinity.upstream));
-    }
   }
 }
 
