@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/expansionTitle/relatives/relativesExpansionTitle.dart';
+import 'package:staff_management/utils/expansionTitle/workHistories/workHisExpansionTitle.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:staff_management/utils/textField/textFieldBirthday.dart';
 import 'package:intl/intl.dart';
@@ -30,10 +31,6 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   final _unitController = TextEditingController();
   final _sexController = TextEditingController();
   final _salaryController = TextEditingController();
-  final _workHistoryJoinDateController = TextEditingController();
-  final _workHistoryDismissDateController = TextEditingController();
-  final _workHistoryPositionController = TextEditingController();
-  final _workHistoryUnitController = TextEditingController();
   String dropdownValue = 'Nam';
   bool onEdit = false;
   bool ignore = true;
@@ -54,14 +51,6 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _sexController.text = "${widget.employee.sex}";
     _salaryController.text =
         "${widget.employee.getSalaryWithAdditionsToCurrency()}";
-    _workHistoryJoinDateController.text =
-        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.joinDate.seconds * 1000))}";
-    _workHistoryDismissDateController.text =
-        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget.employee.workHistory.first.dismissDate.seconds * 1000))}";
-    _workHistoryPositionController.text =
-        "${widget.employee.workHistory[0].position.value.name}";
-    _workHistoryUnitController.text =
-        "${widget.employee.workHistory[0].unit.value.name}";
   }
 
   @override
@@ -202,24 +191,12 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         onEdit: false,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
-                    // RelativesExpansionTitle(
-                    //     expansionName: "Relatives",
-                    //     relativeNameController: _relativeNameController,
-                    //     editable: onEdit,
-                    //     relativeTypeController: _relativeTypeController,
-                    //     relativeJobController: _relativeJobController,
-                    //     relativeBirthdayController:
-                    //         _relativeBirthdayController),
                     RelativesExpansionTitle(
                         relatives: widget.employee.relative, onEdit: onEdit),
-                    // RelativesExpansionTitle(
-                    //     expansionName: "Work histories",
-                    //     relativeNameController: _workHistoryUnitController,
-                    //     editable: onEdit,
-                    //     relativeTypeController: _workHistoryPositionController,
-                    //     relativeJobController: _workHistoryJoinDateController,
-                    //     relativeBirthdayController:
-                    //         _workHistoryDismissDateController),
+                    WorkHistoriesExpansionTitle(
+                      workHistories: widget.employee.workHistory,
+                      onEdit: onEdit,
+                    ),
                     SizedBox(
                       height: 20,
                     ),

@@ -9,10 +9,16 @@ class PositionController extends GetxController {
 
   //get function
   List<Position> get listPositions => _listPosition.value;
+  late List<String> listPositionName;
 
   @override
   void onInit() {
     super.onInit();
     _listPosition.bindStream(PositionRepo().positionStream());
+  }
+
+  void initListPositionName() {
+    listPositionName = [];
+    listPositions.forEach((element) => listPositionName.add(element.name));
   }
 }

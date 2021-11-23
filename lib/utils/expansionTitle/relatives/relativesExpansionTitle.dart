@@ -40,6 +40,7 @@ class RelativesExpansionTitle extends StatelessWidget {
       ),
       children: [
         ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemCount: _relatives.length,

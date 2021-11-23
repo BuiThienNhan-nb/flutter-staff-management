@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:staff_management/controllers/employeeController.dart';
 import 'package:staff_management/controllers/positionController.dart';
 import 'package:staff_management/controllers/salaryRecordController.dart';
+import 'package:staff_management/controllers/unitController.dart';
 import 'package:staff_management/screens/intro/loadingScreen.dart';
 import 'package:staff_management/screens/login/loginScreen.dart';
 import 'package:staff_management/screens/mainContainer.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
     Get.put(PositionController());
     Get.put(EmployeeController());
     Get.put(SalaryRecordController());
+    Get.put(UnitController());
   });
   runApp(MyApp());
 }
