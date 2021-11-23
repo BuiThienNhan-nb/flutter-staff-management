@@ -86,7 +86,7 @@ class _ChildRelativeExpansionTitleState
     _relativeTypeController.text = widget._relative.type;
     _relativeJobController.text = widget._relative.job;
     _relativeBirthdateController.text =
-        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget._relative.birthdate.seconds * 1000))}";
+        "${DateFormat('dd/MM/yyyy').format(widget._relative.birthdate.toDate())}";
     super.initState();
   }
 

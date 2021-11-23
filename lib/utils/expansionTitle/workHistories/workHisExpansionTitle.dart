@@ -27,7 +27,7 @@ class WorkHistoriesExpansionTitle extends StatelessWidget {
       title: Row(
         children: [
           Icon(
-            Icons.family_restroom,
+            Icons.change_history,
             color: Colors.grey,
           ),
           SizedBox(
@@ -92,10 +92,10 @@ class _ChildRelativeExpansionTitleState
     _workHistoryPositionController.text =
         widget._workHistory.position.value.name;
     _workHistoryJoinDateController.text =
-        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget._workHistory.joinDate.seconds * 1000))}";
+        "${DateFormat('dd/MM/yyyy').format(widget._workHistory.joinDate.toDate())}";
     ;
     _workHistoryDismissDateController.text =
-        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(widget._workHistory.dismissDate.seconds * 1000))}";
+        "${DateFormat('dd/MM/yyyy').format(widget._workHistory.dismissDate.toDate())}";
     positionController.initListPositionName();
     unitController.initListUnitName();
     super.initState();
@@ -128,7 +128,7 @@ class _ChildRelativeExpansionTitleState
           ? MyDropdownButton(
               selectedValue: widget._workHistory.unit.value.name,
               values: unitController.listUnitName,
-              icon: Icon(Icons.merge_type),
+              icon: Icon(Icons.groups),
               lable: "Unit",
               callback: (String _newValue) {
                 widget._workHistory.unit.value.name = _newValue;
@@ -137,7 +137,7 @@ class _ChildRelativeExpansionTitleState
             )
           : TextFieldWidget(
               controller: _workHistoryUnitController,
-              icon: Icon(Icons.merge_type),
+              icon: Icon(Icons.groups),
               hintText: "Unit",
               onEdit: false,
               textInputFormatter:
@@ -150,7 +150,7 @@ class _ChildRelativeExpansionTitleState
               ? MyDropdownButton(
                   selectedValue: widget._workHistory.position.value.name,
                   values: positionController.listPositionName,
-                  icon: Icon(Icons.merge_type),
+                  icon: Icon(Icons.hail),
                   lable: "Position",
                   callback: (String _newValue) {
                     widget._workHistory.position.value.name = _newValue;
@@ -159,7 +159,7 @@ class _ChildRelativeExpansionTitleState
                 )
               : TextFieldWidget(
                   controller: _workHistoryPositionController,
-                  icon: Icon(Icons.merge_type),
+                  icon: Icon(Icons.hail),
                   hintText: "Position",
                   onEdit: false,
                   textInputFormatter:

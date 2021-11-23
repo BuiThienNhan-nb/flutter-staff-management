@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:staff_management/controllers/employeeController.dart';
 import 'package:staff_management/controllers/positionController.dart';
+import 'package:staff_management/controllers/quotaController.dart';
 import 'package:staff_management/controllers/salaryRecordController.dart';
 import 'package:staff_management/controllers/unitController.dart';
 import 'package:staff_management/screens/intro/loadingScreen.dart';
@@ -16,6 +17,7 @@ Future<void> main() async {
     Get.put(EmployeeController());
     Get.put(SalaryRecordController());
     Get.put(UnitController());
+    Get.put(QuotaController());
   });
   runApp(MyApp());
 }
