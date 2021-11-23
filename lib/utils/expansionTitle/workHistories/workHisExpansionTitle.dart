@@ -93,9 +93,12 @@ class _ChildRelativeExpansionTitleState
         widget._workHistory.position.value.name;
     _workHistoryJoinDateController.text =
         "${DateFormat('dd/MM/yyyy').format(widget._workHistory.joinDate.toDate())}";
-    ;
-    _workHistoryDismissDateController.text =
-        "${DateFormat('dd/MM/yyyy').format(widget._workHistory.dismissDate.toDate())}";
+
+    _workHistoryDismissDateController.text = widget._workHistory.dismissDate
+            .toDate()
+            .isBefore(widget._workHistory.joinDate.toDate())
+        ? "Current"
+        : "${DateFormat('dd/MM/yyyy').format(widget._workHistory.dismissDate.toDate())}";
     positionController.initListPositionName();
     unitController.initListUnitName();
     super.initState();
@@ -107,8 +110,11 @@ class _ChildRelativeExpansionTitleState
         _workHistoryPositionController.text;
     widget._workHistory.joinDate = Timestamp.fromDate(
         DateFormat('dd/MM/yyyy').parse(_workHistoryJoinDateController.text));
-    widget._workHistory.dismissDate = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy').parse(_workHistoryDismissDateController.text));
+    widget._workHistory.dismissDate =
+        _workHistoryDismissDateController.text == "Current"
+            ? widget._workHistory.dismissDate
+            : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                .parse(_workHistoryDismissDateController.text));
   }
 
   @override

@@ -89,9 +89,11 @@ class _ChildRelativeExpansionTitleState
     _quotaHistoryNameController.text = widget._quotaHistory.quota.value.name;
     _quotaHistoryJoinDateController.text =
         "${DateFormat('dd/MM/yyyy').format(widget._quotaHistory.joinDate.toDate())}";
-    ;
-    _quotaHistoryDismissDateController.text =
-        "${DateFormat('dd/MM/yyyy').format(widget._quotaHistory.dismissDate.toDate())}";
+    _quotaHistoryDismissDateController.text = widget._quotaHistory.dismissDate
+            .toDate()
+            .isBefore(widget._quotaHistory.joinDate.toDate())
+        ? "Current"
+        : "${DateFormat('dd/MM/yyyy').format(widget._quotaHistory.dismissDate.toDate())}";
     super.initState();
     quotaController.initListPositionName();
   }
@@ -100,9 +102,11 @@ class _ChildRelativeExpansionTitleState
     widget._quotaHistory.quota.value.name = _quotaHistoryNameController.text;
     widget._quotaHistory.joinDate = Timestamp.fromDate(
         DateFormat('dd/MM/yyyy').parse(_quotaHistoryJoinDateController.text));
-    widget._quotaHistory.dismissDate = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy')
-            .parse(_quotaHistoryDismissDateController.text));
+    widget._quotaHistory.dismissDate =
+        _quotaHistoryDismissDateController.text == "Current"
+            ? widget._quotaHistory.dismissDate
+            : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                .parse(_quotaHistoryDismissDateController.text));
   }
 
   @override
