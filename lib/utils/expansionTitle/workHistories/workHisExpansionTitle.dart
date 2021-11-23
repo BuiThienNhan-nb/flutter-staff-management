@@ -3,13 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:staff_management/const_value/controller.dart';
-import 'package:staff_management/models/position.dart';
-import 'package:staff_management/models/relative.dart';
 import 'package:staff_management/models/workHistory.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:intl/intl.dart';
-import 'package:staff_management/utils/textField/textFieldBirthday.dart';
+import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class WorkHistoriesExpansionTitle extends StatelessWidget {
   final List<WorkHistory> _workHistories;
@@ -36,7 +34,7 @@ class WorkHistoriesExpansionTitle extends StatelessWidget {
             width: 10,
           ),
           Text(
-            "Work histories",
+            "Work Histories",
             style: TextStyle(
               fontSize: 17.0,
             ),
@@ -131,16 +129,16 @@ class _ChildRelativeExpansionTitleState
               selectedValue: widget._workHistory.unit.value.name,
               values: unitController.listUnitName,
               icon: Icon(Icons.merge_type),
-              lable: "{Position}",
+              lable: "Unit",
               callback: (String _newValue) {
-                widget._workHistory.position.value.name = _newValue;
-                _workHistoryPositionController.text = _newValue;
+                widget._workHistory.unit.value.name = _newValue;
+                _workHistoryUnitController.text = _newValue;
               },
             )
           : TextFieldWidget(
-              controller: _workHistoryPositionController,
+              controller: _workHistoryUnitController,
               icon: Icon(Icons.merge_type),
-              hintText: "Position",
+              hintText: "Unit",
               onEdit: false,
               textInputFormatter:
                   FilteringTextInputFormatter.singleLineFormatter,
@@ -153,7 +151,7 @@ class _ChildRelativeExpansionTitleState
                   selectedValue: widget._workHistory.position.value.name,
                   values: positionController.listPositionName,
                   icon: Icon(Icons.merge_type),
-                  lable: "{Position}",
+                  lable: "Position",
                   callback: (String _newValue) {
                     widget._workHistory.position.value.name = _newValue;
                     _workHistoryPositionController.text = _newValue;
@@ -170,20 +168,22 @@ class _ChildRelativeExpansionTitleState
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: TextFieldBirthday(
-            labelText: "Join date",
+          child: DatePickerTextField(
+            labelText: "Join Date",
             placeholder: "Sep 12, 1998",
             textEditingController: _workHistoryJoinDateController,
             editable: widget._onEdit,
+            icon: Icon(Icons.date_range),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: TextFieldBirthday(
-            labelText: "Birthday",
+          child: DatePickerTextField(
+            labelText: "Dismiss Date",
             placeholder: "Sep 12, 1998",
             textEditingController: _workHistoryDismissDateController,
             editable: widget._onEdit,
+            icon: Icon(Icons.date_range),
           ),
         ),
       ],

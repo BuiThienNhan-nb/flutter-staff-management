@@ -38,7 +38,6 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
             calculateSalary();
           });
         });
-
     // Build UI
     return SafeArea(
       child: Scaffold(

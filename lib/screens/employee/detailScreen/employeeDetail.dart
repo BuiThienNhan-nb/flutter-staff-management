@@ -5,7 +5,7 @@ import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/expansionTitle/relatives/relativesExpansionTitle.dart';
 import 'package:staff_management/utils/expansionTitle/workHistories/workHisExpansionTitle.dart';
 import 'package:staff_management/utils/textField/textField.dart';
-import 'package:staff_management/utils/textField/textFieldBirthday.dart';
+import 'package:staff_management/utils/textField/datePickerTextField.dart';
 import 'package:intl/intl.dart';
 
 class EmployeeDetail extends StatefulWidget {
@@ -22,9 +22,11 @@ class EmployeeDetail extends StatefulWidget {
 
 class _EmployeeDetailState extends State<EmployeeDetail> {
   final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
+  final _identityCardController = TextEditingController();
+  final _nameController = TextEditingController();
   final _addressController = TextEditingController();
   final _birthdateController = TextEditingController();
-  // final _identityCardController = TextEditingController();
   final _folkController = TextEditingController();
   final _quotaController = TextEditingController();
   final _positionController = TextEditingController();
@@ -38,10 +40,11 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   @override
   void initState() {
     super.initState();
+    _identityCardController.text = "${widget.employee.identityCard}";
+    _nameController.text = "${widget.employee.name}";
     _addressController.text = "${widget.employee.address}";
     _birthdateController.text =
         '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.seconds * 1000))}';
-    // _identityCardController.text = "${widget.employee.identityCard}";
     _folkController.text = "${widget.employee.folk}";
     _quotaController.text = "${widget.employee.quotaHistories.value[0].name}";
     _positionController.text =
@@ -57,7 +60,8 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   void dispose() {
     _addressController.dispose();
     _birthdateController.dispose();
-    // _identityCardController.dispose();
+    _identityCardController.dispose();
+    _nameController.dispose();
     _folkController.dispose();
     _quotaController.dispose();
     _positionController.dispose();
@@ -110,17 +114,57 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${widget.employee.identityCard} | ${widget.employee.name}",
-                      style: TextStyle(
-                        fontSize: 17,
+                child: onEdit
+                    ? Form(
+                        key: _formKey2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 88,
+                              child: TextFormField(
+                                style: TextStyle(
+                                    fontSize: 17, color: Colors.blue.shade800),
+                                controller: _identityCardController,
+                                decoration:
+                                    InputDecoration(border: InputBorder.none),
+                                keyboardType: TextInputType.phone,
+                                validator: (input) {
+                                  if (input == null || input.isEmpty)
+                                    return 'This field is required';
+                                },
+                              ),
+                            ),
+                            Text(" | "),
+                            Container(
+                              width: 90,
+                              child: TextFormField(
+                                style: TextStyle(
+                                    fontSize: 17, color: Colors.blue.shade800),
+                                controller: _nameController,
+                                decoration:
+                                    InputDecoration(border: InputBorder.none),
+                                keyboardType: TextInputType.name,
+                                validator: (input) {
+                                  if (input == null || input.isEmpty)
+                                    return 'This field is required';
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${widget.employee.identityCard} | ${widget.employee.name}",
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
               ),
               Form(
                 key: _formKey,
@@ -154,11 +198,12 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         onEdit: onEdit,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
-                    TextFieldBirthday(
+                    DatePickerTextField(
                       labelText: "Birthday",
                       placeholder: "Sep 12, 1998",
                       textEditingController: _birthdateController,
                       editable: onEdit,
+                      icon: Icon(Icons.cake),
                     ),
                     TextFieldWidget(
                         controller: _folkController,

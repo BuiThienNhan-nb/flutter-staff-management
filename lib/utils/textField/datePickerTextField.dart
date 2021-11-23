@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class TextFieldBirthday extends StatelessWidget {
-  TextFieldBirthday({
+class DatePickerTextField extends StatelessWidget {
+  DatePickerTextField({
     required this.labelText,
     required this.placeholder,
     required this.textEditingController,
     required this.editable,
+    required this.icon,
   });
   final String labelText;
   final String placeholder;
   final bool editable;
   final TextEditingController textEditingController;
+  final Icon icon;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class TextFieldBirthday extends StatelessWidget {
         context: context,
         initialDate: _selectedDate,
         firstDate: DateTime(1900),
-        lastDate: DateTime(2021),
+        lastDate: DateTime(2040),
       );
 
       if (newSelectedDate != null) {
@@ -49,7 +51,7 @@ class TextFieldBirthday extends StatelessWidget {
           labelText: labelText,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: placeholder,
-          prefixIcon: Icon(Icons.cake),
+          prefixIcon: icon,
           suffixIcon: (textEditingController.text.isEmpty || editable == false)
               ? Container(
                   width: 0,

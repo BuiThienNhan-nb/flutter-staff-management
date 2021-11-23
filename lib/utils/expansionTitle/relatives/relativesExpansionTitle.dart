@@ -6,7 +6,7 @@ import 'package:staff_management/models/relative.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:intl/intl.dart';
-import 'package:staff_management/utils/textField/textFieldBirthday.dart';
+import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class RelativesExpansionTitle extends StatelessWidget {
   final List<Relative> _relatives;
@@ -153,11 +153,12 @@ class _ChildRelativeExpansionTitleState
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: TextFieldBirthday(
+          child: DatePickerTextField(
             labelText: "Birthday",
             placeholder: "Sep 12, 1998",
             textEditingController: _relativeBirthdateController,
             editable: widget._onEdit,
+            icon: Icon(Icons.cake),
           ),
         ),
       ],

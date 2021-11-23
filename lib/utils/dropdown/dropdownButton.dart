@@ -33,6 +33,7 @@ class MyDropdownButton extends StatelessWidget {
             labelText: _lable,
             border: InputBorder.none,
           ),
+          isExpanded: true,
           value: _selectedValue,
           items: _values.map((String value) {
             return DropdownMenuItem<String>(
