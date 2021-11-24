@@ -175,28 +175,28 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                   children: [
                     TextFieldWidget(
                         controller: _quotaController,
-                        icon: Icon(Icons.work),
+                        icon: Icons.work,
                         hintText: "Quota",
                         onEdit: false,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
                     TextFieldWidget(
                         controller: _positionController,
-                        icon: Icon(Icons.work_outline_outlined),
+                        icon: Icons.work_outline_outlined,
                         hintText: "Position",
                         onEdit: false,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
                     TextFieldWidget(
                         controller: _unitController,
-                        icon: Icon(Icons.home_work),
+                        icon: Icons.home_work,
                         hintText: "Unit",
                         onEdit: false,
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
                     TextFieldWidget(
                         controller: _addressController,
-                        icon: Icon(Icons.place),
+                        icon: Icons.place,
                         hintText: "Address",
                         onEdit: onEdit,
                         textInputFormatter:
@@ -206,11 +206,11 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                       placeholder: "Sep 12, 1998",
                       textEditingController: _birthdateController,
                       editable: onEdit,
-                      icon: Icon(Icons.cake),
+                      icon: Icons.cake,
                     ),
                     TextFieldWidget(
                         controller: _folkController,
-                        icon: Icon(Icons.short_text),
+                        icon: Icons.short_text,
                         hintText: "Folk",
                         onEdit: onEdit,
                         textInputFormatter:
@@ -218,7 +218,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                     !onEdit
                         ? TextFieldWidget(
                             controller: _sexController,
-                            icon: Icon(Icons.male),
+                            icon: Icons.male,
                             hintText: "Gender",
                             onEdit: false,
                             textInputFormatter:
@@ -226,7 +226,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         : MyDropdownButton(
                             selectedValue: _sexController.text,
                             values: <String>["Nam", "Nữ"],
-                            icon: Icon(Icons.male),
+                            icon: Icons.male,
                             lable: "Gender",
                             callback: (String _newValue) {
                               _sexController.text = _newValue;
@@ -234,7 +234,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                           ),
                     TextFieldWidget(
                         controller: _salaryController,
-                        icon: Icon(Icons.attach_money),
+                        icon: Icons.attach_money,
                         hintText: "Current Total Salary",
                         onEdit: false,
                         textInputFormatter:

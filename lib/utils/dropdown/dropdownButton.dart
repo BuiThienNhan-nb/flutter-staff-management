@@ -6,7 +6,7 @@ class MyDropdownButton extends StatelessWidget {
     Key? key,
     required String selectedValue,
     required List<String> values,
-    required Icon icon,
+    required IconData icon,
     required String lable,
     required Callback callback,
   })  : _selectedValue = selectedValue,
@@ -17,7 +17,7 @@ class MyDropdownButton extends StatelessWidget {
         super(key: key);
   final String _selectedValue;
   final List<String> _values;
-  final Icon _icon;
+  final IconData _icon;
   final String _lable;
   final Callback _callback;
 
@@ -29,7 +29,7 @@ class MyDropdownButton extends StatelessWidget {
         ignoring: false,
         child: DropdownButtonFormField<String>(
           decoration: InputDecoration(
-            prefixIcon: _icon,
+            prefixIcon: Icon(_icon),
             labelText: _lable,
             border: InputBorder.none,
           ),

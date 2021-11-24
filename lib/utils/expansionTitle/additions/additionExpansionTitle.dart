@@ -137,7 +137,7 @@ class _ChildRelativeExpansionTitleState
           ? MyDropdownButton(
               selectedValue: widget._additionHistory.addition.value.content,
               values: additionController.listAdditionName,
-              icon: Icon(Icons.content_copy),
+              icon: Icons.content_copy,
               lable: "Addtions",
               callback: (String _newValue) {
                 widget._additionHistory.addition.value.content = _newValue;
@@ -146,7 +146,7 @@ class _ChildRelativeExpansionTitleState
             )
           : TextFieldWidget(
               controller: _additionNameController,
-              icon: Icon(Icons.content_copy),
+              icon: Icons.content_copy,
               hintText: "Addtions",
               onEdit: widget._onEdit,
               textInputFormatter:
@@ -160,7 +160,7 @@ class _ChildRelativeExpansionTitleState
             placeholder: "Sep 12, 1998",
             textEditingController: _additionDateController,
             editable: widget._onEdit,
-            icon: Icon(Icons.date_range),
+            icon: Icons.date_range,
           ),
         ),
       ],

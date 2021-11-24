@@ -129,7 +129,7 @@ class _ChildRelativeExpansionTitleState
     return ExpansionTile(
       title: TextFieldWidget(
         controller: _relativeNameController,
-        icon: Icon(Icons.person),
+        icon: Icons.person,
         hintText: "Name",
         onEdit: widget._onEdit,
         textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
@@ -141,7 +141,7 @@ class _ChildRelativeExpansionTitleState
               ? MyDropdownButton(
                   selectedValue: widget._relative.type,
                   values: <String>["Vợ/Chồng", "Con cái"],
-                  icon: Icon(Icons.merge_type),
+                  icon: Icons.merge_type,
                   lable: "Type",
                   callback: (String _newValue) {
                     widget._relative.type = _newValue;
@@ -150,7 +150,7 @@ class _ChildRelativeExpansionTitleState
                 )
               : TextFieldWidget(
                   controller: _relativeTypeController,
-                  icon: Icon(Icons.merge_type),
+                  icon: Icons.merge_type,
                   hintText: "Type",
                   onEdit: false,
                   textInputFormatter:
@@ -161,7 +161,7 @@ class _ChildRelativeExpansionTitleState
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: TextFieldWidget(
             controller: _relativeJobController,
-            icon: Icon(Icons.work),
+            icon: Icons.work,
             hintText: "Job",
             onEdit: widget._onEdit,
             textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
@@ -174,7 +174,7 @@ class _ChildRelativeExpansionTitleState
             placeholder: "Sep 12, 1998",
             textEditingController: _relativeBirthdateController,
             editable: widget._onEdit,
-            icon: Icon(Icons.cake),
+            icon: Icons.cake,
           ),
         ),
       ],

@@ -167,7 +167,7 @@ class _ChildRelativeExpansionTitleState
           ? MyDropdownButton(
               selectedValue: widget._workHistory.unit.value.name,
               values: unitController.listUnitName,
-              icon: Icon(Icons.groups),
+              icon: Icons.groups,
               lable: "Unit",
               callback: (String _newValue) {
                 widget._workHistory.unit.value.name = _newValue;
@@ -176,7 +176,7 @@ class _ChildRelativeExpansionTitleState
             )
           : TextFieldWidget(
               controller: _workHistoryUnitController,
-              icon: Icon(Icons.groups),
+              icon: Icons.groups,
               hintText: "Unit",
               onEdit: false,
               textInputFormatter:
@@ -189,7 +189,7 @@ class _ChildRelativeExpansionTitleState
               ? MyDropdownButton(
                   selectedValue: widget._workHistory.position.value.name,
                   values: positionController.listPositionName,
-                  icon: Icon(Icons.hail),
+                  icon: Icons.hail,
                   lable: "Position",
                   callback: (String _newValue) {
                     widget._workHistory.position.value.name = _newValue;
@@ -198,7 +198,7 @@ class _ChildRelativeExpansionTitleState
                 )
               : TextFieldWidget(
                   controller: _workHistoryPositionController,
-                  icon: Icon(Icons.hail),
+                  icon: Icons.hail,
                   hintText: "Position",
                   onEdit: false,
                   textInputFormatter:
@@ -212,7 +212,7 @@ class _ChildRelativeExpansionTitleState
             placeholder: "Sep 12, 1998",
             textEditingController: _workHistoryJoinDateController,
             editable: widget._onEdit,
-            icon: Icon(Icons.date_range),
+            icon: Icons.date_range,
           ),
         ),
         Padding(
@@ -222,7 +222,7 @@ class _ChildRelativeExpansionTitleState
             placeholder: "Sep 12, 1998",
             textEditingController: _workHistoryDismissDateController,
             editable: widget._onEdit,
-            icon: Icon(Icons.date_range),
+            icon: Icons.date_range,
           ),
         ),
       ],

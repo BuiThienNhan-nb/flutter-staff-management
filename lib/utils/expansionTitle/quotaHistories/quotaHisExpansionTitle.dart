@@ -152,7 +152,7 @@ class _ChildRelativeExpansionTitleState
           ? MyDropdownButton(
               selectedValue: widget._quotaHistory.quota.value.name,
               values: quotaController.listQuotaName,
-              icon: Icon(Icons.hail),
+              icon: Icons.hail,
               lable: "Quota",
               callback: (String _newValue) {
                 widget._quotaHistory.quota.value.name = _newValue;
@@ -161,7 +161,7 @@ class _ChildRelativeExpansionTitleState
             )
           : TextFieldWidget(
               controller: _quotaHistoryNameController,
-              icon: Icon(Icons.hail),
+              icon: Icons.hail,
               hintText: "Quota",
               onEdit: widget._onEdit,
               textInputFormatter:
@@ -175,7 +175,7 @@ class _ChildRelativeExpansionTitleState
             placeholder: "Sep 12, 1998",
             textEditingController: _quotaHistoryJoinDateController,
             editable: widget._onEdit,
-            icon: Icon(Icons.date_range),
+            icon: Icons.date_range,
           ),
         ),
         Padding(
@@ -185,7 +185,7 @@ class _ChildRelativeExpansionTitleState
             placeholder: "Sep 12, 1998",
             textEditingController: _quotaHistoryDismissDateController,
             editable: widget._onEdit,
-            icon: Icon(Icons.date_range),
+            icon: Icons.date_range,
           ),
         ),
       ],

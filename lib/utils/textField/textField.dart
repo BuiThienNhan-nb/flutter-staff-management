@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final TextEditingController controller;
-  final Icon icon;
+  final IconData icon;
   final String hintText;
   final bool onEdit;
   final TextInputFormatter textInputFormatter;
@@ -51,7 +51,7 @@ class _EmailFieldWidgetState extends State<TextFieldWidget> {
           errorStyle: TextStyle(fontSize: textFieldFontSize - 5),
           hintText: "${widget.hintText}",
           labelText: "${widget.hintText}",
-          prefixIcon: widget.icon,
+          prefixIcon: Icon(widget.icon),
           suffixIcon: (widget.controller.text.isEmpty || widget.onEdit == false)
               ? Container(
                   width: 0,

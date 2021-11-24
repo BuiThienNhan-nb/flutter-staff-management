@@ -13,7 +13,7 @@ class DatePickerTextField extends StatelessWidget {
   final String placeholder;
   final bool editable;
   final TextEditingController textEditingController;
-  final Icon icon;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class DatePickerTextField extends StatelessWidget {
           labelText: labelText,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: placeholder,
-          prefixIcon: icon,
+          prefixIcon: Icon(icon),
           // border: InputBorder.none,
         ),
         enabled: editable,

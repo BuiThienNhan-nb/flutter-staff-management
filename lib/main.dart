@@ -29,24 +29,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
-      // home: SafeArea(
-      //   child: Container(
-      //     color: Colors.white,
-      //     child: Center(
-      //       child: FlatButton(
-      //         onPressed: () {
-      //           Get.to(() => LoadBE());
-      //         },
-      //         child: Text('Click to Test BE'),
-      //       ),
-      //     ),
-      //   ),
-      // ),
-
       getPages: [
         GetPage(
           name: "/loadingScreen",
