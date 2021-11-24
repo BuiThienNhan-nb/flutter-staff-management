@@ -35,7 +35,6 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   final _unitController = TextEditingController();
   final _sexController = TextEditingController();
   final _salaryController = TextEditingController();
-  String dropdownValue = 'Nam';
   bool onEdit = false;
   bool ignore = true;
 

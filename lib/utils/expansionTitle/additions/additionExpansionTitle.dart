@@ -108,18 +108,16 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    if (widget._onEdit == false) {
-      // update addition
-      Addition _addition = additionController.listAdditions
-          .where((element) => element.content == _additionNameController.text)
-          .first;
-      widget._additionHistory.addition.value = _addition;
-      additionController.onInit();
+    // update addition
+    Addition _addition = additionController.listAdditions
+        .where((element) => element.content == _additionNameController.text)
+        .first;
+    widget._additionHistory.addition.value = _addition;
+    additionController.onInit();
 
-      // update date
-      widget._additionHistory.date = Timestamp.fromDate(
-          DateFormat('dd/MM/yyyy').parse(_additionDateController.text));
-    } else {}
+    // update date
+    widget._additionHistory.date = Timestamp.fromDate(
+        DateFormat('dd/MM/yyyy').parse(_additionDateController.text));
   }
 
   @override
@@ -140,8 +138,10 @@ class _ChildRelativeExpansionTitleState
               icon: Icons.content_copy,
               lable: "Addtions",
               callback: (String _newValue) {
-                widget._additionHistory.addition.value.content = _newValue;
-                _additionNameController.text = _newValue;
+                setState(() {
+                  widget._additionHistory.addition.value.content = _newValue;
+                  _additionNameController.text = _newValue;
+                });
               },
             )
           : TextFieldWidget(

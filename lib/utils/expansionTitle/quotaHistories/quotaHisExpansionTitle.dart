@@ -114,26 +114,24 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    if (widget._onEdit == false) {
-      // update quota
-      Quota _quota = quotaController.listQuotas
-          .where((element) => element.name == _quotaHistoryNameController.text)
-          .first;
-      widget._quotaHistory.quotaId = _quota.uid;
-      widget._quotaHistory.quota.value = _quota;
-      quotaController.onInit();
+    // update quota
+    Quota _quota = quotaController.listQuotas
+        .where((element) => element.name == _quotaHistoryNameController.text)
+        .first;
+    widget._quotaHistory.quotaId = _quota.uid;
+    widget._quotaHistory.quota.value = _quota;
+    quotaController.onInit();
 
-      // update join date
-      widget._quotaHistory.joinDate = Timestamp.fromDate(
-          DateFormat('dd/MM/yyyy').parse(_quotaHistoryJoinDateController.text));
+    // update join date
+    widget._quotaHistory.joinDate = Timestamp.fromDate(
+        DateFormat('dd/MM/yyyy').parse(_quotaHistoryJoinDateController.text));
 
-      // update dismiss date
-      widget._quotaHistory.dismissDate =
-          _quotaHistoryDismissDateController.text == "Current"
-              ? widget._quotaHistory.dismissDate
-              : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
-                  .parse(_quotaHistoryDismissDateController.text));
-    } else {}
+    // update dismiss date
+    widget._quotaHistory.dismissDate =
+        _quotaHistoryDismissDateController.text == "Current"
+            ? widget._quotaHistory.dismissDate
+            : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                .parse(_quotaHistoryDismissDateController.text));
   }
 
   @override
@@ -155,8 +153,10 @@ class _ChildRelativeExpansionTitleState
               icon: Icons.hail,
               lable: "Quota",
               callback: (String _newValue) {
-                widget._quotaHistory.quota.value.name = _newValue;
-                _quotaHistoryNameController.text = _newValue;
+                setState(() {
+                  widget._quotaHistory.quota.value.name = _newValue;
+                  _quotaHistoryNameController.text = _newValue;
+                });
               },
             )
           : TextFieldWidget(

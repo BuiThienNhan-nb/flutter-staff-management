@@ -121,33 +121,30 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    if (widget._onEdit == false) {
-      // update unit
-      Unit _unit = unitController.listUnits
-          .where((element) => element.name == _workHistoryUnitController.text)
-          .first;
-      widget._workHistory.unitId = _unit.uid;
-      widget._workHistory.unit.value = _unit;
-      unitController.onInit();
+    // update unit
+    Unit _unit = unitController.listUnits
+        .where((element) => element.name == _workHistoryUnitController.text)
+        .first;
+    widget._workHistory.unitId = _unit.uid;
+    widget._workHistory.unit.value = _unit;
+    unitController.onInit();
 
-      // update position
-      Position _position = positionController.listPositions
-          .where(
-              (element) => element.name == _workHistoryPositionController.text)
-          .first;
-      widget._workHistory.positionId = _position.uid;
-      widget._workHistory.position.value = _position;
-      positionController.onInit();
+    // update position
+    Position _position = positionController.listPositions
+        .where((element) => element.name == _workHistoryPositionController.text)
+        .first;
+    widget._workHistory.positionId = _position.uid;
+    widget._workHistory.position.value = _position;
+    positionController.onInit();
 
-      // update date
-      widget._workHistory.joinDate = Timestamp.fromDate(
-          DateFormat('dd/MM/yyyy').parse(_workHistoryJoinDateController.text));
-      widget._workHistory.dismissDate =
-          _workHistoryDismissDateController.text == "Current"
-              ? widget._workHistory.dismissDate
-              : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
-                  .parse(_workHistoryDismissDateController.text));
-    } else {}
+    // update date
+    widget._workHistory.joinDate = Timestamp.fromDate(
+        DateFormat('dd/MM/yyyy').parse(_workHistoryJoinDateController.text));
+    widget._workHistory.dismissDate =
+        _workHistoryDismissDateController.text == "Current"
+            ? widget._workHistory.dismissDate
+            : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                .parse(_workHistoryDismissDateController.text));
   }
 
   @override
@@ -170,8 +167,10 @@ class _ChildRelativeExpansionTitleState
               icon: Icons.groups,
               lable: "Unit",
               callback: (String _newValue) {
-                widget._workHistory.unit.value.name = _newValue;
-                _workHistoryUnitController.text = _newValue;
+                setState(() {
+                  widget._workHistory.unit.value.name = _newValue;
+                  _workHistoryUnitController.text = _newValue;
+                });
               },
             )
           : TextFieldWidget(
@@ -192,8 +191,10 @@ class _ChildRelativeExpansionTitleState
                   icon: Icons.hail,
                   lable: "Position",
                   callback: (String _newValue) {
-                    widget._workHistory.position.value.name = _newValue;
-                    _workHistoryPositionController.text = _newValue;
+                    setState(() {
+                      widget._workHistory.position.value.name = _newValue;
+                      _workHistoryPositionController.text = _newValue;
+                    });
                   },
                 )
               : TextFieldWidget(

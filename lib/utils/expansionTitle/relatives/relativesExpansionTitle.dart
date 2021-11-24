@@ -105,13 +105,11 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    if (widget._onEdit == false) {
-      widget._relative.name = _relativeNameController.text;
-      widget._relative.type = _relativeTypeController.text;
-      widget._relative.job = _relativeJobController.text;
-      widget._relative.birthdate = Timestamp.fromDate(
-          DateFormat('dd/MM/yyyy').parse(_relativeBirthdateController.text));
-    } else {}
+    widget._relative.name = _relativeNameController.text;
+    widget._relative.type = _relativeTypeController.text;
+    widget._relative.job = _relativeJobController.text;
+    widget._relative.birthdate = Timestamp.fromDate(
+        DateFormat('dd/MM/yyyy').parse(_relativeBirthdateController.text));
   }
 
   @override
@@ -144,8 +142,10 @@ class _ChildRelativeExpansionTitleState
                   icon: Icons.merge_type,
                   lable: "Type",
                   callback: (String _newValue) {
-                    widget._relative.type = _newValue;
-                    _relativeTypeController.text = _newValue;
+                    setState(() {
+                      widget._relative.type = _newValue;
+                      _relativeTypeController.text = _newValue;
+                    });
                   },
                 )
               : TextFieldWidget(
