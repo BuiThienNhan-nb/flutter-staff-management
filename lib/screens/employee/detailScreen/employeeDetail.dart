@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
+import 'package:staff_management/utils/expansionTitle/additions/additionExpansionTitle.dart';
 import 'package:staff_management/utils/expansionTitle/quotaHistories/quotaHisExpansionTitle.dart';
 import 'package:staff_management/utils/expansionTitle/relatives/relativesExpansionTitle.dart';
 import 'package:staff_management/utils/expansionTitle/workHistories/workHisExpansionTitle.dart';
@@ -246,6 +247,10 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                     ),
                     QuotaHistoriesExpansionTitle(
                       quotaHistories: widget.employee.quotaHistories,
+                      onEdit: onEdit,
+                    ),
+                    AdditionsExpansionTitle(
+                      additions: widget.employee.addition,
                       onEdit: onEdit,
                     ),
                     SizedBox(
