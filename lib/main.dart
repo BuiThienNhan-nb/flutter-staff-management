@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:staff_management/controllers/addtitionController.dart';
 import 'package:staff_management/controllers/employeeController.dart';
 import 'package:staff_management/controllers/positionController.dart';
 import 'package:staff_management/controllers/quotaController.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
     Get.put(SalaryRecordController());
     Get.put(UnitController());
     Get.put(QuotaController());
+    Get.put(AdditionController());
   });
   runApp(MyApp());
 }
