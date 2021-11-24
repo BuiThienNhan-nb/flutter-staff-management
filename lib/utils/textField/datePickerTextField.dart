@@ -17,7 +17,7 @@ class DatePickerTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime _selectedDate = textEditingController.text == "Current"
+    DateTime _selectedDate = (textEditingController.text == "Current")
         ? DateTime.now().add(const Duration(days: 1))
         : DateFormat('dd/MM/yyyy').parse(textEditingController.text);
 

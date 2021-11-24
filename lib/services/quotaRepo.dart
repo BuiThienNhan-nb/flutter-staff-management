@@ -5,11 +5,7 @@ class QuotaRepo {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Stream<List<Quota>> quotaStream() {
-    return _db
-        .collection('quotas')
-        // .orderBy('name')
-        .snapshots()
-        .map((QuerySnapshot query) {
+    return _db.collection('quotas').snapshots().map((QuerySnapshot query) {
       List<Quota> list = [];
       query.docs.forEach((element) {
         //add data
@@ -33,27 +29,6 @@ class QuotaRepo {
       return list;
     });
   }
-
-  // Stream<List<Quota>> listQuotaByEmployeeStream(List<Quota> _list) {
-  //   return _db.collection('quotas').snapshots().map((QuerySnapshot query) {
-  //     List<Quota> newList = [];
-  //     _list.forEach((element) {
-  //       for (var item in query.docs) {
-  //         if (element.qhId == item.id) {
-  //           String currentId = element.uid;
-  //           newList.add(Quota.fromJson(item));
-  //           newList.last.qhId = currentId;
-  //           break;
-  //         }
-  //         if (element.uid == item.id) {
-  //           newList.add(Quota.fromJson(item));
-  //           break;
-  //         }
-  //       }
-  //     });
-  //     return newList;
-  //   });
-  // }
 
   Stream<Quota> quotaByIdStream(String _uid) {
     return _db.collection('quotas').snapshots().map((QuerySnapshot query) {

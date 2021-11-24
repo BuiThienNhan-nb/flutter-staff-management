@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:staff_management/const_value/controller.dart';
+import 'package:staff_management/models/position.dart';
+import 'package:staff_management/models/unit.dart';
 import 'package:staff_management/models/workHistory.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
@@ -105,9 +107,23 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    widget._workHistory.unit.value.name = _workHistoryUnitController.text;
-    widget._workHistory.position.value.name =
-        _workHistoryPositionController.text;
+    // update unit
+    Unit _unit = unitController.listUnits
+        .where((element) => element.name == _workHistoryUnitController.text)
+        .first;
+    widget._workHistory.unitId = _unit.uid;
+    widget._workHistory.unit.value = _unit;
+    unitController.onInit();
+
+    // update position
+    Position _position = positionController.listPositions
+        .where((element) => element.name == _workHistoryPositionController.text)
+        .first;
+    widget._workHistory.positionId = _position.uid;
+    widget._workHistory.position.value = _position;
+    positionController.onInit();
+
+    // update date
     widget._workHistory.joinDate = Timestamp.fromDate(
         DateFormat('dd/MM/yyyy').parse(_workHistoryJoinDateController.text));
     widget._workHistory.dismissDate =

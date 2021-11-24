@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/const_value/value.dart';
 import 'package:staff_management/models/addition.dart';
-import 'package:staff_management/models/quota.dart';
 import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/models/relative.dart';
 import 'package:intl/intl.dart';

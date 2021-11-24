@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:staff_management/const_value/controller.dart';
+import 'package:staff_management/models/quota.dart';
 import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
@@ -99,9 +100,19 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    widget._quotaHistory.quota.value.name = _quotaHistoryNameController.text;
+    // update quota
+    Quota _quota = quotaController.listQuotas
+        .where((element) => element.name == _quotaHistoryNameController.text)
+        .first;
+    widget._quotaHistory.quotaId = _quota.uid;
+    widget._quotaHistory.quota.value = _quota;
+    quotaController.onInit();
+
+    // update join date
     widget._quotaHistory.joinDate = Timestamp.fromDate(
         DateFormat('dd/MM/yyyy').parse(_quotaHistoryJoinDateController.text));
+
+    // update dismiss date
     widget._quotaHistory.dismissDate =
         _quotaHistoryDismissDateController.text == "Current"
             ? widget._quotaHistory.dismissDate
