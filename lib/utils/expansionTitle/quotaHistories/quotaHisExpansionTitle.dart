@@ -49,10 +49,24 @@ class QuotaHistoriesExpansionTitle extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemCount: _quotaHistories.length,
           itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(12),
-            child: ChildRelativeExpansionTitle(
-              quotaHistory: _quotaHistories[index],
-              onEdit: _onEdit,
+            padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(2, 3),
+                  ),
+                ],
+              ),
+              child: ChildRelativeExpansionTitle(
+                quotaHistory: _quotaHistories[index],
+                onEdit: _onEdit,
+              ),
             ),
           ),
         )
@@ -100,24 +114,26 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    // update quota
-    Quota _quota = quotaController.listQuotas
-        .where((element) => element.name == _quotaHistoryNameController.text)
-        .first;
-    widget._quotaHistory.quotaId = _quota.uid;
-    widget._quotaHistory.quota.value = _quota;
-    quotaController.onInit();
+    if (widget._onEdit == false) {
+      // update quota
+      Quota _quota = quotaController.listQuotas
+          .where((element) => element.name == _quotaHistoryNameController.text)
+          .first;
+      widget._quotaHistory.quotaId = _quota.uid;
+      widget._quotaHistory.quota.value = _quota;
+      quotaController.onInit();
 
-    // update join date
-    widget._quotaHistory.joinDate = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy').parse(_quotaHistoryJoinDateController.text));
+      // update join date
+      widget._quotaHistory.joinDate = Timestamp.fromDate(
+          DateFormat('dd/MM/yyyy').parse(_quotaHistoryJoinDateController.text));
 
-    // update dismiss date
-    widget._quotaHistory.dismissDate =
-        _quotaHistoryDismissDateController.text == "Current"
-            ? widget._quotaHistory.dismissDate
-            : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
-                .parse(_quotaHistoryDismissDateController.text));
+      // update dismiss date
+      widget._quotaHistory.dismissDate =
+          _quotaHistoryDismissDateController.text == "Current"
+              ? widget._quotaHistory.dismissDate
+              : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                  .parse(_quotaHistoryDismissDateController.text));
+    } else {}
   }
 
   @override

@@ -50,10 +50,24 @@ class WorkHistoriesExpansionTitle extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemCount: _workHistories.length,
           itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(12),
-            child: ChildRelativeExpansionTitle(
-              workHistory: _workHistories[index],
-              onEdit: _onEdit,
+            padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(2, 3),
+                  ),
+                ],
+              ),
+              child: ChildRelativeExpansionTitle(
+                workHistory: _workHistories[index],
+                onEdit: _onEdit,
+              ),
             ),
           ),
         )
@@ -107,30 +121,33 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    // update unit
-    Unit _unit = unitController.listUnits
-        .where((element) => element.name == _workHistoryUnitController.text)
-        .first;
-    widget._workHistory.unitId = _unit.uid;
-    widget._workHistory.unit.value = _unit;
-    unitController.onInit();
+    if (widget._onEdit == false) {
+      // update unit
+      Unit _unit = unitController.listUnits
+          .where((element) => element.name == _workHistoryUnitController.text)
+          .first;
+      widget._workHistory.unitId = _unit.uid;
+      widget._workHistory.unit.value = _unit;
+      unitController.onInit();
 
-    // update position
-    Position _position = positionController.listPositions
-        .where((element) => element.name == _workHistoryPositionController.text)
-        .first;
-    widget._workHistory.positionId = _position.uid;
-    widget._workHistory.position.value = _position;
-    positionController.onInit();
+      // update position
+      Position _position = positionController.listPositions
+          .where(
+              (element) => element.name == _workHistoryPositionController.text)
+          .first;
+      widget._workHistory.positionId = _position.uid;
+      widget._workHistory.position.value = _position;
+      positionController.onInit();
 
-    // update date
-    widget._workHistory.joinDate = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy').parse(_workHistoryJoinDateController.text));
-    widget._workHistory.dismissDate =
-        _workHistoryDismissDateController.text == "Current"
-            ? widget._workHistory.dismissDate
-            : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
-                .parse(_workHistoryDismissDateController.text));
+      // update date
+      widget._workHistory.joinDate = Timestamp.fromDate(
+          DateFormat('dd/MM/yyyy').parse(_workHistoryJoinDateController.text));
+      widget._workHistory.dismissDate =
+          _workHistoryDismissDateController.text == "Current"
+              ? widget._workHistory.dismissDate
+              : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                  .parse(_workHistoryDismissDateController.text));
+    } else {}
   }
 
   @override

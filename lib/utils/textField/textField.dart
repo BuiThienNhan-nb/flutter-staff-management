@@ -58,7 +58,7 @@ class _EmailFieldWidgetState extends State<TextFieldWidget> {
                   onPressed: () => widget.controller.clear(),
                   icon: Icon(Icons.close),
                 ),
-          border: InputBorder.none,
+          // border: InputBorder.none,
         ),
         enabled: widget.onEdit,
         inputFormatters: [widget.textInputFormatter],

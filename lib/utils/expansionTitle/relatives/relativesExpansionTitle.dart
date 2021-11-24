@@ -45,10 +45,24 @@ class RelativesExpansionTitle extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemCount: _relatives.length,
           itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(12),
-            child: ChildRelativeExpansionTitle(
-              relative: _relatives[index],
-              onEdit: _onEdit,
+            padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(2, 3),
+                  ),
+                ],
+              ),
+              child: ChildRelativeExpansionTitle(
+                relative: _relatives[index],
+                onEdit: _onEdit,
+              ),
             ),
           ),
         )
@@ -91,11 +105,13 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    widget._relative.name = _relativeNameController.text;
-    widget._relative.type = _relativeTypeController.text;
-    widget._relative.job = _relativeJobController.text;
-    widget._relative.birthdate = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy').parse(_relativeBirthdateController.text));
+    if (widget._onEdit == false) {
+      widget._relative.name = _relativeNameController.text;
+      widget._relative.type = _relativeTypeController.text;
+      widget._relative.job = _relativeJobController.text;
+      widget._relative.birthdate = Timestamp.fromDate(
+          DateFormat('dd/MM/yyyy').parse(_relativeBirthdateController.text));
+    } else {}
   }
 
   @override

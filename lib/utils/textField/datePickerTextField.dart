@@ -53,14 +53,6 @@ class DatePickerTextField extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: placeholder,
           prefixIcon: icon,
-          suffixIcon: (textEditingController.text.isEmpty || editable == false)
-              ? Container(
-                  width: 0,
-                )
-              : IconButton(
-                  onPressed: () => textEditingController.clear(),
-                  icon: Icon(Icons.close),
-                ),
           border: InputBorder.none,
         ),
         enabled: editable,

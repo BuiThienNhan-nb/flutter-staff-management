@@ -49,10 +49,24 @@ class AdditionsExpansionTitle extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemCount: _additionHistories.length,
           itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(12),
-            child: ChildRelativeExpansionTitle(
-              additionHistory: _additionHistories[index],
-              onEdit: _onEdit,
+            padding: const EdgeInsets.fromLTRB(12, 2.5, 12, 2.5),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(2, 3),
+                  ),
+                ],
+              ),
+              child: ChildRelativeExpansionTitle(
+                additionHistory: _additionHistories[index],
+                onEdit: _onEdit,
+              ),
             ),
           ),
         )
@@ -94,16 +108,18 @@ class _ChildRelativeExpansionTitleState
   }
 
   void updateVariables() {
-    // update addition
-    Addition _addition = additionController.listAdditions
-        .where((element) => element.content == _additionNameController.text)
-        .first;
-    widget._additionHistory.addition.value = _addition;
-    additionController.onInit();
+    if (widget._onEdit == false) {
+      // update addition
+      Addition _addition = additionController.listAdditions
+          .where((element) => element.content == _additionNameController.text)
+          .first;
+      widget._additionHistory.addition.value = _addition;
+      additionController.onInit();
 
-    // update date
-    widget._additionHistory.date = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy').parse(_additionDateController.text));
+      // update date
+      widget._additionHistory.date = Timestamp.fromDate(
+          DateFormat('dd/MM/yyyy').parse(_additionDateController.text));
+    } else {}
   }
 
   @override

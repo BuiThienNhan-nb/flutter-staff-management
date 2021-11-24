@@ -124,33 +124,33 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              width: 88,
+                              width: 77,
                               child: TextFormField(
                                 style: TextStyle(
-                                    fontSize: 17, color: Colors.blue.shade800),
+                                    fontSize: 15, color: Colors.blue.shade800),
                                 controller: _identityCardController,
                                 decoration:
                                     InputDecoration(border: InputBorder.none),
                                 keyboardType: TextInputType.phone,
                                 validator: (input) {
                                   if (input == null || input.isEmpty)
-                                    return 'This field is required';
+                                    return "Can't be null";
                                 },
                               ),
                             ),
-                            Text(" | "),
+                            Text(" | ", style: TextStyle(fontSize: 15)),
                             Container(
                               width: 90,
                               child: TextFormField(
                                 style: TextStyle(
-                                    fontSize: 17, color: Colors.blue.shade800),
+                                    fontSize: 15, color: Colors.blue.shade800),
                                 controller: _nameController,
                                 decoration:
                                     InputDecoration(border: InputBorder.none),
                                 keyboardType: TextInputType.name,
                                 validator: (input) {
                                   if (input == null || input.isEmpty)
-                                    return 'This field is required';
+                                    return "Can't be null";
                                 },
                               ),
                             )
@@ -163,7 +163,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                           Text(
                             "${widget.employee.identityCard} | ${widget.employee.name}",
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 15,
                             ),
                           )
                         ],
@@ -258,10 +258,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        setState(() {
-                          onEdit = !onEdit;
-                          ignore = !ignore;
-                        });
+                        updateEmployee();
                       },
                       child: Text(onEdit ? "Save changes" : "Edit Employee"),
                     ),
@@ -273,5 +270,20 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
         ),
       ),
     );
+  }
+
+  void updateEmployee() {
+    if (onEdit == !ignore && onEdit == false) {
+      setState(() {
+        onEdit = !onEdit;
+        ignore = !ignore;
+      });
+    } else if (_formKey.currentState!.validate() &&
+        _formKey2.currentState!.validate()) {
+      setState(() {
+        onEdit = !onEdit;
+        ignore = !ignore;
+      });
+    }
   }
 }
