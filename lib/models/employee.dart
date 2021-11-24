@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/const_value/value.dart';
-import 'package:staff_management/models/addition.dart';
+import 'package:staff_management/models/additionHistory.dart';
 import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/models/relative.dart';
 import 'package:intl/intl.dart';
@@ -15,13 +15,13 @@ class Employee {
   String folk;
   String identityCard;
   String name;
-  RxList<QuotaHistory> quotaHistories;
+  RxList<QuotaHistory> quotaHistory;
   Timestamp retirementDate;
   String sex;
   Timestamp workDate;
   RxList<Relative> relative;
   RxList<WorkHistory> workHistory;
-  RxList<Addition> addition;
+  RxList<AdditionHistory> additionHistory;
   int salary;
 
   Employee({
@@ -31,13 +31,13 @@ class Employee {
     required this.folk,
     required this.identityCard,
     required this.name,
-    required this.quotaHistories,
+    required this.quotaHistory,
     required this.retirementDate,
     required this.sex,
     required this.workDate,
     required this.relative,
     required this.workHistory,
-    required this.addition,
+    required this.additionHistory,
     required this.salary,
   });
 
@@ -68,7 +68,7 @@ class Employee {
       //         name: '',
       //         ranks: []).obs
       //     : new Quota(uid: 'uid', duration: 0, name: '', ranks: []).obs,
-      quotaHistories: <QuotaHistory>[].obs,
+      quotaHistory: <QuotaHistory>[].obs,
       retirementDate:
           (data.containsKey('retirementDate') && data['retirementDate'] != null)
               ? data['retirementDate'] as Timestamp
@@ -81,7 +81,7 @@ class Employee {
           : Timestamp.fromDate(DateTime.now()),
       relative: <Relative>[].obs,
       workHistory: <WorkHistory>[].obs,
-      addition: <Addition>[].obs,
+      additionHistory: <AdditionHistory>[].obs,
       salary: 0,
     );
   }
@@ -104,9 +104,8 @@ class Employee {
     var date = DateTime.fromMillisecondsSinceEpoch(
         workHistory[0].dismissDate.seconds * 1000);
     double workYear = (DateTime.now().year - date.year) /
-        quotaHistories.first.quota.value.duration;
-    double salaryPoint =
-        quotaHistories.first.quota.value.ranks[workYear.toInt()];
+        quotaHistory.first.quota.value.duration;
+    double salaryPoint = quotaHistory.first.quota.value.ranks[workYear.toInt()];
     double dSalary =
         (salaryPoint + workHistory[0].position.value.allowancePoint) *
             salaryRecordController.listSalaryRecords[0].currentSalary() *
@@ -119,14 +118,24 @@ class Employee {
 
   int getSalaryWithAdditions() {
     int totalAddition = 0;
-    addition.forEach((element) {
+    // additionHistory.forEach((element) {
+    //   if (element.getDate().month == DateTime.now().month) {
+    //     if (element.addition.value.isReward)
+    //       totalAddition += element.addition.value.value * 1000;
+    //     else
+    //       totalAddition -= element.addition.value.value * 1000;
+    //   }
+    // });
+    for (var element in additionHistory) {
       if (element.getDate().month == DateTime.now().month) {
-        if (element.isReward)
-          totalAddition += element.value * 1000;
+        if (element.addition.value.isReward)
+          totalAddition += element.addition.value.value * 1000;
         else
-          totalAddition -= element.value * 1000;
+          totalAddition -= element.addition.value.value * 1000;
+      } else {
+        break;
       }
-    });
+    }
     return (salary + totalAddition);
   }
 

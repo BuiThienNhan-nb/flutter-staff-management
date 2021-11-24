@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/addition.dart';
-import 'package:staff_management/models/quotaHistories.dart';
+import 'package:staff_management/models/additionHistory.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class AdditionsExpansionTitle extends StatelessWidget {
-  final List<Addition> _additions;
+  final List<AdditionHistory> _additionHistories;
   final bool _onEdit;
   const AdditionsExpansionTitle(
-      {Key? key, required List<Addition> additions, required bool onEdit})
-      : _additions = additions,
+      {Key? key,
+      required List<AdditionHistory> additionHistories,
+      required bool onEdit})
+      : _additionHistories = additionHistories,
         _onEdit = onEdit,
         super(key: key);
 
@@ -45,11 +47,11 @@ class AdditionsExpansionTitle extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: _additions.length,
+          itemCount: _additionHistories.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.all(12),
             child: ChildRelativeExpansionTitle(
-              addition: _additions[index],
+              additionHistory: _additionHistories[index],
               onEdit: _onEdit,
             ),
           ),
@@ -61,11 +63,13 @@ class AdditionsExpansionTitle extends StatelessWidget {
 
 // ignore: must_be_immutable
 class ChildRelativeExpansionTitle extends StatefulWidget {
-  Addition _addition;
+  AdditionHistory _additionHistory;
   final bool _onEdit;
   ChildRelativeExpansionTitle(
-      {Key? key, required Addition addition, required bool onEdit})
-      : _addition = addition,
+      {Key? key,
+      required AdditionHistory additionHistory,
+      required bool onEdit})
+      : _additionHistory = additionHistory,
         _onEdit = onEdit,
         super(key: key);
 
@@ -81,16 +85,24 @@ class _ChildRelativeExpansionTitleState
 
   @override
   void initState() {
-    _additionNameController.text = widget._addition.content;
+    _additionNameController.text =
+        widget._additionHistory.addition.value.content;
     _additionDateController.text =
-        "${DateFormat('dd/MM/yyyy').format(widget._addition.date.toDate())}";
+        "${DateFormat('dd/MM/yyyy').format(widget._additionHistory.date.toDate())}";
     super.initState();
     additionController.initListAdditionName();
   }
 
   void updateVariables() {
-    widget._addition.content = _additionNameController.text;
-    widget._addition.date = Timestamp.fromDate(
+    // update addition
+    Addition _addition = additionController.listAdditions
+        .where((element) => element.content == _additionNameController.text)
+        .first;
+    widget._additionHistory.addition.value = _addition;
+    additionController.onInit();
+
+    // update date
+    widget._additionHistory.date = Timestamp.fromDate(
         DateFormat('dd/MM/yyyy').parse(_additionDateController.text));
   }
 
@@ -107,12 +119,12 @@ class _ChildRelativeExpansionTitleState
     return ExpansionTile(
       title: widget._onEdit
           ? MyDropdownButton(
-              selectedValue: widget._addition.content,
+              selectedValue: widget._additionHistory.addition.value.content,
               values: additionController.listAdditionName,
               icon: Icon(Icons.content_copy),
               lable: "Addtions",
               callback: (String _newValue) {
-                widget._addition.content = _newValue;
+                widget._additionHistory.addition.value.content = _newValue;
                 _additionNameController.text = _newValue;
               },
             )
@@ -128,7 +140,7 @@ class _ChildRelativeExpansionTitleState
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: DatePickerTextField(
-            labelText: "Date",
+            labelText: "Date Receive",
             placeholder: "Sep 12, 1998",
             textEditingController: _additionDateController,
             editable: widget._onEdit,

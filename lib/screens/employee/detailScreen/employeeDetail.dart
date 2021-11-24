@@ -49,7 +49,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
         '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.seconds * 1000))}';
     _folkController.text = "${widget.employee.folk}";
     _quotaController.text =
-        "${widget.employee.quotaHistories.value[0].quota.value.name}";
+        "${widget.employee.quotaHistory.value[0].quota.value.name}";
     _positionController.text =
         "${widget.employee.workHistory.first.position.value.name}";
     _unitController.text =
@@ -246,11 +246,11 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                       onEdit: onEdit,
                     ),
                     QuotaHistoriesExpansionTitle(
-                      quotaHistories: widget.employee.quotaHistories,
+                      quotaHistories: widget.employee.quotaHistory,
                       onEdit: onEdit,
                     ),
                     AdditionsExpansionTitle(
-                      additions: widget.employee.addition,
+                      additionHistories: widget.employee.additionHistory,
                       onEdit: onEdit,
                     ),
                     SizedBox(

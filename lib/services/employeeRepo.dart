@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:staff_management/models/employee.dart';
-import 'package:staff_management/services/additionRepo.dart';
+import 'package:staff_management/services/additionHistoryRepo.dart';
 import 'package:staff_management/services/quotaHistoryRepo.dart';
 import 'package:staff_management/services/relativeRepo.dart';
 import 'package:staff_management/services/workHistoryRepo.dart';
@@ -14,10 +14,10 @@ class EmployeeRepo {
       query.docs.forEach((element) {
         //add data
         list.add(Employee.fromJson(element));
-        list.last.quotaHistories.bindStream(
+        list.last.quotaHistory.bindStream(
             QuotaHistoryRepo().quotaHistoryByEmployeeStream(element.reference));
-        list.last.addition.bindStream(
-            AdditionRepo().fetchAdditionIdStream(element.reference));
+        list.last.additionHistory.bindStream(
+            AdditionHistoryRepo().additionHistoryStream(element.reference));
         list.last.relative.bindStream(
             RelativeRepo().relativeByEmployeeStream(element.reference));
         list.last.workHistory.bindStream(
@@ -32,14 +32,14 @@ class EmployeeRepo {
         .collection("employees")
         .doc("${_employee.uid}")
         .update(_employee.toMap());
-    _employee.addition.forEach((element) async {
+    _employee.additionHistory.forEach((element) async {
       await _db
           .collection("employees")
           .doc("${_employee.uid}")
           .collection("additions")
-          .add(element.toChildMap());
+          .add(element.toMap());
     });
-    _employee.quotaHistories.forEach((element) async {
+    _employee.quotaHistory.forEach((element) async {
       await _db
           .collection("employees")
           .doc("${_employee.uid}")

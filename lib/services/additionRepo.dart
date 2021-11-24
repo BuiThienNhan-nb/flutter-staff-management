@@ -19,31 +19,18 @@ class AdditionRepo {
     });
   }
 
-  Stream<List<Addition>> fetchAdditionIdStream(DocumentReference _doc) {
-    return _doc.collection('additions').snapshots().map((QuerySnapshot query) {
-      List<Addition> list = [];
-      query.docs.forEach((element) {
-        list.add(Addition.fromJson(element));
-      });
-      return list;
-    });
-  }
-
-  Stream<List<Addition>> additionByEmployeeStream(List<Addition> _list) {
+  Stream<Addition> additionByIdStream(String _uid) {
     return _db.collection('additions').snapshots().map((QuerySnapshot query) {
-      List<Addition> newList = [];
-      _list.forEach((element) {
-        for (var item in query.docs) {
-          if (element.additionId == item.id) {
-            newList.add(Addition.fromJson(item));
-            newList.last.uid = element.uid;
-            newList.last.additionId = item.id;
-            newList.last.date = element.date;
-            break;
-          }
+      Addition _addition =
+          Addition(uid: "uid", content: "", isReward: true, value: 0);
+      for (var element in query.docs) {
+        //get data
+        if (element.id == _uid) {
+          _addition = Addition.fromJson(element);
+          break;
         }
-      });
-      return newList;
+      }
+      return _addition;
     });
   }
 }

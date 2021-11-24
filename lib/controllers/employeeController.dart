@@ -22,9 +22,11 @@ class EmployeeController extends GetxController {
 
   void retreiveDetailData() {
     listEmployees.forEach((item) {
-      item.addition
-          .bindStream(AdditionRepo().additionByEmployeeStream(item.addition));
-      item.quotaHistories.forEach((element) {
+      item.additionHistory.forEach((element) {
+        element.addition
+            .bindStream(AdditionRepo().additionByIdStream(element.additionId));
+      });
+      item.quotaHistory.forEach((element) {
         element.quota.bindStream(QuotaRepo().quotaByIdStream(element.quotaId));
       });
       item.workHistory.forEach((element) {

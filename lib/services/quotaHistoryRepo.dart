@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:staff_management/models/quotaHistories.dart';
 
 class QuotaHistoryRepo {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-
   Stream<List<QuotaHistory>> quotaHistoryByEmployeeStream(
       DocumentReference _doc) {
     return _doc

@@ -15,21 +15,6 @@ class QuotaRepo {
     });
   }
 
-  Stream<List<Quota>> quotaHistoryByEmployeeStream(DocumentReference _doc) {
-    return _doc
-        .collection('quotaHistories')
-        .orderBy('joinDate', descending: true)
-        .snapshots()
-        .map((QuerySnapshot query) {
-      List<Quota> list = [];
-      query.docs.forEach((element) {
-        //add data
-        list.add(Quota.fromJson(element));
-      });
-      return list;
-    });
-  }
-
   Stream<Quota> quotaByIdStream(String _uid) {
     return _db.collection('quotas').snapshots().map((QuerySnapshot query) {
       Quota _quota = Quota(uid: 'uid', duration: 0, name: '', ranks: []);
