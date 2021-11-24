@@ -38,15 +38,17 @@ class _EmailFieldWidgetState extends State<TextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final textFielHiegh = 60.0;
+    final textFielHiegh = 70.0;
     final textFieldFontSize = 16.0;
 
     return Container(
       height: textFielHiegh,
       child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
         style: TextStyle(fontSize: textFieldFontSize),
         controller: widget.controller,
         decoration: InputDecoration(
+          errorStyle: TextStyle(fontSize: textFieldFontSize - 5),
           hintText: "${widget.hintText}",
           labelText: "${widget.hintText}",
           prefixIcon: widget.icon,

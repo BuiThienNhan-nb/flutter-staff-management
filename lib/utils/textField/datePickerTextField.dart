@@ -40,7 +40,7 @@ class DatePickerTextField extends StatelessWidget {
     }
 
     return Container(
-      height: 60,
+      height: 70,
       child: TextFormField(
         focusNode: AlwaysDisabledFocusNode(),
         controller: textEditingController,
@@ -53,7 +53,7 @@ class DatePickerTextField extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: placeholder,
           prefixIcon: icon,
-          border: InputBorder.none,
+          // border: InputBorder.none,
         ),
         enabled: editable,
       ),

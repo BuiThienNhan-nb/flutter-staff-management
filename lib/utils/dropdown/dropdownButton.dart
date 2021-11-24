@@ -24,7 +24,7 @@ class MyDropdownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      height: 70,
       child: IgnorePointer(
         ignoring: false,
         child: DropdownButtonFormField<String>(
