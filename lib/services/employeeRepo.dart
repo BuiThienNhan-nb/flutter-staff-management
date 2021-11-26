@@ -67,7 +67,7 @@ class EmployeeRepo {
     await _db
         .collection("employees")
         .add(_employee.toMap())
-        .then((value) => _employee.uid == value.id);
+        .then((value) => _employee.uid = value.id);
 
     // add addtions
     _employee.additionHistory.forEach((element) async {

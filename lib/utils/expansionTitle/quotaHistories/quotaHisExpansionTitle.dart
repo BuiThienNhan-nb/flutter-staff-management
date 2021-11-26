@@ -110,7 +110,6 @@ class _ChildQuotaHistoryExpansionTitleState
         ? "Current"
         : "${DateFormat('dd/MM/yyyy').format(widget._quotaHistory.dismissDate.toDate())}";
     super.initState();
-    quotaController.initListPositionName();
   }
 
   void updateVariables() {

@@ -20,6 +20,10 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
   void initState() {
     super.initState();
     calculateSalary();
+    additionController.initListAdditionName();
+    quotaController.initListPositionName();
+    positionController.initListPositionName();
+    unitController.initListUnitName();
   }
 
   void calculateSalary() {

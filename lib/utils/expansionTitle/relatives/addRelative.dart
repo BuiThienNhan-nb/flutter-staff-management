@@ -4,11 +4,11 @@ import 'package:staff_management/models/relative.dart';
 import 'package:staff_management/utils/expansionTitle/relatives/relativesExpansionTitle.dart';
 
 class AddRelative extends StatefulWidget {
-  final Rx<Relative> _relative;
+  final Relative _relative;
   final Callback _callback;
   const AddRelative({
     Key? key,
-    required Rx<Relative> relative,
+    required Relative relative,
     required Callback callback,
   })  : _relative = relative,
         _callback = callback,
@@ -22,14 +22,13 @@ class _AddRelativeState extends State<AddRelative> {
   @override
   void dispose() {
     super.dispose();
-    widget._callback(widget._relative.value);
+    widget._callback(widget._relative);
   }
 
   @override
   Widget build(BuildContext context) {
     ChildRelativeExpansionTitle _relativeExpansionWidget =
-        ChildRelativeExpansionTitle(
-            onEdit: true, relative: widget._relative.value);
+        ChildRelativeExpansionTitle(onEdit: true, relative: widget._relative);
     return Container(
       color: Colors.white,
       child: SingleChildScrollView(

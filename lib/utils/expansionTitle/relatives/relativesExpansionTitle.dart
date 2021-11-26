@@ -92,14 +92,14 @@ class _RelativesExpansionTitleState extends State<RelativesExpansionTitle> {
                           job: "",
                           name: "",
                           type: "Vợ/Chồng");
-                      Get.bottomSheet(
-                        //ChildRelativeExpansionTitle(relative: new Relative(uid: "uid", birthdate: birthdate, job: job, name: name, type: type), onEdit: true);
-                        AddRelative(
-                            relative: _relative.obs,
-                            callback: (Relative _newRelative) {
-                              _relative = _newRelative;
-                            }),
-                      );
+                      // Get.bottomSheet(
+                      //   //ChildRelativeExpansionTitle(relative: new Relative(uid: "uid", birthdate: birthdate, job: job, name: name, type: type), onEdit: true);
+                      //   AddRelative(
+                      //       relative: _relative,
+                      //       callback: (Relative _newRelative) {
+                      //         _relative = _newRelative;
+                      //       }),
+                      // );
                       widget._relatives.add(_relative);
                       setState(() {});
                     },

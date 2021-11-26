@@ -104,7 +104,6 @@ class _ChildRelativeExpansionTitleState
     _additionDateController.text =
         "${DateFormat('dd/MM/yyyy').format(widget._additionHistory.date.toDate())}";
     super.initState();
-    additionController.initListAdditionName();
   }
 
   void updateVariables() {

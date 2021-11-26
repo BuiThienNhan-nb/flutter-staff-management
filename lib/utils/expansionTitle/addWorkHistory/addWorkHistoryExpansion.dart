@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:staff_management/const_value/controller.dart';
-import 'package:staff_management/models/position.dart';
-import 'package:staff_management/models/unit.dart';
 import 'package:staff_management/models/workHistory.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
-import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class AddWorkHistoriesExpansionTitle extends StatelessWidget {
@@ -117,29 +113,27 @@ class _ChildRelativeExpansionTitleState
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: TextFieldWidget(
-              controller: _workHistoryUnitController,
-              icon: Icons.groups,
-              hintText: "Unit",
-              onEdit: false,
-              textInputFormatter:
-                  FilteringTextInputFormatter.singleLineFormatter,
-            ),
+        controller: _workHistoryUnitController,
+        icon: Icons.groups,
+        hintText: "Unit",
+        onEdit: false,
+        textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
+      ),
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: MyDropdownButton(
-                  selectedValue: widget._workHistory.position.value.name,
-                  values: positionController.listPositionName,
-                  icon: Icons.hail,
-                  lable: "Position",
-                  callback: (String _newValue) {
-                    setState(() {
-                      widget._workHistory.position.value.name = _newValue;
-                      _workHistoryPositionController.text = _newValue;
-                    });
-                  },
-                )
-        ),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: MyDropdownButton(
+              selectedValue: widget._workHistory.position.value.name,
+              values: positionController.listPositionName,
+              icon: Icons.hail,
+              lable: "Position",
+              callback: (String _newValue) {
+                setState(() {
+                  widget._workHistory.position.value.name = _newValue;
+                  _workHistoryPositionController.text = _newValue;
+                });
+              },
+            )),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: DatePickerTextField(

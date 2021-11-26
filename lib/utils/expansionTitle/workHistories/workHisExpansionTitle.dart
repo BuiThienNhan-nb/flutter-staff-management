@@ -115,8 +115,6 @@ class _ChildWorkHistoryExpansionTitleState
             .isBefore(widget._workHistory.joinDate.toDate())
         ? "Current"
         : "${DateFormat('dd/MM/yyyy').format(widget._workHistory.dismissDate.toDate())}";
-    positionController.initListPositionName();
-    unitController.initListUnitName();
     super.initState();
   }
 
