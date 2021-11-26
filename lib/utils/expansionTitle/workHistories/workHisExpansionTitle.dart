@@ -64,7 +64,7 @@ class WorkHistoriesExpansionTitle extends StatelessWidget {
                   ),
                 ],
               ),
-              child: ChildRelativeExpansionTitle(
+              child: ChildWorkHistoryExpansionTitle(
                 workHistory: _workHistories[index],
                 onEdit: _onEdit,
               ),
@@ -77,22 +77,22 @@ class WorkHistoriesExpansionTitle extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-class ChildRelativeExpansionTitle extends StatefulWidget {
+class ChildWorkHistoryExpansionTitle extends StatefulWidget {
   WorkHistory _workHistory;
   final bool _onEdit;
-  ChildRelativeExpansionTitle(
+  ChildWorkHistoryExpansionTitle(
       {Key? key, required WorkHistory workHistory, required bool onEdit})
       : _workHistory = workHistory,
         _onEdit = onEdit,
         super(key: key);
 
   @override
-  State<ChildRelativeExpansionTitle> createState() =>
-      _ChildRelativeExpansionTitleState();
+  State<ChildWorkHistoryExpansionTitle> createState() =>
+      _ChildWorkHistoryExpansionTitleState();
 }
 
-class _ChildRelativeExpansionTitleState
-    extends State<ChildRelativeExpansionTitle> {
+class _ChildWorkHistoryExpansionTitleState
+    extends State<ChildWorkHistoryExpansionTitle> {
   final TextEditingController _workHistoryUnitController =
       TextEditingController();
   final TextEditingController _workHistoryPositionController =

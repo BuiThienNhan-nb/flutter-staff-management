@@ -63,7 +63,7 @@ class QuotaHistoriesExpansionTitle extends StatelessWidget {
                   ),
                 ],
               ),
-              child: ChildRelativeExpansionTitle(
+              child: ChildQuotaHistoryExpansionTitle(
                 quotaHistory: _quotaHistories[index],
                 onEdit: _onEdit,
               ),
@@ -76,22 +76,22 @@ class QuotaHistoriesExpansionTitle extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-class ChildRelativeExpansionTitle extends StatefulWidget {
+class ChildQuotaHistoryExpansionTitle extends StatefulWidget {
   QuotaHistory _quotaHistory;
   final bool _onEdit;
-  ChildRelativeExpansionTitle(
+  ChildQuotaHistoryExpansionTitle(
       {Key? key, required QuotaHistory quotaHistory, required bool onEdit})
       : _quotaHistory = quotaHistory,
         _onEdit = onEdit,
         super(key: key);
 
   @override
-  State<ChildRelativeExpansionTitle> createState() =>
-      _ChildRelativeExpansionTitleState();
+  State<ChildQuotaHistoryExpansionTitle> createState() =>
+      _ChildQuotaHistoryExpansionTitleState();
 }
 
-class _ChildRelativeExpansionTitleState
-    extends State<ChildRelativeExpansionTitle> {
+class _ChildQuotaHistoryExpansionTitleState
+    extends State<ChildQuotaHistoryExpansionTitle> {
   final TextEditingController _quotaHistoryNameController =
       TextEditingController();
   final TextEditingController _quotaHistoryJoinDateController =

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/employee.dart';
+import 'package:staff_management/screens/employee/addScreen/addEmployee.dart';
 import 'package:staff_management/screens/employee/detailScreen/employeeDetail.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -41,6 +42,16 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
     // Build UI
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            InkWell(
+              onTap: () {
+                Get.to(() => AddEmployee());
+              },
+              child: Icon(Icons.add),
+            ),
+          ],
+        ),
         body: SfDataGrid(
           gridLinesVisibility: GridLinesVisibility.both,
           headerGridLinesVisibility: GridLinesVisibility.horizontal,

@@ -239,19 +239,18 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
                     RelativesExpansionTitle(
-                        relatives: widget.employee.relative, onEdit: onEdit),
+                        relatives: widget.employee.relative,
+                        onAdd: onEdit,
+                        onEdit: onEdit),
                     WorkHistoriesExpansionTitle(
-                      workHistories: widget.employee.workHistory,
-                      onEdit: onEdit,
-                    ),
+                        workHistories: widget.employee.workHistory,
+                        onEdit: onEdit),
                     QuotaHistoriesExpansionTitle(
-                      quotaHistories: widget.employee.quotaHistory,
-                      onEdit: onEdit,
-                    ),
+                        quotaHistories: widget.employee.quotaHistory,
+                        onEdit: onEdit),
                     AdditionsExpansionTitle(
-                      additionHistories: widget.employee.additionHistory,
-                      onEdit: onEdit,
-                    ),
+                        additionHistories: widget.employee.additionHistory,
+                        onEdit: onEdit),
                     SizedBox(
                       height: 20,
                     ),

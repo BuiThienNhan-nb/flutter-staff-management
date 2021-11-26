@@ -103,7 +103,7 @@ class Employee {
     salary = 0;
     var date = DateTime.fromMillisecondsSinceEpoch(
         workHistory[0].dismissDate.seconds * 1000);
-    double workYear = (DateTime.now().year - date.year) /
+    var workYear = (DateTime.now().year - date.year) /
         quotaHistory.first.quota.value.duration;
     double salaryPoint = quotaHistory.first.quota.value.ranks[workYear.toInt()];
     double dSalary =

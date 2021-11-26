@@ -61,4 +61,51 @@ class EmployeeRepo {
           .add(element.toMap());
     });
   }
+
+  Future<void> addEmployee(Employee _employee) async {
+    // add basic information
+    await _db
+        .collection("employees")
+        .add(_employee.toMap())
+        .then((value) => _employee.uid == value.id);
+
+    // add addtions
+    _employee.additionHistory.forEach((element) async {
+      await _db
+          .collection("employees")
+          .doc("${_employee.uid}")
+          .collection("additions")
+          .add(element.toMap())
+          .then((value) => element.uid = value.id);
+    });
+    _employee.relative.forEach((element) async {
+      await _db
+          .collection("employees")
+          .doc("${_employee.uid}")
+          .collection("relatives")
+          .add(element.toMap())
+          .then((value) => element.uid = value.id);
+    });
+    _employee.workHistory.forEach((element) async {
+      await _db
+          .collection("employees")
+          .doc("${_employee.uid}")
+          .collection("workHistories")
+          .add(element.toMap())
+          .then((value) => element.uid = value.id);
+    });
+    _employee.quotaHistory.forEach((element) async {
+      await _db
+          .collection("employees")
+          .doc("${_employee.uid}")
+          .collection("quotaHistories")
+          .add(element.toMap())
+          .then((value) => element.uid = value.id);
+    });
+    /*
+      ... add relatives
+      ... add work histories
+      ... add quota histories
+    */
+  }
 }

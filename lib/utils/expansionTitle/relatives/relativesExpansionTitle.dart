@@ -2,21 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:staff_management/models/relative.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
+import 'package:staff_management/utils/expansionTitle/relatives/addRelative.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
-class RelativesExpansionTitle extends StatelessWidget {
+class RelativesExpansionTitle extends StatefulWidget {
   final List<Relative> _relatives;
   final bool _onEdit;
+  final bool _onAdd;
   const RelativesExpansionTitle(
-      {Key? key, required List<Relative> relatives, required bool onEdit})
+      {Key? key,
+      required List<Relative> relatives,
+      required bool onEdit,
+      required bool onAdd})
       : _relatives = relatives,
         _onEdit = onEdit,
+        _onAdd = onAdd,
         super(key: key);
 
+  @override
+  State<RelativesExpansionTitle> createState() =>
+      _RelativesExpansionTitleState();
+}
+
+class _RelativesExpansionTitleState extends State<RelativesExpansionTitle> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
@@ -43,7 +56,7 @@ class RelativesExpansionTitle extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: _relatives.length,
+          itemCount: widget._relatives.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
             child: Container(
@@ -60,12 +73,40 @@ class RelativesExpansionTitle extends StatelessWidget {
                 ],
               ),
               child: ChildRelativeExpansionTitle(
-                relative: _relatives[index],
-                onEdit: _onEdit,
+                relative: widget._relatives[index],
+                onEdit: widget._onEdit,
               ),
             ),
           ),
-        )
+        ),
+        widget._onAdd
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      Relative _relative = new Relative(
+                          uid: "new-relative-uid",
+                          birthdate: Timestamp.fromDate(DateTime.now()),
+                          job: "",
+                          name: "",
+                          type: "Vợ/Chồng");
+                      Get.bottomSheet(
+                        //ChildRelativeExpansionTitle(relative: new Relative(uid: "uid", birthdate: birthdate, job: job, name: name, type: type), onEdit: true);
+                        AddRelative(
+                            relative: _relative.obs,
+                            callback: (Relative _newRelative) {
+                              _relative = _newRelative;
+                            }),
+                      );
+                      widget._relatives.add(_relative);
+                      setState(() {});
+                    },
+                  ),
+                ],
+              )
+            : Container(),
       ],
     );
   }
@@ -114,12 +155,12 @@ class _ChildRelativeExpansionTitleState
 
   @override
   void dispose() {
+    super.dispose();
     updateVariables();
     _relativeNameController.dispose();
     _relativeTypeController.dispose();
     _relativeJobController.dispose();
     _relativeBirthdateController.dispose();
-    super.dispose();
   }
 
   @override
@@ -181,3 +222,5 @@ class _ChildRelativeExpansionTitleState
     );
   }
 }
+
+typedef Callback = void Function(Relative _newRelative);
