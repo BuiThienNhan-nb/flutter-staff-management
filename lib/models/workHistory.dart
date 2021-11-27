@@ -54,6 +54,17 @@ class WorkHistory {
     );
   }
 
+  factory WorkHistory.clone(WorkHistory workHistory) {
+    return new WorkHistory(
+        uid: workHistory.uid,
+        dismissDate: workHistory.dismissDate,
+        joinDate: workHistory.joinDate,
+        positionId: workHistory.positionId,
+        unitId: workHistory.unitId,
+        position: Position.clone(workHistory.position.value).obs,
+        unit: Unit.clone(workHistory.unit.value).obs);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'dismissDate': dismissDate,

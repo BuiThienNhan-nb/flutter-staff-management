@@ -29,6 +29,14 @@ class Addition {
     );
   }
 
+  factory Addition.clone(Addition addition) {
+    return new Addition(
+        uid: addition.uid,
+        content: addition.content,
+        isReward: addition.isReward,
+        value: addition.value);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'content': content,

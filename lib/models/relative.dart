@@ -34,6 +34,15 @@ class Relative {
     );
   }
 
+  factory Relative.clone(Relative relative) {
+    return new Relative(
+        uid: relative.uid,
+        birthdate: relative.birthdate,
+        job: relative.job,
+        name: relative.name,
+        type: relative.type);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'birthdate': birthdate,

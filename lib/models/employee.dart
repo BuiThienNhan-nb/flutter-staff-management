@@ -79,6 +79,36 @@ class Employee {
     );
   }
 
+  factory Employee.clone(Employee employee) {
+    return new Employee(
+        uid: employee.uid,
+        address: employee.address,
+        birthdate: employee.birthdate,
+        folk: employee.folk,
+        identityCard: employee.identityCard,
+        name: employee.name,
+        quotaHistory: employee.quotaHistory
+            .map((element) => new QuotaHistory.clone(element))
+            .toList()
+            .obs,
+        retirementDate: employee.retirementDate,
+        sex: employee.sex,
+        workDate: employee.workDate,
+        relative: employee.relative
+            .map((element) => new Relative.clone(element))
+            .toList()
+            .obs,
+        workHistory: employee.workHistory
+            .map((element) => new WorkHistory.clone(element))
+            .toList()
+            .obs,
+        additionHistory: employee.additionHistory
+            .map((element) => new AdditionHistory.clone(element))
+            .toList()
+            .obs, //AdditionHistory.fromJson(employee.additionHistory.value).obs,
+        salary: employee.salary);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'address': address,

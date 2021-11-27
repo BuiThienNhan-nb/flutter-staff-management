@@ -22,6 +22,13 @@ class Position {
     );
   }
 
+  factory Position.clone(Position position) {
+    return new Position(
+        uid: position.uid,
+        name: position.name,
+        allowancePoint: position.allowancePoint);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,

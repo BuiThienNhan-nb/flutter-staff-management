@@ -2,21 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Quota {
   String uid = '';
-  // String qhId;
   int duration;
   String name;
   List<double> ranks;
-  // Timestamp joinDate;
-  // Timestamp dismissDate;
 
   Quota({
     required this.uid,
-    // required this.qhId,
     required this.duration,
     required this.name,
     required this.ranks,
-    // required this.joinDate,
-    // required this.dismissDate,
   });
 
   factory Quota.fromJson(DocumentSnapshot doc) {
@@ -35,6 +29,14 @@ class Quota {
     );
   }
 
+  factory Quota.clone(Quota quota) {
+    return new Quota(
+        uid: quota.uid,
+        duration: quota.duration,
+        name: quota.name,
+        ranks: quota.ranks);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'duration': duration,
@@ -42,12 +44,4 @@ class Quota {
       'ranks': ranks,
     };
   }
-
-  // Map<String, dynamic> toChildMap() {
-  //   return {
-  //     'quotaId': uid,
-  //     'joinDate': joinDate,
-  //     'dismissDate': dismissDate,
-  //   };
-  // }
 }

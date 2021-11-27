@@ -35,6 +35,14 @@ class AdditionHistory {
     );
   }
 
+  factory AdditionHistory.clone(AdditionHistory additionHistory) {
+    return new AdditionHistory(
+        uid: additionHistory.uid,
+        additionId: additionHistory.additionId,
+        date: additionHistory.date,
+        addition: Addition.clone(additionHistory.addition.value).obs);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'additionId': additionId,

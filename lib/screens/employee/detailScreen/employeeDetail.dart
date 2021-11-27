@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:staff_management/models/employee.dart';
+import 'package:staff_management/services/employeeRepo.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/expansionTitle/additions/additionExpansionTitle.dart';
 import 'package:staff_management/utils/expansionTitle/quotaHistories/quotaHisExpansionTitle.dart';
@@ -11,9 +14,9 @@ import 'package:staff_management/utils/textField/datePickerTextField.dart';
 import 'package:intl/intl.dart';
 
 class EmployeeDetail extends StatefulWidget {
-  final Employee employee;
+  Employee employee;
 
-  const EmployeeDetail({
+  EmployeeDetail({
     Key? key,
     required this.employee,
   }) : super(key: key);
@@ -35,12 +38,14 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   final _unitController = TextEditingController();
   final _sexController = TextEditingController();
   final _salaryController = TextEditingController();
+  late Employee employeeCopy;
   bool onEdit = false;
   bool ignore = true;
 
   @override
   void initState() {
     super.initState();
+    employeeCopy = Employee.clone(widget.employee);
     _identityCardController.text = "${widget.employee.identityCard}";
     _nameController.text = "${widget.employee.name}";
     _addressController.text = "${widget.employee.address}";
@@ -239,24 +244,43 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         textInputFormatter:
                             FilteringTextInputFormatter.singleLineFormatter),
                     RelativesExpansionTitle(
-                        relatives: widget.employee.relative,
+                        relatives: employeeCopy.relative,
                         onAdd: onEdit,
                         onEdit: onEdit),
                     WorkHistoriesExpansionTitle(
-                        workHistories: widget.employee.workHistory,
+                        workHistories: employeeCopy.workHistory,
                         onEdit: onEdit),
                     QuotaHistoriesExpansionTitle(
-                        quotaHistories: widget.employee.quotaHistory,
+                        quotaHistories: employeeCopy.quotaHistory,
                         onEdit: onEdit),
                     AdditionsExpansionTitle(
-                        additionHistories: widget.employee.additionHistory,
+                        additionHistories: employeeCopy.additionHistory,
                         onEdit: onEdit),
                     SizedBox(
                       height: 20,
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        updateEmployee();
+                        if (onEdit == !ignore && onEdit == false) {
+                          setState(() {
+                            onEdit = !onEdit;
+                            ignore = !ignore;
+                          });
+                        } else {
+                          updateEmployee().then((value) {
+                            Get.back();
+                            final snackBar = SnackBar(
+                              duration: Duration(milliseconds: 600),
+                              content: Text(
+                                "Add employee successful",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 16),
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          });
+                        }
                       },
                       child: Text(onEdit ? "Save changes" : "Edit Employee"),
                     ),
@@ -270,18 +294,24 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     );
   }
 
-  void updateEmployee() {
-    if (onEdit == !ignore && onEdit == false) {
-      setState(() {
-        onEdit = !onEdit;
-        ignore = !ignore;
-      });
-    } else if (_formKey.currentState!.validate() &&
+  void updateVariables() {
+    employeeCopy.identityCard = _identityCardController.text;
+    employeeCopy.name = _nameController.text;
+    employeeCopy.address = _addressController.text;
+    employeeCopy.birthdate = Timestamp.fromDate(
+        DateFormat("dd/MM/yyyy").parse(_birthdateController.text));
+    employeeCopy.folk = _folkController.text;
+    employeeCopy.sex = _sexController.text;
+  }
+
+  Future<void> updateEmployee() async {
+    if (_formKey.currentState!.validate() &&
         _formKey2.currentState!.validate()) {
-      setState(() {
-        onEdit = !onEdit;
-        ignore = !ignore;
-      });
+      updateVariables();
+      employeeCopy.calculateSalary();
+      await EmployeeRepo()
+          .updateEmployee(employeeCopy)
+          .then((value) => widget.employee = Employee.clone(employeeCopy));
     }
   }
 }

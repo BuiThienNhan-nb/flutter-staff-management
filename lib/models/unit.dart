@@ -35,6 +35,15 @@ class Unit {
     );
   }
 
+  factory Unit.clone(Unit unit) {
+    return new Unit(
+        uid: unit.uid,
+        address: unit.address,
+        foundedDate: unit.foundedDate,
+        hotline: unit.hotline,
+        name: unit.name);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'address': address,

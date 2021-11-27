@@ -35,6 +35,15 @@ class QuotaHistory {
     );
   }
 
+  factory QuotaHistory.clone(QuotaHistory quotaHistory) {
+    return new QuotaHistory(
+        uid: quotaHistory.uid,
+        quotaId: quotaHistory.quotaId,
+        joinDate: quotaHistory.joinDate,
+        dismissDate: quotaHistory.dismissDate,
+        quota: Quota.clone(quotaHistory.quota.value).obs);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'quotaId': quotaId,
