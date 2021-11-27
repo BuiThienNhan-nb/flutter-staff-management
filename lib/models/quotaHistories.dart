@@ -37,7 +37,7 @@ class QuotaHistory {
 
   Map<String, dynamic> toMap() {
     return {
-      'quotaId': uid,
+      'quotaId': quotaId,
       'joinDate': joinDate,
       'dismissDate': dismissDate,
     };

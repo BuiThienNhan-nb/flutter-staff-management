@@ -5,8 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/additionHistory.dart';
 import 'package:staff_management/models/employee.dart';
+import 'package:staff_management/models/position.dart';
+import 'package:staff_management/models/quota.dart';
 import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/models/relative.dart';
+import 'package:staff_management/models/unit.dart';
 import 'package:staff_management/models/workHistory.dart';
 import 'package:staff_management/services/employeeRepo.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
@@ -43,8 +46,49 @@ class AddEmployee extends StatelessWidget {
   String sex = 'Nam';
   bool onEdit = true;
   bool ignore = true;
+  DateTime workDate = DateTime.now();
 
-  void addEmployee() {
+  void createWorkQuota() {
+    // get unit
+    Unit _unit = unitController.listUnits
+        .where((element) => element.name == selectedUnit)
+        .first;
+    unitController.onInit();
+
+    // get position
+    Position _position = positionController.listPositions
+        .where((element) => element.name == selectedPosition)
+        .first;
+    positionController.onInit();
+
+    // create work history
+    _workHistory.add(new WorkHistory(
+        uid: "uid",
+        dismissDate: Timestamp.fromDate(workDate.add(const Duration(days: -1))),
+        joinDate: Timestamp.fromDate(workDate),
+        positionId: _position.uid,
+        unitId: _unit.uid,
+        position: _position.obs,
+        unit: _unit.obs));
+
+    // get quota
+    Quota _quota = quotaController.listQuotas
+        .where((element) => element.name == selectedQuota)
+        .first;
+    quotaController.onInit();
+
+    // create quota history
+    _quotaHistory.add(new QuotaHistory(
+        uid: "uid",
+        quotaId: _quota.uid,
+        joinDate: Timestamp.fromDate(workDate),
+        dismissDate: Timestamp.fromDate(workDate.add(const Duration(days: -1))),
+        quota: _quota.obs));
+  }
+
+  Future<void> addEmployee() async {
+    workDate = DateFormat('dd/MM/yyyy').parse(_workdateController.text);
+    createWorkQuota();
     Employee employee = Employee(
         uid: 'uid',
         address: _addressController.text,
@@ -54,17 +98,15 @@ class AddEmployee extends StatelessWidget {
         identityCard: _identityCardController.text,
         name: _nameController.text,
         quotaHistory: _quotaHistory,
-        retirementDate: Timestamp.fromDate(
-            DateFormat('dd/MM/yyyy').parse(_workdateController.text)),
+        retirementDate: Timestamp.fromDate(new DateTime(workDate.year + 5)),
         sex: sex,
-        workDate: Timestamp.fromDate(
-            DateFormat('dd/MM/yyyy').parse(_workdateController.text)),
+        workDate: Timestamp.fromDate(workDate),
         relative: _relatives,
         workHistory: _workHistory,
         additionHistory: <AdditionHistory>[].obs,
         salary: 0);
     employeeController.listEmployees.add(employee);
-    employeeRepo.addEmployee(employee);
+    await employeeRepo.addEmployee(employee);
   }
 
   @override
@@ -209,7 +251,18 @@ class AddEmployee extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        addEmployee();
+                        addEmployee().then((value) {
+                          Get.back();
+                          final snackBar = SnackBar(
+                            duration: Duration(milliseconds: 500),
+                            content: Text(
+                              "Add employee successful",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 15),
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        });
                       },
                       child: Text("Add employee"),
                     ),

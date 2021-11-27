@@ -23,9 +23,6 @@ class Quota {
     Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
     return Quota(
       uid: doc.id,
-      // qhId: (data!.containsKey('quotaId') && data['quotaId'] != null)
-      //     ? data['quotaId'] as String
-      //     : '',
       duration: (data!.containsKey('duration') && data['duration'] != null)
           ? data['duration'] as int
           : 0,
@@ -35,13 +32,6 @@ class Quota {
       ranks: (data.containsKey('ranks') && data['ranks'] != null)
           ? (data['ranks'] as List<dynamic>).cast<double>()
           : [],
-      // joinDate: (data.containsKey('joinDate') && data['joinDate'] != null)
-      //     ? data['joinDate'] as Timestamp
-      //     : Timestamp.fromDate(DateTime.now().add(const Duration(days: 1))),
-      // dismissDate:
-      //     (data.containsKey('dismissDate') && data['dismissDate'] != null)
-      //         ? data['dismissDate'] as Timestamp
-      //         : Timestamp.fromDate(DateTime.now()),
     );
   }
 

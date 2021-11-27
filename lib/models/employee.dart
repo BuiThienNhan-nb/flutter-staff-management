@@ -118,14 +118,6 @@ class Employee {
 
   int getSalaryWithAdditions() {
     int totalAddition = 0;
-    // additionHistory.forEach((element) {
-    //   if (element.getDate().month == DateTime.now().month) {
-    //     if (element.addition.value.isReward)
-    //       totalAddition += element.addition.value.value * 1000;
-    //     else
-    //       totalAddition -= element.addition.value.value * 1000;
-    //   }
-    // });
     for (var element in additionHistory) {
       if (element.getDate().month == DateTime.now().month) {
         if (element.addition.value.isReward)
