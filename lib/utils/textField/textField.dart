@@ -64,7 +64,9 @@ class _EmailFieldWidgetState extends State<TextFieldWidget> {
         ),
         enabled: widget.onEdit,
         inputFormatters: [widget.textInputFormatter],
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: widget.hintText == 'Identity card'
+            ? TextInputType.phone
+            : TextInputType.emailAddress,
         // autofillHints: [AutofillHints.email],
         validator: (input) {
           if (input == null || input.isEmpty) return 'This field is required';

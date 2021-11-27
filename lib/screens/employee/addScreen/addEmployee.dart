@@ -20,8 +20,8 @@ import 'package:intl/intl.dart';
 
 class AddEmployee extends StatelessWidget {
   final EmployeeRepo employeeRepo = EmployeeRepo();
-  final _formKey = GlobalKey<FormState>();
-  final _formKey2 = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // final _formKey2 = GlobalKey<FormState>();
   final _identityCardController = TextEditingController();
   final _nameController = TextEditingController();
   final _addressController = TextEditingController();
@@ -113,137 +113,119 @@ class AddEmployee extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Employee Detail"),
+        title: Text("Add Employee"),
       ),
       body: SingleChildScrollView(
         child: DefaultTextStyle(
           style: TextStyle(color: Colors.blue.shade800),
-          child: Column(
-            children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Form(
-                      key: _formKey2,
-                      child: TextFormField(
-                        style: TextStyle(
-                            fontSize: 15, color: Colors.blue.shade800),
-                        controller: _identityCardController,
-                        decoration: InputDecoration(
-                          hintText: 'Identity card',
-                          prefixIcon: Icon(Icons.card_membership),
-                          labelText: 'Identity card',
-                        ),
-                        keyboardType: TextInputType.phone,
-                        validator: (input) {
-                          if (input == null || input.isEmpty)
-                            return "Can't be null";
-                        },
-                      ),
-                    ),
-                    TextFormField(
-                      style:
-                          TextStyle(fontSize: 15, color: Colors.blue.shade800),
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        hintText: 'Name',
-                        prefixIcon: Icon(Icons.person),
-                        labelText: 'Name',
-                      ),
-                      keyboardType: TextInputType.name,
-                      validator: (input) {
-                        if (input == null || input.isEmpty)
-                          return "Can't be null";
-                      },
-                    ),
-                    DatePickerTextField(
-                      labelText: "Work day",
-                      placeholder: "Sep 12, 1998",
-                      textEditingController: _workdateController,
-                      icon: Icons.access_time,
-                      editable: true,
-                    ),
-                    TextFieldWidget(
-                        controller: _addressController,
-                        icon: Icons.place,
-                        hintText: "Address",
-                        onEdit: true,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
-                    DatePickerTextField(
-                      labelText: "Birthday",
-                      placeholder: "Sep 12, 1998",
-                      textEditingController: _birthdateController,
-                      icon: Icons.cake,
-                      editable: true,
-                    ),
-                    TextFieldWidget(
-                        controller: _folkController,
-                        icon: Icons.short_text,
-                        hintText: "Folk",
-                        onEdit: onEdit,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
-                    MyDropdownButton(
-                      selectedValue: sex,
-                      values: <String>["Nam", "Nữ"],
-                      icon: Icons.male,
-                      lable: "Gender",
-                      callback: (String _newValue) {
-                        sex = _newValue;
-                      },
-                    ),
-                    MyDropdownButton(
-                        selectedValue: selectedPosition,
-                        values: positionController.listPositionName,
-                        icon: Icons.work,
-                        lable: "Position",
-                        callback: (String _newValue) {
-                          selectedPosition = _newValue;
-                        }),
-                    MyDropdownButton(
-                        selectedValue: selectedUnit,
-                        values: unitController.listUnitName,
-                        icon: Icons.groups,
-                        lable: "Unit",
-                        callback: (String _newValue) {
-                          selectedUnit = _newValue;
-                        }),
-                    MyDropdownButton(
-                        selectedValue: selectedQuota,
-                        values: quotaController.listQuotaName,
-                        icon: Icons.hail,
-                        lable: "Quota",
-                        callback: (String _newValue) {
-                          selectedQuota = _newValue;
-                        }),
-                    RelativesExpansionTitle(
-                        relatives: _relatives, onAdd: true, onEdit: true),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        addEmployee().then((value) {
-                          Get.back();
-                          final snackBar = SnackBar(
-                            duration: Duration(milliseconds: 500),
-                            content: Text(
-                              "Add employee successful",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 15),
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        });
-                      },
-                      child: Text("Add employee"),
-                    ),
-                  ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFieldWidget(
+                  controller: _identityCardController,
+                  hintText: 'Identity card',
+                  icon: Icons.card_membership,
+                  onEdit: true,
+                  textInputFormatter:
+                      FilteringTextInputFormatter.singleLineFormatter,
                 ),
-              ),
-            ],
+                TextFieldWidget(
+                  controller: _nameController,
+                  hintText: 'Name',
+                  icon: Icons.person,
+                  onEdit: true,
+                  textInputFormatter:
+                      FilteringTextInputFormatter.singleLineFormatter,
+                ),
+                DatePickerTextField(
+                  labelText: "Work day",
+                  placeholder: "Sep 12, 1998",
+                  textEditingController: _workdateController,
+                  icon: Icons.access_time,
+                  editable: true,
+                ),
+                TextFieldWidget(
+                    controller: _addressController,
+                    icon: Icons.place,
+                    hintText: "Address",
+                    onEdit: true,
+                    textInputFormatter:
+                        FilteringTextInputFormatter.singleLineFormatter),
+                DatePickerTextField(
+                  labelText: "Birthday",
+                  placeholder: "Sep 12, 1998",
+                  textEditingController: _birthdateController,
+                  icon: Icons.cake,
+                  editable: true,
+                ),
+                TextFieldWidget(
+                    controller: _folkController,
+                    icon: Icons.short_text,
+                    hintText: "Folk",
+                    onEdit: onEdit,
+                    textInputFormatter:
+                        FilteringTextInputFormatter.singleLineFormatter),
+                MyDropdownButton(
+                  selectedValue: sex,
+                  values: <String>["Nam", "Nữ"],
+                  icon: Icons.male,
+                  lable: "Gender",
+                  callback: (String _newValue) {
+                    sex = _newValue;
+                  },
+                ),
+                MyDropdownButton(
+                    selectedValue: selectedPosition,
+                    values: positionController.listPositionName,
+                    icon: Icons.work,
+                    lable: "Position",
+                    callback: (String _newValue) {
+                      selectedPosition = _newValue;
+                    }),
+                MyDropdownButton(
+                    selectedValue: selectedUnit,
+                    values: unitController.listUnitName,
+                    icon: Icons.groups,
+                    lable: "Unit",
+                    callback: (String _newValue) {
+                      selectedUnit = _newValue;
+                    }),
+                MyDropdownButton(
+                    selectedValue: selectedQuota,
+                    values: quotaController.listQuotaName,
+                    icon: Icons.hail,
+                    lable: "Quota",
+                    callback: (String _newValue) {
+                      selectedQuota = _newValue;
+                    }),
+                RelativesExpansionTitle(
+                    relatives: _relatives, onAdd: true, onEdit: true),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // validateAndSave();
+                    if (_formKey.currentState!.validate()) {
+                      addEmployee().then((value) {
+                        Get.back();
+                        final snackBar = SnackBar(
+                          duration: Duration(milliseconds: 500),
+                          content: Text(
+                            "Add employee successful",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      });
+                    }
+                  },
+                  child: Text("Add employee"),
+                ),
+              ],
+            ),
           ),
         ),
       ),
