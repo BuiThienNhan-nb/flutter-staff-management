@@ -61,13 +61,6 @@ class Employee {
       name: (data.containsKey('name') && data['name'] != null)
           ? data['name'] as String
           : '',
-      // quota: (data.containsKey('quotaId') && data['quotaId'] != null)
-      //     ? new Quota(
-      //         uid: data['quotaId'] as String,
-      //         duration: 0,
-      //         name: '',
-      //         ranks: []).obs
-      //     : new Quota(uid: 'uid', duration: 0, name: '', ranks: []).obs,
       quotaHistory: <QuotaHistory>[].obs,
       retirementDate:
           (data.containsKey('retirementDate') && data['retirementDate'] != null)
@@ -105,7 +98,9 @@ class Employee {
         workHistory[0].dismissDate.seconds * 1000);
     var workYear = (DateTime.now().year - date.year) /
         quotaHistory.first.quota.value.duration;
-    double salaryPoint = quotaHistory.first.quota.value.ranks[workYear.toInt()];
+    double salaryPoint = !workYear.isFinite
+        ? 0.0
+        : quotaHistory.first.quota.value.ranks[workYear.toInt()];
     double dSalary =
         (salaryPoint + workHistory[0].position.value.allowancePoint) *
             salaryRecordController.listSalaryRecords[0].currentSalary() *
