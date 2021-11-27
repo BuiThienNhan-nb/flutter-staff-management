@@ -28,11 +28,6 @@ class AddEmployee extends StatelessWidget {
   final _birthdateController = TextEditingController();
   final _folkController = TextEditingController();
   final _workdateController = TextEditingController();
-  // final _quotaController = TextEditingController();
-  // final _positionController = TextEditingController();
-  // final _unitController = TextEditingController();
-  // final _sexController = TextEditingController();
-  // final _salaryController = TextEditingController();
   final RxList<Relative> _relatives = <Relative>[].obs;
   final RxList<WorkHistory> _workHistory = <WorkHistory>[].obs;
   final RxList<QuotaHistory> _quotaHistory = <QuotaHistory>[].obs;
@@ -42,7 +37,6 @@ class AddEmployee extends StatelessWidget {
   CollectionReference employees =
       FirebaseFirestore.instance.collection('employees');
 
-  // List<String> listPositionName = positionController.listPositionName;
   String sex = 'Nam';
   bool onEdit = true;
   bool ignore = true;
@@ -114,7 +108,8 @@ class AddEmployee extends StatelessWidget {
     final Size sizeDevice = MediaQuery.of(context).size;
     final sizeWidth = sizeDevice.width;
     final sizeHeight = sizeDevice.height;
-
+    _workdateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    _birthdateController.text = "11/11/1999";
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -169,27 +164,6 @@ class AddEmployee extends StatelessWidget {
                       icon: Icons.access_time,
                       editable: true,
                     ),
-                    // MyDropdownButton(
-                    //     controller: _quotaController,
-                    //     icon: Icons.work,
-                    //     hintText: "Quota",
-                    //     onEdit: true,
-                    //     textInputFormatter:
-                    //         FilteringTextInputFormatter.singleLineFormatter),
-                    // TextFieldWidget(
-                    //     controller: _positionController,
-                    //     icon: Icons.work_outline_outlined,
-                    //     hintText: "Position",
-                    //     onEdit: true,
-                    //     textInputFormatter:
-                    //         FilteringTextInputFormatter.singleLineFormatter),
-                    // TextFieldWidget(
-                    //     controller: _unitController,
-                    //     icon: Icons.home_work,
-                    //     hintText: "Unit",
-                    //     onEdit: true,
-                    //     textInputFormatter:
-                    //         FilteringTextInputFormatter.singleLineFormatter),
                     TextFieldWidget(
                         controller: _addressController,
                         icon: Icons.place,
