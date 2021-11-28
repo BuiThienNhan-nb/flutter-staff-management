@@ -46,21 +46,6 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
     // Build UI
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [],
-          ),
-          actions: [
-            InkWell(
-              onTap: () {
-                Get.to(() => AddEmployee());
-              },
-              child: Icon(Icons.add),
-            ),
-          ],
-        ),
         body: SfDataGrid(
           gridLinesVisibility: GridLinesVisibility.both,
           headerGridLinesVisibility: GridLinesVisibility.horizontal,
@@ -127,6 +112,16 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
                       overflow: TextOverflow.ellipsis,
                     ))),
           ],
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 50.0),
+          child: FloatingActionButton(
+            onPressed: () {
+              Get.to(() => AddEmployee());
+            },
+            child: const Icon(Icons.add),
+            backgroundColor: Colors.blue,
+          ),
         ),
       ),
     );
