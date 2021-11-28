@@ -32,16 +32,11 @@ class EmployeeResultItem extends StatelessWidget {
                       color: Colors.black,
                     )),
                 SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("${_employee.workHistory.first.position.value.name}",
-                        style: GoogleFonts.varelaRound(
-                          fontSize: 15,
-                          color: Colors.black,
-                        ))
-                  ],
-                ),
+                Text("${_employee.workHistory.first.position.value.name}",
+                    style: GoogleFonts.varelaRound(
+                      fontSize: 15,
+                      color: Colors.black,
+                    )),
               ],
             ),
             Spacer(),
