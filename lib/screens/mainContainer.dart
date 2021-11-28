@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:staff_management/screens/employee/employeeDGV.dart';
+import 'package:staff_management/screens/employee/searchScreen/searchEmployee.dart';
 import 'package:staff_management/screens/login/loginScreen.dart';
 import 'package:staff_management/screens/testScreen.dart';
 
@@ -21,7 +22,7 @@ class _MainContainerState extends State<MainContainer> {
     "Settings"
   ];
 
-  String _title = "List  Employees";
+  String _title = "List Employees";
 
   // update app bar title
   void updateTitle(int index) {
@@ -93,6 +94,14 @@ class _MainContainerState extends State<MainContainer> {
         centerTitle: true,
         title: Text(_title),
         automaticallyImplyLeading: false,
+        actions: [
+          _title == "List Employees"
+              ? IconButton(
+                  onPressed: () => showSearch(
+                      context: context, delegate: EmployeeSearchData()),
+                  icon: Icon(Icons.search, color: Colors.white))
+              : SizedBox(),
+        ],
       ),
       body: PersistentTabView(
         context,

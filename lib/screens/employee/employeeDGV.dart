@@ -47,6 +47,11 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [],
+          ),
           actions: [
             InkWell(
               onTap: () {
