@@ -235,6 +235,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                             callback: (String _newValue) {
                               _sexController.text = _newValue;
                             },
+                            size: Size(sizeWidth, 70),
                           ),
                     TextFieldWidget(
                         controller: _salaryController,

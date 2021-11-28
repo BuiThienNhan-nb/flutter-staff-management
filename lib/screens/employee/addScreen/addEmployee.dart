@@ -174,31 +174,38 @@ class AddEmployee extends StatelessWidget {
                   callback: (String _newValue) {
                     sex = _newValue;
                   },
+                  size: Size(sizeWidth, 70),
                 ),
                 MyDropdownButton(
-                    selectedValue: selectedPosition,
-                    values: positionController.listPositionName,
-                    icon: Icons.work,
-                    lable: "Position",
-                    callback: (String _newValue) {
-                      selectedPosition = _newValue;
-                    }),
+                  selectedValue: selectedPosition,
+                  values: positionController.listPositionName,
+                  icon: Icons.work,
+                  lable: "Position",
+                  callback: (String _newValue) {
+                    selectedPosition = _newValue;
+                  },
+                  size: Size(sizeWidth, 70),
+                ),
                 MyDropdownButton(
-                    selectedValue: selectedUnit,
-                    values: unitController.listUnitName,
-                    icon: Icons.groups,
-                    lable: "Unit",
-                    callback: (String _newValue) {
-                      selectedUnit = _newValue;
-                    }),
+                  selectedValue: selectedUnit,
+                  values: unitController.listUnitName,
+                  icon: Icons.groups,
+                  lable: "Unit",
+                  callback: (String _newValue) {
+                    selectedUnit = _newValue;
+                  },
+                  size: Size(sizeWidth, 70),
+                ),
                 MyDropdownButton(
-                    selectedValue: selectedQuota,
-                    values: quotaController.listQuotaName,
-                    icon: Icons.hail,
-                    lable: "Quota",
-                    callback: (String _newValue) {
-                      selectedQuota = _newValue;
-                    }),
+                  selectedValue: selectedQuota,
+                  values: quotaController.listQuotaName,
+                  icon: Icons.hail,
+                  lable: "Quota",
+                  callback: (String _newValue) {
+                    selectedQuota = _newValue;
+                  },
+                  size: Size(sizeWidth, 70),
+                ),
                 RelativesExpansionTitle(
                     relatives: _relatives, onAdd: true, onEdit: true),
                 SizedBox(
