@@ -163,6 +163,7 @@ class _ChildRelativeExpansionTitleState
 
   @override
   Widget build(BuildContext context) {
+    final sizeWidth = MediaQuery.of(context).size.width;
     return ExpansionTile(
       title: TextFieldWidget(
         controller: _relativeNameController,
@@ -186,6 +187,7 @@ class _ChildRelativeExpansionTitleState
                       _relativeTypeController.text = _newValue;
                     });
                   },
+                  size: Size(sizeWidth, 70),
                 )
               : TextFieldWidget(
                   controller: _relativeTypeController,

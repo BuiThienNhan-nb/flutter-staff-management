@@ -142,6 +142,7 @@ class _ChildRelativeExpansionTitleState
                   _additionNameController.text = _newValue;
                 });
               },
+              size: Size(400, 70),
             )
           : TextFieldWidget(
               controller: _additionNameController,

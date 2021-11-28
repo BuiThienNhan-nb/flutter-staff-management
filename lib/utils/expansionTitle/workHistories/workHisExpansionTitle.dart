@@ -157,6 +157,7 @@ class _ChildWorkHistoryExpansionTitleState
 
   @override
   Widget build(BuildContext context) {
+    final sizeWidth = MediaQuery.of(context).size.width;
     return ExpansionTile(
       title: widget._onEdit
           ? MyDropdownButton(
@@ -170,6 +171,7 @@ class _ChildWorkHistoryExpansionTitleState
                   _workHistoryUnitController.text = _newValue;
                 });
               },
+              size: Size(sizeWidth, 70),
             )
           : TextFieldWidget(
               controller: _workHistoryUnitController,
@@ -194,6 +196,7 @@ class _ChildWorkHistoryExpansionTitleState
                       _workHistoryPositionController.text = _newValue;
                     });
                   },
+                  size: Size(sizeWidth, 70),
                 )
               : TextFieldWidget(
                   controller: _workHistoryPositionController,

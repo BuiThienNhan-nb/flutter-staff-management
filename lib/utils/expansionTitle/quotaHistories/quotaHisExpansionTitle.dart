@@ -157,6 +157,7 @@ class _ChildQuotaHistoryExpansionTitleState
                   _quotaHistoryNameController.text = _newValue;
                 });
               },
+              size: Size(500, 70),
             )
           : TextFieldWidget(
               controller: _quotaHistoryNameController,
