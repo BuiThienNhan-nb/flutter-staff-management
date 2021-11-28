@@ -52,14 +52,17 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
     return employees
         .where((item) =>
             (_employeeQuery.position == "" ||
-                _employeeQuery.position!
-                    .contains(item.workHistory.first.position.value.name)) &&
+                _employeeQuery.position!.compareTo(
+                        item.workHistory.first.position.value.name) ==
+                    0) &&
             (_employeeQuery.unit == "" ||
                 _employeeQuery.unit!
-                    .contains(item.workHistory.first.unit.value.name)) &&
+                        .compareTo(item.workHistory.first.unit.value.name) ==
+                    0) &&
             (_employeeQuery.quota == "" ||
                 _employeeQuery.quota!
-                    .contains(item.quotaHistory.first.quota.value.name)))
+                        .compareTo(item.quotaHistory.first.quota.value.name) ==
+                    0))
         .toList();
   }
 
