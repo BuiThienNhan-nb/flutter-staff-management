@@ -226,6 +226,16 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
             ),
           ],
         ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 50),
+          child: FloatingActionButton(
+            onPressed: () {
+              Get.to(() => AddEmployee());
+            },
+            child: Icon(Icons.add),
+            backgroundColor: Colors.blue,
+          ),
+        ),
       ),
     );
   }
