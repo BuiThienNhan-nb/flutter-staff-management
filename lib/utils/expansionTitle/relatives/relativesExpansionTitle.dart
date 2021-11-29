@@ -85,7 +85,7 @@ class _RelativesExpansionTitleState extends State<RelativesExpansionTitle> {
                     icon: Icon(Icons.add),
                     onPressed: () {
                       Relative _relative = new Relative(
-                          uid: "new-relative-uid",
+                          uid: "uid",
                           birthdate: Timestamp.fromDate(DateTime.now()),
                           job: "",
                           name: "",
@@ -154,7 +154,7 @@ class _ChildRelativeExpansionTitleState
   @override
   void dispose() {
     super.dispose();
-    updateVariables();
+    // updateVariables();
     _relativeNameController.dispose();
     _relativeTypeController.dispose();
     _relativeJobController.dispose();
@@ -171,6 +171,8 @@ class _ChildRelativeExpansionTitleState
         hintText: "Name",
         onEdit: widget._onEdit,
         textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
+        callback: (String _submittedValue) =>
+            widget._relative.name = _submittedValue,
       ),
       children: [
         Padding(
@@ -196,6 +198,7 @@ class _ChildRelativeExpansionTitleState
                   onEdit: false,
                   textInputFormatter:
                       FilteringTextInputFormatter.singleLineFormatter,
+                  callback: (String _submittedValue) {},
                 ),
         ),
         Padding(
@@ -206,6 +209,8 @@ class _ChildRelativeExpansionTitleState
             hintText: "Job",
             onEdit: widget._onEdit,
             textInputFormatter: FilteringTextInputFormatter.singleLineFormatter,
+            callback: (String _submittedValue) =>
+                widget._relative.job = _submittedValue,
           ),
         ),
         Padding(
@@ -216,6 +221,9 @@ class _ChildRelativeExpansionTitleState
             textEditingController: _relativeBirthdateController,
             editable: widget._onEdit,
             icon: Icons.cake,
+            callback: (String _newDateString) => widget._relative.birthdate =
+                Timestamp.fromDate(
+                    DateFormat('dd/MM/yyyy').parse(_newDateString)),
           ),
         ),
       ],
