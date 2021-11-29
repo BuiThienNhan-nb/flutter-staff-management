@@ -4,6 +4,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:staff_management/screens/employee/employeeDGV.dart';
 import 'package:staff_management/screens/employee/searchScreen/searchEmployee.dart';
 import 'package:staff_management/screens/login/loginScreen.dart';
+import 'package:staff_management/screens/revenue/revenueScreen.dart';
 import 'package:staff_management/screens/testScreen.dart';
 
 class MainContainer extends StatefulWidget {
@@ -38,8 +39,8 @@ class _MainContainerState extends State<MainContainer> {
       return [
         EmployeeDataGridView(),
         LoginScreen(),
+        RevenueScreen(),
         TestScreen(),
-        LoginScreen(),
       ];
     }
 
