@@ -313,6 +313,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
       await EmployeeRepo()
           .updateEmployee(employeeCopy)
           .then((value) => widget.employee = Employee.clone(employeeCopy));
+      int i = 0;
     }
   }
 }
