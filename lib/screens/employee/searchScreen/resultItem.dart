@@ -32,7 +32,7 @@ class EmployeeResultItem extends StatelessWidget {
                       color: Colors.black,
                     )),
                 SizedBox(height: 5),
-                Text("${_employee.workHistory.first.position.value.name}",
+                Text("${_employee.workHistory!.first.position.value.name}",
                     style: GoogleFonts.varelaRound(
                       fontSize: 15,
                       color: Colors.black,

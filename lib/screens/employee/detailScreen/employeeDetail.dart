@@ -50,14 +50,14 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _nameController.text = "${widget.employee.name}";
     _addressController.text = "${widget.employee.address}";
     _birthdateController.text =
-        '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate.seconds * 1000))}';
+        '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.employee.birthdate!.seconds * 1000))}';
     _folkController.text = "${widget.employee.folk}";
     _quotaController.text =
-        "${widget.employee.quotaHistory.value[0].quota.value.name}";
+        "${widget.employee.quotaHistory!.value[0].quota.value.name}";
     _positionController.text =
-        "${widget.employee.workHistory.first.position.value.name}";
+        "${widget.employee.workHistory!.first.position.value.name}";
     _unitController.text =
-        "${widget.employee.workHistory.first.unit.value.name}";
+        "${widget.employee.workHistory!.first.unit.value.name}";
     _sexController.text = "${widget.employee.sex}";
     _salaryController.text =
         "${widget.employee.getSalaryWithAdditionsToCurrency()}";

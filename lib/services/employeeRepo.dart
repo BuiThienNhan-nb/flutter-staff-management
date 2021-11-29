@@ -7,24 +7,65 @@ import 'package:staff_management/services/workHistoryRepo.dart';
 
 class EmployeeRepo {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-
+  static Employee employee = Employee(
+      uid: '',
+      name: '',
+      address: '',
+      additionHistory: null,
+      birthdate: null,
+      folk: '',
+      identityCard: '',
+      quotaHistory: null,
+      relative: null,
+      retirementDate: null,
+      salary: 0,
+      sex: '',
+      workDate: null,
+      workHistory: null);
   Stream<List<Employee>> employeeStream() {
     return _db.collection('employees').snapshots().map((QuerySnapshot query) {
       List<Employee> list = [];
       query.docs.forEach((element) {
         //add data
         list.add(Employee.fromJson(element));
-        list.last.quotaHistory.bindStream(
+        list.last.quotaHistory!.bindStream(
             QuotaHistoryRepo().quotaHistoryByEmployeeStream(element.reference));
-        list.last.additionHistory.bindStream(
+        list.last.additionHistory!.bindStream(
             AdditionHistoryRepo().additionHistoryStream(element.reference));
-        list.last.relative.bindStream(
+        list.last.relative!.bindStream(
             RelativeRepo().relativeByEmployeeStream(element.reference));
-        list.last.workHistory.bindStream(
+        list.last.workHistory!.bindStream(
             WorkHistoryRepo().workHistoryByEmployeeStream(element.reference));
       });
       return list;
     });
+  }
+
+  Future<Employee> fetchUser(String uid) async {
+    DocumentSnapshot documentReference =
+        await _db.collection('employees').doc(uid).get();
+
+    if (documentReference.exists) {
+      return Employee.fromJson(documentReference);
+    } else {
+      print('USER REPO: Fecth user failed');
+      return Employee(
+        uid: '',
+        name: '',
+        additionHistory: null,
+        workHistory: null,
+        salary: 0,
+        retirementDate: null,
+        address: '',
+        birthdate: null,
+        folk: '',
+        identityCard: '',
+        quotaHistory: null,
+        relative: null,
+        sex: '',
+        workDate: null,
+      );
+    }
   }
 
   Future<void> updateEmployee(Employee _employee) async {
@@ -32,7 +73,7 @@ class EmployeeRepo {
         .collection("employees")
         .doc("${_employee.uid}")
         .update(_employee.toMap());
-    _employee.additionHistory.forEach((element) async {
+    _employee.additionHistory!.forEach((element) async {
       if (element.uid == "uid") {
         await _db
             .collection("employees")
@@ -49,7 +90,7 @@ class EmployeeRepo {
             .update(element.toMap());
       }
     });
-    _employee.relative.forEach((element) async {
+    _employee.relative!.forEach((element) async {
       if (element.uid == "uid") {
         await _db
             .collection("employees")
@@ -66,7 +107,7 @@ class EmployeeRepo {
             .update(element.toMap());
       }
     });
-    _employee.quotaHistory.forEach((element) async {
+    _employee.quotaHistory!.forEach((element) async {
       if (element.uid == "uid") {
         await _db
             .collection("employees")
@@ -82,7 +123,7 @@ class EmployeeRepo {
             .update(element.toMap());
       }
     });
-    _employee.workHistory.forEach((element) async {
+    _employee.workHistory!.forEach((element) async {
       if (element.uid == "uid") {
         await _db
             .collection("employees")
@@ -108,7 +149,7 @@ class EmployeeRepo {
         .then((value) => _employee.uid = value.id);
 
     // add collections
-    _employee.additionHistory.forEach((element) async {
+    _employee.additionHistory!.forEach((element) async {
       await _db
           .collection("employees")
           .doc("${_employee.uid}")
@@ -116,7 +157,7 @@ class EmployeeRepo {
           .add(element.toMap())
           .then((value) => element.uid = value.id);
     });
-    _employee.relative.forEach((element) async {
+    _employee.relative!.forEach((element) async {
       await _db
           .collection("employees")
           .doc("${_employee.uid}")
@@ -124,7 +165,7 @@ class EmployeeRepo {
           .add(element.toMap())
           .then((value) => element.uid = value.id);
     });
-    _employee.workHistory.forEach((element) async {
+    _employee.workHistory!.forEach((element) async {
       await _db
           .collection("employees")
           .doc("${_employee.uid}")
@@ -132,7 +173,7 @@ class EmployeeRepo {
           .add(element.toMap())
           .then((value) => element.uid = value.id);
     });
-    _employee.quotaHistory.forEach((element) async {
+    _employee.quotaHistory!.forEach((element) async {
       await _db
           .collection("employees")
           .doc("${_employee.uid}")

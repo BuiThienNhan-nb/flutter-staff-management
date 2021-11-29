@@ -11,17 +11,17 @@ import 'package:staff_management/models/workHistory.dart';
 class Employee {
   String uid = '';
   String address;
-  Timestamp birthdate;
+  Timestamp? birthdate;
   String folk;
   String identityCard;
   String name;
-  RxList<QuotaHistory> quotaHistory;
-  Timestamp retirementDate;
+  RxList<QuotaHistory>? quotaHistory;
+  Timestamp? retirementDate;
   String sex;
-  Timestamp workDate;
-  RxList<Relative> relative;
-  RxList<WorkHistory> workHistory;
-  RxList<AdditionHistory> additionHistory;
+  Timestamp? workDate;
+  RxList<Relative>? relative;
+  RxList<WorkHistory>? workHistory;
+  RxList<AdditionHistory>? additionHistory;
   int salary;
 
   Employee({
@@ -87,22 +87,22 @@ class Employee {
         folk: employee.folk,
         identityCard: employee.identityCard,
         name: employee.name,
-        quotaHistory: employee.quotaHistory
+        quotaHistory: employee.quotaHistory!
             .map((element) => new QuotaHistory.clone(element))
             .toList()
             .obs,
         retirementDate: employee.retirementDate,
         sex: employee.sex,
         workDate: employee.workDate,
-        relative: employee.relative
+        relative: employee.relative!
             .map((element) => new Relative.clone(element))
             .toList()
             .obs,
-        workHistory: employee.workHistory
+        workHistory: employee.workHistory!
             .map((element) => new WorkHistory.clone(element))
             .toList()
             .obs,
-        additionHistory: employee.additionHistory
+        additionHistory: employee.additionHistory!
             .map((element) => new AdditionHistory.clone(element))
             .toList()
             .obs, //AdditionHistory.fromJson(employee.additionHistory.value).obs,
@@ -125,14 +125,14 @@ class Employee {
   void calculateSalary() {
     salary = 0;
     var date = DateTime.fromMillisecondsSinceEpoch(
-        workHistory[0].dismissDate.seconds * 1000);
+        workHistory![0].dismissDate.seconds * 1000);
     var workYear = (DateTime.now().year - date.year) /
-        quotaHistory.first.quota.value.duration;
+        quotaHistory!.first.quota.value.duration;
     double salaryPoint = !workYear.isFinite
         ? 0.0
-        : quotaHistory.first.quota.value.ranks[workYear.toInt()];
+        : quotaHistory!.first.quota.value.ranks[workYear.toInt()];
     double dSalary =
-        (salaryPoint + workHistory[0].position.value.allowancePoint) *
+        (salaryPoint + workHistory![0].position.value.allowancePoint) *
             salaryRecordController.listSalaryRecords[0].currentSalary() *
             (1 -
                 ConsInsurancetValue.healthInsurance -
@@ -143,7 +143,7 @@ class Employee {
 
   int getSalaryWithAdditions() {
     int totalAddition = 0;
-    for (var element in additionHistory) {
+    for (var element in additionHistory!) {
       if (element.getDate().month == DateTime.now().month) {
         if (element.addition.value.isReward)
           totalAddition += element.addition.value.value * 1000;
@@ -168,6 +168,6 @@ class Employee {
 
   String getBirthdateToString() {
     return DateFormat.yMMMd()
-        .format(DateTime.fromMillisecondsSinceEpoch(birthdate.seconds * 1000));
+        .format(DateTime.fromMillisecondsSinceEpoch(birthdate!.seconds * 1000));
   }
 }

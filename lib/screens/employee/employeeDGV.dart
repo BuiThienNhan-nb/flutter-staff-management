@@ -150,7 +150,7 @@ class EmployeeDataSource extends DataGridSource {
               DataGridCell<String>(columnName: 'name', value: e.name),
               DataGridCell<String>(
                   columnName: 'position',
-                  value: e.workHistory.last.position.value.name),
+                  value: e.workHistory!.last.position.value.name),
               DataGridCell<String>(
                   columnName: 'salary',
                   value: e.getSalaryWithoutAdditionsToCurrency()),

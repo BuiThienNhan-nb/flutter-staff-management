@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:staff_management/models/relative.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
@@ -9,12 +10,12 @@ import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class RelativesExpansionTitle extends StatefulWidget {
-  final List<Relative> _relatives;
+  final RxList<Relative>? _relatives;
   final bool _onEdit;
   final bool _onAdd;
   const RelativesExpansionTitle(
       {Key? key,
-      required List<Relative> relatives,
+      required RxList<Relative>? relatives,
       required bool onEdit,
       required bool onAdd})
       : _relatives = relatives,
@@ -54,7 +55,7 @@ class _RelativesExpansionTitleState extends State<RelativesExpansionTitle> {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: widget._relatives.length,
+          itemCount: widget._relatives!.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
             child: Container(
@@ -71,7 +72,7 @@ class _RelativesExpansionTitleState extends State<RelativesExpansionTitle> {
                 ],
               ),
               child: ChildRelativeExpansionTitle(
-                relative: widget._relatives[index],
+                relative: widget._relatives![index],
                 onEdit: widget._onEdit,
               ),
             ),
@@ -98,7 +99,7 @@ class _RelativesExpansionTitleState extends State<RelativesExpansionTitle> {
                       //         _relative = _newRelative;
                       //       }),
                       // );
-                      widget._relatives.add(_relative);
+                      widget._relatives!.add(_relative);
                       setState(() {});
                     },
                   ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/quota.dart';
 import 'package:staff_management/models/quotaHistories.dart';
@@ -11,11 +12,11 @@ import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class QuotaHistoriesExpansionTitle extends StatelessWidget {
-  final List<QuotaHistory> _quotaHistories;
+  final RxList<QuotaHistory>? _quotaHistories;
   final bool _onEdit;
   const QuotaHistoriesExpansionTitle(
       {Key? key,
-      required List<QuotaHistory> quotaHistories,
+      required RxList<QuotaHistory>? quotaHistories,
       required bool onEdit})
       : _quotaHistories = quotaHistories,
         _onEdit = onEdit,
@@ -47,7 +48,7 @@ class QuotaHistoriesExpansionTitle extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: _quotaHistories.length,
+          itemCount: _quotaHistories!.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
             child: Container(
@@ -64,7 +65,7 @@ class QuotaHistoriesExpansionTitle extends StatelessWidget {
                 ],
               ),
               child: ChildQuotaHistoryExpansionTitle(
-                quotaHistory: _quotaHistories[index],
+                quotaHistory: _quotaHistories![index],
                 onEdit: _onEdit,
               ),
             ),

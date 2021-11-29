@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/addition.dart';
 import 'package:staff_management/models/additionHistory.dart';
@@ -11,11 +12,11 @@ import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class AdditionsExpansionTitle extends StatelessWidget {
-  final List<AdditionHistory> _additionHistories;
+  final RxList<AdditionHistory>? _additionHistories;
   final bool _onEdit;
   const AdditionsExpansionTitle(
       {Key? key,
-      required List<AdditionHistory> additionHistories,
+      required RxList<AdditionHistory>? additionHistories,
       required bool onEdit})
       : _additionHistories = additionHistories,
         _onEdit = onEdit,
@@ -47,7 +48,7 @@ class AdditionsExpansionTitle extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: _additionHistories.length,
+          itemCount: _additionHistories!.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.fromLTRB(12, 2.5, 12, 2.5),
             child: Container(
@@ -64,7 +65,7 @@ class AdditionsExpansionTitle extends StatelessWidget {
                 ],
               ),
               child: ChildRelativeExpansionTitle(
-                additionHistory: _additionHistories[index],
+                additionHistory: _additionHistories![index],
                 onEdit: _onEdit,
               ),
             ),

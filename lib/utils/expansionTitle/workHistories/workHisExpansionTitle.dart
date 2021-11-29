@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/position.dart';
 import 'package:staff_management/models/unit.dart';
@@ -12,11 +13,11 @@ import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
 
 class WorkHistoriesExpansionTitle extends StatelessWidget {
-  final List<WorkHistory> _workHistories;
+  final RxList<WorkHistory>? _workHistories;
   final bool _onEdit;
   const WorkHistoriesExpansionTitle(
       {Key? key,
-      required List<WorkHistory> workHistories,
+      required RxList<WorkHistory>? workHistories,
       required bool onEdit})
       : _workHistories = workHistories,
         _onEdit = onEdit,
@@ -48,7 +49,7 @@ class WorkHistoriesExpansionTitle extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: _workHistories.length,
+          itemCount: _workHistories!.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
             child: Container(
@@ -65,7 +66,7 @@ class WorkHistoriesExpansionTitle extends StatelessWidget {
                 ],
               ),
               child: ChildWorkHistoryExpansionTitle(
-                workHistory: _workHistories[index],
+                workHistory: _workHistories![index],
                 onEdit: _onEdit,
               ),
             ),
