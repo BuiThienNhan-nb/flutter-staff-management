@@ -17,7 +17,7 @@ class QuotaController extends GetxController {
     _listQuota.bindStream(QuotaRepo().quotaStream());
   }
 
-  void initListPositionName() {
+  void initListQuoataName() {
     listQuotaName = [];
     listQuotas.forEach((element) => listQuotaName.add(element.name));
   }

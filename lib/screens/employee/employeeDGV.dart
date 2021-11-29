@@ -17,10 +17,13 @@ class EmployeeDataGridView extends StatefulWidget {
 class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
   late EmployeeDataSource employeeDataSource;
   EmployeeQuery _employeeQuery =
-      EmployeeQuery(position: "", quota: "", unit: "");
-  String _selectedPosition = "Trợ giảng";
-  String _selectedUnit = "Khoa Văn hóa Du lịch";
-  String _selectedQuota = "Giảng viên";
+      EmployeeQuery(position: "All", quota: "All", unit: "All");
+  String _selectedPosition = "All";
+  String _selectedUnit = "All";
+  String _selectedQuota = "All";
+  List<String> _listPositionNames = ["All"];
+  List<String> _listUnitNames = ["All"];
+  List<String> _listQuotaNames = ["All"];
 
   @override
   void initState() {
@@ -30,9 +33,12 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
         employeeData: employeeController.listEmployees,
         onRefresh: dataGridRefresh);
     additionController.initListAdditionName();
-    quotaController.initListPositionName();
+    quotaController.initListQuoataName();
     positionController.initListPositionName();
     unitController.initListUnitName();
+    _listPositionNames.addAll(positionController.listPositionName);
+    _listUnitNames.addAll(unitController.listUnitName);
+    _listQuotaNames.addAll(quotaController.listQuotaName);
   }
 
   void calculateSalary() {
@@ -51,15 +57,15 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
   List<Employee> queryEmployee(List<Employee> employees) {
     return employees
         .where((item) =>
-            (_employeeQuery.position == "" ||
+            (_employeeQuery.position == "All" ||
                 _employeeQuery.position!.compareTo(
                         item.workHistory.first.position.value.name) ==
                     0) &&
-            (_employeeQuery.unit == "" ||
+            (_employeeQuery.unit == "All" ||
                 _employeeQuery.unit!
                         .compareTo(item.workHistory.first.unit.value.name) ==
                     0) &&
-            (_employeeQuery.quota == "" ||
+            (_employeeQuery.quota == "All" ||
                 _employeeQuery.quota!
                         .compareTo(item.quotaHistory.first.quota.value.name) ==
                     0))
@@ -70,10 +76,6 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
     employeeDataSource = EmployeeDataSource(
         employeeData: queryEmployee(employeeController.listEmployees),
         onRefresh: dataGridRefresh);
-  }
-
-  void updateDataGirdRow() {
-    updateDataGird();
     employeeDataSource.buildDataGridRow();
     employeeDataSource._employeeData
         .forEach((element) => employeeDataSource.buildRow(element));
@@ -84,30 +86,6 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
     // Build UI
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   // backgroundColor: Colors.white,
-        //   // title: Row(
-        //   //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   //   mainAxisAlignment: MainAxisAlignment.start,
-        //   //   children: [
-        //   //     MyDropdownButton(
-        //   //         selectedValue: _selectedPosition,
-        //   //         values: positionController.listPositionName,
-        //   //         icon: IconData(0),
-        //   //         lable: "Position",
-        //   //         callback: (String _newValue) {},
-        //   //         size: Size(120, 60))
-        //   //   ],
-        //   // ),
-        //   actions: [
-        //     InkWell(
-        //       onTap: () {
-        //         Get.to(() => AddEmployee());
-        //       },
-        //       child: Icon(Icons.add),
-        //     ),
-        //   ],
-        // ),
         body: Column(
           children: [
             SingleChildScrollView(
@@ -118,34 +96,36 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
                   SizedBox(width: 10),
                   MyDropdownButton(
                       selectedValue: _selectedPosition,
-                      values: positionController.listPositionName,
+                      values: _listPositionNames,
                       icon: IconData(0),
                       lable: "Position",
                       callback: (String _newValue) {
                         _employeeQuery.position = _newValue;
-                        updateDataGirdRow();
+                        updateDataGird();
                         setState(() {});
                       },
                       size: Size(120, 60)),
                   SizedBox(width: 10),
                   MyDropdownButton(
                       selectedValue: _selectedUnit,
-                      values: unitController.listUnitName,
+                      values: _listUnitNames,
                       icon: IconData(0),
                       lable: "Unit",
                       callback: (String _newValue) {
                         _employeeQuery.unit = _newValue;
+                        updateDataGird();
                         setState(() {});
                       },
                       size: Size(120, 60)),
                   SizedBox(width: 10),
                   MyDropdownButton(
                       selectedValue: _selectedQuota,
-                      values: quotaController.listQuotaName,
+                      values: _listQuotaNames,
                       icon: IconData(0),
                       lable: "Quota",
                       callback: (String _newValue) {
-                        _employeeQuery.unit = _newValue;
+                        _employeeQuery.quota = _newValue;
+                        updateDataGird();
                         setState(() {});
                       },
                       size: Size(120, 60))
