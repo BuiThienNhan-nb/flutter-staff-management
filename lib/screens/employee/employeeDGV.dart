@@ -46,6 +46,7 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
     setState(() {
       calculateSalary();
     });
+    int i = 0;
   }
 
   List<Employee> queryEmployee(List<Employee> employees) {

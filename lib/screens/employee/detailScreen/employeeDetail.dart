@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:staff_management/models/employee.dart';
+import 'package:staff_management/models/quotaHistories.dart';
+import 'package:staff_management/models/relative.dart';
+import 'package:staff_management/models/workHistory.dart';
 import 'package:staff_management/services/employeeRepo.dart';
+import 'package:staff_management/services/workHistoryRepo.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/expansionTitle/additions/additionExpansionTitle.dart';
 import 'package:staff_management/utils/expansionTitle/quotaHistories/quotaHisExpansionTitle.dart';
@@ -38,7 +42,11 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   final _unitController = TextEditingController();
   final _sexController = TextEditingController();
   final _salaryController = TextEditingController();
+  late RxList<WorkHistory> _workHistory = <WorkHistory>[].obs;
+  late RxList<Relative> _relative = <Relative>[].obs;
+  late RxList<QuotaHistory> _quotaHistory = <QuotaHistory>[].obs;
   late Employee employeeCopy;
+  final WorkHistoryRepo workHistoryRepo = WorkHistoryRepo();
   bool onEdit = false;
   bool ignore = true;
 
@@ -61,6 +69,9 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _sexController.text = "${widget.employee.sex}";
     _salaryController.text =
         "${widget.employee.getSalaryWithAdditionsToCurrency()}";
+    _workHistory = widget.employee.workHistory;
+    _relative = widget.employee.relative;
+    _quotaHistory = widget.employee.quotaHistory;
   }
 
   @override
@@ -77,6 +88,17 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _salaryController.dispose();
     super.dispose();
   }
+
+  // void createWorkHistory() {
+  //   _workHistory.add(new WorkHistory(
+  //       uid: "uid",
+  //       dismissDate: Timestamp.fromDate(DateTime.now().add(const Duration(days: -1))),
+  //       joinDate: Timestamp.fromDate(),
+  //       positionId: _position.uid,
+  //       unitId: _unit.uid,
+  //       position: _position.obs,
+  //       unit: _unit.obs));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -178,47 +200,58 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                 child: Column(
                   children: [
                     TextFieldWidget(
-                        controller: _quotaController,
-                        icon: Icons.work,
-                        hintText: "Quota",
-                        onEdit: false,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
+                      controller: _quotaController,
+                      icon: Icons.work,
+                      hintText: "Quota",
+                      onEdit: false,
+                      textInputFormatter:
+                          FilteringTextInputFormatter.singleLineFormatter,
+                      callback: (String _submittedValue) {},
+                    ),
                     TextFieldWidget(
-                        controller: _positionController,
-                        icon: Icons.work_outline_outlined,
-                        hintText: "Position",
-                        onEdit: false,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
+                      controller: _positionController,
+                      icon: Icons.work_outline_outlined,
+                      hintText: "Position",
+                      onEdit: false,
+                      textInputFormatter:
+                          FilteringTextInputFormatter.singleLineFormatter,
+                      callback: (String _submittedValue) {},
+                    ),
                     TextFieldWidget(
-                        controller: _unitController,
-                        icon: Icons.home_work,
-                        hintText: "Unit",
-                        onEdit: false,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
+                      controller: _unitController,
+                      icon: Icons.home_work,
+                      hintText: "Unit",
+                      onEdit: false,
+                      textInputFormatter:
+                          FilteringTextInputFormatter.singleLineFormatter,
+                      callback: (String _submittedValue) {},
+                    ),
                     TextFieldWidget(
-                        controller: _addressController,
-                        icon: Icons.place,
-                        hintText: "Address",
-                        onEdit: onEdit,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
+                      controller: _addressController,
+                      icon: Icons.place,
+                      hintText: "Address",
+                      onEdit: onEdit,
+                      textInputFormatter:
+                          FilteringTextInputFormatter.singleLineFormatter,
+                      callback: (String _submittedValue) {},
+                    ),
                     DatePickerTextField(
                       labelText: "Birthday",
                       placeholder: "Sep 12, 1998",
                       textEditingController: _birthdateController,
                       editable: onEdit,
                       icon: Icons.cake,
+                      callback: (String _newDateString) {},
                     ),
                     TextFieldWidget(
-                        controller: _folkController,
-                        icon: Icons.short_text,
-                        hintText: "Folk",
-                        onEdit: onEdit,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
+                      controller: _folkController,
+                      icon: Icons.short_text,
+                      hintText: "Folk",
+                      onEdit: onEdit,
+                      textInputFormatter:
+                          FilteringTextInputFormatter.singleLineFormatter,
+                      callback: (String _submittedValue) {},
+                    ),
                     !onEdit
                         ? TextFieldWidget(
                             controller: _sexController,
@@ -226,7 +259,9 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                             hintText: "Gender",
                             onEdit: false,
                             textInputFormatter:
-                                FilteringTextInputFormatter.singleLineFormatter)
+                                FilteringTextInputFormatter.singleLineFormatter,
+                            callback: (String _submittedValue) {},
+                          )
                         : MyDropdownButton(
                             selectedValue: _sexController.text,
                             values: <String>["Nam", "Nữ"],
@@ -238,25 +273,28 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                             size: Size(sizeWidth, 70),
                           ),
                     TextFieldWidget(
-                        controller: _salaryController,
-                        icon: Icons.attach_money,
-                        hintText: "Current Total Salary",
-                        onEdit: false,
-                        textInputFormatter:
-                            FilteringTextInputFormatter.singleLineFormatter),
+                      controller: _salaryController,
+                      icon: Icons.attach_money,
+                      hintText: "Current Total Salary",
+                      onEdit: false,
+                      textInputFormatter:
+                          FilteringTextInputFormatter.singleLineFormatter,
+                      callback: (String _submittedValue) {},
+                    ),
                     RelativesExpansionTitle(
-                        relatives: employeeCopy.relative,
-                        onAdd: onEdit,
-                        onEdit: onEdit),
+                        relatives: _relative, onAdd: onEdit, onEdit: onEdit),
                     WorkHistoriesExpansionTitle(
-                        workHistories: employeeCopy.workHistory,
-                        onEdit: onEdit),
+                      workHistories: _workHistory,
+                      onEdit: onEdit,
+                      onAdd: onEdit,
+                    ),
                     QuotaHistoriesExpansionTitle(
-                        quotaHistories: employeeCopy.quotaHistory,
-                        onEdit: onEdit),
+                        quotaHistories: _quotaHistory, onEdit: onEdit),
                     AdditionsExpansionTitle(
-                        additionHistories: employeeCopy.additionHistory,
-                        onEdit: onEdit),
+                      additionHistories: employeeCopy.additionHistory,
+                      onEdit: onEdit,
+                      onAdd: onEdit,
+                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -273,7 +311,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                             final snackBar = SnackBar(
                               duration: Duration(milliseconds: 600),
                               content: Text(
-                                "Add employee successful",
+                                "Update employee successful",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 16),
                               ),
@@ -303,6 +341,9 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
         DateFormat("dd/MM/yyyy").parse(_birthdateController.text));
     employeeCopy.folk = _folkController.text;
     employeeCopy.sex = _sexController.text;
+    employeeCopy.workHistory = _workHistory;
+    employeeCopy.relative = _relative;
+    employeeCopy.quotaHistory = _quotaHistory;
   }
 
   Future<void> updateEmployee() async {
@@ -313,6 +354,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
       await EmployeeRepo()
           .updateEmployee(employeeCopy)
           .then((value) => widget.employee = Employee.clone(employeeCopy));
+      int i = 0;
     }
   }
 }

@@ -8,12 +8,14 @@ class DatePickerTextField extends StatelessWidget {
     required this.textEditingController,
     required this.editable,
     required this.icon,
+    required this.callback,
   });
   final String labelText;
   final String placeholder;
   final bool editable;
   final TextEditingController textEditingController;
   final IconData icon;
+  final Callback callback;
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +59,15 @@ class DatePickerTextField extends StatelessWidget {
           // border: InputBorder.none,
         ),
         enabled: editable,
+        onChanged: (String _onChanged) {
+          callback(_onChanged);
+        },
       ),
     );
   }
 }
+
+typedef Callback = Function(String _newDateString);
 
 class AlwaysDisabledFocusNode extends FocusNode {
   @override
