@@ -44,6 +44,17 @@ class QuotaHistory {
         quota: Quota.clone(quotaHistory.quota.value).obs);
   }
 
+  List<QuotaHistory> quotasInRange(
+      List<QuotaHistory> list, DateTime begin, DateTime end) {
+    List<QuotaHistory> _newList = [];
+    int index = 0;
+    if (list[index].joinDate.toDate().isBefore(end)) {}
+    // for (var item in list) {
+    //   if (item.)
+    // }
+    return [];
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'quotaId': quotaId,
