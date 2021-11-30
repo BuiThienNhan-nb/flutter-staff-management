@@ -129,6 +129,7 @@ class AddEmployee extends StatelessWidget {
                   onEdit: true,
                   textInputFormatter:
                       FilteringTextInputFormatter.singleLineFormatter,
+                  callback: (String _submittedValue) {},
                 ),
                 TextFieldWidget(
                   controller: _nameController,
@@ -137,6 +138,7 @@ class AddEmployee extends StatelessWidget {
                   onEdit: true,
                   textInputFormatter:
                       FilteringTextInputFormatter.singleLineFormatter,
+                  callback: (String _submittedValue) {},
                 ),
                 DatePickerTextField(
                   labelText: "Work day",
@@ -144,28 +146,34 @@ class AddEmployee extends StatelessWidget {
                   textEditingController: _workdateController,
                   icon: Icons.access_time,
                   editable: true,
+                  callback: (String _newDateString) {},
                 ),
                 TextFieldWidget(
-                    controller: _addressController,
-                    icon: Icons.place,
-                    hintText: "Address",
-                    onEdit: true,
-                    textInputFormatter:
-                        FilteringTextInputFormatter.singleLineFormatter),
+                  controller: _addressController,
+                  icon: Icons.place,
+                  hintText: "Address",
+                  onEdit: true,
+                  textInputFormatter:
+                      FilteringTextInputFormatter.singleLineFormatter,
+                  callback: (String _submittedValue) {},
+                ),
                 DatePickerTextField(
                   labelText: "Birthday",
                   placeholder: "Sep 12, 1998",
                   textEditingController: _birthdateController,
                   icon: Icons.cake,
                   editable: true,
+                  callback: (String _newDateString) {},
                 ),
                 TextFieldWidget(
-                    controller: _folkController,
-                    icon: Icons.short_text,
-                    hintText: "Folk",
-                    onEdit: onEdit,
-                    textInputFormatter:
-                        FilteringTextInputFormatter.singleLineFormatter),
+                  controller: _folkController,
+                  icon: Icons.short_text,
+                  hintText: "Folk",
+                  onEdit: onEdit,
+                  textInputFormatter:
+                      FilteringTextInputFormatter.singleLineFormatter,
+                  callback: (String _submittedValue) {},
+                ),
                 MyDropdownButton(
                   selectedValue: sex,
                   values: <String>["Nam", "Nữ"],

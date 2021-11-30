@@ -112,6 +112,15 @@ class _ChildQuotaHistoryExpansionTitleState
     super.initState();
   }
 
+  void updateQuota(String _selectedQuotaName) {
+    Quota _quota = quotaController.listQuotas
+        .where((element) => element.name == _selectedQuotaName)
+        .first;
+    widget._quotaHistory.quotaId = _quota.uid;
+    widget._quotaHistory.quota.value = _quota;
+    quotaController.onInit();
+  }
+
   void updateVariables() {
     // update quota
     Quota _quota = quotaController.listQuotas
@@ -135,7 +144,7 @@ class _ChildQuotaHistoryExpansionTitleState
 
   @override
   void dispose() {
-    updateVariables();
+    // updateVariables();
     _quotaHistoryNameController.dispose();
     _quotaHistoryJoinDateController.dispose();
     _quotaHistoryDismissDateController.dispose();
@@ -153,8 +162,9 @@ class _ChildQuotaHistoryExpansionTitleState
               lable: "Quota",
               callback: (String _newValue) {
                 setState(() {
-                  widget._quotaHistory.quota.value.name = _newValue;
+                  // widget._quotaHistory.quota.value.name = _newValue;
                   _quotaHistoryNameController.text = _newValue;
+                  updateQuota(_newValue);
                 });
               },
               size: Size(500, 70),
@@ -166,6 +176,7 @@ class _ChildQuotaHistoryExpansionTitleState
               onEdit: widget._onEdit,
               textInputFormatter:
                   FilteringTextInputFormatter.singleLineFormatter,
+              callback: (String _submittedValue) {},
             ),
       children: [
         Padding(
@@ -176,6 +187,9 @@ class _ChildQuotaHistoryExpansionTitleState
             textEditingController: _quotaHistoryJoinDateController,
             editable: widget._onEdit,
             icon: Icons.date_range,
+            callback: (String _newDateString) => widget._quotaHistory.joinDate =
+                Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                    .parse(_quotaHistoryJoinDateController.text)),
           ),
         ),
         Padding(
@@ -186,6 +200,9 @@ class _ChildQuotaHistoryExpansionTitleState
             textEditingController: _quotaHistoryDismissDateController,
             editable: widget._onEdit,
             icon: Icons.date_range,
+            callback: (String _newDateString) => Timestamp.fromDate(
+                DateFormat('dd/MM/yyyy')
+                    .parse(_quotaHistoryJoinDateController.text)),
           ),
         ),
       ],

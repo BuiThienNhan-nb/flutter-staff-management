@@ -7,6 +7,7 @@ class TextFieldWidget extends StatefulWidget {
   final String hintText;
   final bool onEdit;
   final TextInputFormatter textInputFormatter;
+  final Callback callback;
 
   const TextFieldWidget({
     Key? key,
@@ -15,6 +16,7 @@ class TextFieldWidget extends StatefulWidget {
     required this.hintText,
     required this.onEdit,
     required this.textInputFormatter,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -71,7 +73,15 @@ class _EmailFieldWidgetState extends State<TextFieldWidget> {
         validator: (input) {
           if (input == null || input.isEmpty) return 'This field is required';
         },
+        onFieldSubmitted: (String submittedValue) {
+          widget.callback(submittedValue);
+        },
+        onChanged: (String submittedValue) {
+          widget.callback(submittedValue);
+        },
       ),
     );
   }
 }
+
+typedef Callback = Function(String _submittedValue);

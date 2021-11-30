@@ -9,18 +9,27 @@ import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
+import 'package:get/get.dart';
 
-class AdditionsExpansionTitle extends StatelessWidget {
+class AdditionsExpansionTitle extends StatefulWidget {
   final List<AdditionHistory> _additionHistories;
   final bool _onEdit;
+  final bool _onAdd;
   const AdditionsExpansionTitle(
       {Key? key,
       required List<AdditionHistory> additionHistories,
-      required bool onEdit})
+      required bool onEdit,
+      required bool onAdd})
       : _additionHistories = additionHistories,
         _onEdit = onEdit,
+        _onAdd = onAdd,
         super(key: key);
+  @override
+  State<AdditionsExpansionTitle> createState() =>
+      _AdditionsExpansionTitleState();
+}
 
+class _AdditionsExpansionTitleState extends State<AdditionsExpansionTitle> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
@@ -47,7 +56,7 @@ class AdditionsExpansionTitle extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: _additionHistories.length,
+          itemCount: widget._additionHistories.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.fromLTRB(12, 2.5, 12, 2.5),
             child: Container(
@@ -63,23 +72,48 @@ class AdditionsExpansionTitle extends StatelessWidget {
                   ),
                 ],
               ),
-              child: ChildRelativeExpansionTitle(
-                additionHistory: _additionHistories[index],
-                onEdit: _onEdit,
+              child: ChildAdditionExpansionTitle(
+                additionHistory: widget._additionHistories[index],
+                onEdit: widget._onEdit,
               ),
             ),
           ),
-        )
+        ),
+        widget._onAdd
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      AdditionHistory _addition = new AdditionHistory(
+                        uid: 'uid',
+                        additionId: 'HTEGwD5TpvMPHBwUaQDG',
+                        date: Timestamp.fromDate(DateTime.now()),
+                        addition: new Addition(
+                                uid: 'HTEGwD5TpvMPHBwUaQDG',
+                                content: 'Giảng viên dạy giỏi',
+                                isReward: true,
+                                value: 1500)
+                            .obs,
+                      );
+                      widget._additionHistories.add(_addition);
+                      setState(() {});
+                    },
+                  ),
+                ],
+              )
+            : Container(),
       ],
     );
   }
 }
 
 // ignore: must_be_immutable
-class ChildRelativeExpansionTitle extends StatefulWidget {
+class ChildAdditionExpansionTitle extends StatefulWidget {
   AdditionHistory _additionHistory;
   final bool _onEdit;
-  ChildRelativeExpansionTitle(
+  ChildAdditionExpansionTitle(
       {Key? key,
       required AdditionHistory additionHistory,
       required bool onEdit})
@@ -88,12 +122,12 @@ class ChildRelativeExpansionTitle extends StatefulWidget {
         super(key: key);
 
   @override
-  State<ChildRelativeExpansionTitle> createState() =>
-      _ChildRelativeExpansionTitleState();
+  State<ChildAdditionExpansionTitle> createState() =>
+      _ChildAdditionExpansionTitleState();
 }
 
-class _ChildRelativeExpansionTitleState
-    extends State<ChildRelativeExpansionTitle> {
+class _ChildAdditionExpansionTitleState
+    extends State<ChildAdditionExpansionTitle> {
   final TextEditingController _additionNameController = TextEditingController();
   final TextEditingController _additionDateController = TextEditingController();
 
@@ -151,6 +185,7 @@ class _ChildRelativeExpansionTitleState
               onEdit: widget._onEdit,
               textInputFormatter:
                   FilteringTextInputFormatter.singleLineFormatter,
+              callback: (String _submittedValue) {},
             ),
       children: [
         Padding(
@@ -161,6 +196,9 @@ class _ChildRelativeExpansionTitleState
             textEditingController: _additionDateController,
             editable: widget._onEdit,
             icon: Icons.date_range,
+            callback: (String _newDateString) => widget._additionHistory.date =
+                Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                    .parse(_additionDateController.text)),
           ),
         ),
       ],
