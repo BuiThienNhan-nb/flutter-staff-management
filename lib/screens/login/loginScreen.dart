@@ -1,12 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/const_value/palette.dart';
-import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/screens/login/header_decoration.dart';
 import 'package:staff_management/services/authentication.dart';
-import 'package:staff_management/services/employeeRepo.dart';
 import 'package:staff_management/utils/button/button_widget.dart';
 import 'package:staff_management/utils/snack_bar/snack_bar_widget.dart';
 import 'package:staff_management/utils/textField/name_field_widget.dart';
@@ -24,6 +22,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    employeeController.retreiveDetailData();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -35,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   login() async {
+    print(positionController.listPositions);
     AuthenticationServices _auth = AuthenticationServices();
     if (_formKey.currentState!.validate()) {
       TextInput.finishAutofillContext();
@@ -100,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ButtonWidget(
                                 text: 'Login',
                                 onClicked: login,
-                                color: Palette.orange,
+                                color: Colors.blue,
                               ),
                               const SizedBox(
                                 height: 16,

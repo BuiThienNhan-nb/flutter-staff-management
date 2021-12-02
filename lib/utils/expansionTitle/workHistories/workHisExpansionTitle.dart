@@ -77,7 +77,7 @@ class _WorkHistoriesExpansionTitleState
               ),
               child: ChildWorkHistoryExpansionTitle(
                 workHistory: widget._workHistories[index],
-                onEdit: widget._onEdit,
+                onEdit: index == 0 ? widget._onEdit : false,
               ),
             ),
           ),
@@ -99,6 +99,7 @@ class _WorkHistoriesExpansionTitleState
                           uid: 'X8hCmqAYiQUODZpsRBp1',
                           name: 'Giảng viên',
                           allowancePoint: 0.25,
+                          allowancePoints: {},
                         ).obs,
                         unit: new Unit(
                           uid: '49wt93MiwouwkojKi0Z4',

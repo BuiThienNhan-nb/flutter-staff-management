@@ -43,6 +43,7 @@ class WorkHistory {
         uid: 'uid',
         name: '',
         allowancePoint: 0,
+        allowancePoints: {},
       ).obs,
       unit: new Unit(
         uid: 'uid',

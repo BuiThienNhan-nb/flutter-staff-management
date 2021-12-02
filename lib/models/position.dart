@@ -4,9 +4,13 @@ class Position {
   String uid = '';
   String name;
   double allowancePoint;
+  Map<String, num> allowancePoints;
 
   Position(
-      {required this.uid, required this.name, required this.allowancePoint});
+      {required this.uid,
+      required this.name,
+      required this.allowancePoint,
+      required this.allowancePoints});
 
   factory Position.fromJson(DocumentSnapshot doc) {
     Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
@@ -19,6 +23,10 @@ class Position {
           (data.containsKey('allowancePoint') && data['allowancePoint'] != null)
               ? data['allowancePoint'] as double
               : 0.0,
+      allowancePoints: (data.containsKey('allowancePoints') &&
+              data['allowancePoints'] != null)
+          ? new Map<String, num>.from(data['allowancePoints'])
+          : {},
     );
   }
 
@@ -26,7 +34,8 @@ class Position {
     return new Position(
         uid: position.uid,
         name: position.name,
-        allowancePoint: position.allowancePoint);
+        allowancePoint: position.allowancePoint,
+        allowancePoints: position.allowancePoints);
   }
 
   Map<String, dynamic> toMap() {
@@ -36,3 +45,8 @@ class Position {
     };
   }
 }
+
+// class PositionAllowancePoints {
+//   String year;
+
+// }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:staff_management/const_value/controller.dart';
+import 'package:staff_management/models/quotaHistories.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class RevenueScreen extends StatefulWidget {
@@ -18,11 +20,6 @@ class _RevenueScreenState extends State<RevenueScreen> {
       SalesData(DateTime(DateTime.now().year - 3), 32),
       SalesData(DateTime(DateTime.now().year - 4), 40)
     ];
-    int diff =
-        (-DateTime(2016, 2, 16).difference(DateTime(2017, 6, 8)).inDays ~/ 365)
-            .toInt();
-    print("DAYS DIFF: $diff");
-
     return SafeArea(
       child: Scaffold(
         body: Padding(

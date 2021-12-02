@@ -25,6 +25,7 @@ class PositionRepo {
         uid: 'uid',
         name: '',
         allowancePoint: 0.0,
+        allowancePoints: {},
       );
       for (var element in query.docs) {
         //get data

@@ -131,13 +131,24 @@ class Employee {
     double salaryPoint = !workYear.isFinite
         ? 0.0
         : quotaHistory.first.quota.value.ranks[workYear.toInt()];
-    double dSalary =
-        (salaryPoint + workHistory[0].position.value.allowancePoint) *
-            salaryRecordController.listSalaryRecords[0].currentSalary() *
-            (1 -
-                ConsInsurancetValue.healthInsurance -
-                ConsInsurancetValue.socialInsurance -
-                ConsInsurancetValue.unemploymentInsurance);
+    num allowancePoint = workHistory[0]
+            .position
+            .value
+            .allowancePoints
+            .containsKey("${DateTime.now().year}")
+        ? workHistory[0]
+            .position
+            .value
+            .allowancePoints["${DateTime.now().year}"]!
+        : 0.0;
+    double dSalary = (salaryPoint + allowancePoint) *
+        // salaryRecordController.listSalaryRecords[0].currentSalary() *
+        salaryRecordController.listSalaryRecords[0].baseSalary *
+        1000 *
+        (1 -
+            ConsInsurancetValue.healthInsurance -
+            ConsInsurancetValue.socialInsurance -
+            ConsInsurancetValue.unemploymentInsurance);
     salary = dSalary.ceil();
   }
 
