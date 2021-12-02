@@ -39,6 +39,7 @@ class DatePickerTextField extends StatelessWidget {
           ..selection = TextSelection.fromPosition(TextPosition(
               offset: textEditingController.text.length,
               affinity: TextAffinity.upstream));
+        callback(textEditingController.text);
       }
     }
 
@@ -48,9 +49,9 @@ class DatePickerTextField extends StatelessWidget {
         focusNode: AlwaysDisabledFocusNode(),
         controller: textEditingController,
         style: TextStyle(fontSize: 16),
-        onTap: () {
-          _selectDate(context);
-        },
+        onTap: textEditingController.text == 'Current'
+            ? () {}
+            : () => _selectDate(context),
         decoration: InputDecoration(
           labelText: labelText,
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -59,9 +60,6 @@ class DatePickerTextField extends StatelessWidget {
           // border: InputBorder.none,
         ),
         enabled: editable,
-        onChanged: (String _onChanged) {
-          callback(_onChanged);
-        },
       ),
     );
   }
