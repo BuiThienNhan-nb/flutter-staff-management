@@ -139,7 +139,7 @@ class _ChildRelativeExpansionTitleState
     _relativeTypeController.text = widget._relative.type;
     _relativeJobController.text = widget._relative.job;
     _relativeBirthdateController.text =
-        "${DateFormat('dd/MM/yyyy').format(widget._relative.birthdate.toDate())}";
+        "${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget._relative.birthdate.seconds * 1000))}";
     super.initState();
   }
 
@@ -216,15 +216,15 @@ class _ChildRelativeExpansionTitleState
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: DatePickerTextField(
-            labelText: "Birthday",
-            placeholder: "Sep 12, 1998",
-            textEditingController: _relativeBirthdateController,
-            editable: widget._onEdit,
-            icon: Icons.cake,
-            callback: (String _newDateString) => widget._relative.birthdate =
-                Timestamp.fromDate(
-                    DateFormat('dd/MM/yyyy').parse(_newDateString)),
-          ),
+              labelText: "Birthday",
+              placeholder: "Sep 12, 1998",
+              textEditingController: _relativeBirthdateController,
+              editable: widget._onEdit,
+              icon: Icons.cake,
+              callback: (String _newDateString) {
+                widget._relative.birthdate = Timestamp.fromDate(
+                    DateFormat('dd/MM/yyyy').parse(_newDateString));
+              }),
         ),
       ],
     );

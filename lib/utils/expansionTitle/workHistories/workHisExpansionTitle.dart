@@ -78,6 +78,31 @@ class _WorkHistoriesExpansionTitleState
               child: ChildWorkHistoryExpansionTitle(
                 workHistory: widget._workHistories[index],
                 onEdit: index == 0 ? widget._onEdit : false,
+                callback: (_newDateString) {
+                  if (widget._workHistories.length > 1) {
+                    if (widget._workHistories[index].joinDate
+                            .toDate()
+                            .compareTo(widget._workHistories[index + 1].joinDate
+                                .toDate()) <
+                        1) {
+                      widget._workHistories[index].dismissDate =
+                          Timestamp.fromDate(widget
+                              ._workHistories[index].joinDate
+                              .toDate()
+                              .add(const Duration(days: -1)));
+                      widget._workHistories[index + 1].dismissDate =
+                          Timestamp.fromDate(widget
+                              ._workHistories[index].joinDate
+                              .toDate()
+                              .add(const Duration(days: -1)));
+                    }
+                  } else {
+                    widget._workHistories[index].dismissDate =
+                        Timestamp.fromDate(widget._workHistories[index].joinDate
+                            .toDate()
+                            .add(const Duration(days: -1)));
+                  }
+                },
               ),
             ),
           ),
@@ -91,7 +116,8 @@ class _WorkHistoriesExpansionTitleState
                     onPressed: () {
                       WorkHistory _workHistory = new WorkHistory(
                         uid: 'uid',
-                        dismissDate: Timestamp.fromDate(DateTime.now()),
+                        dismissDate: Timestamp.fromDate(
+                            DateTime.now().add(const Duration(days: -1))),
                         joinDate: Timestamp.fromDate(DateTime.now()),
                         positionId: 'X8hCmqAYiQUODZpsRBp1',
                         unitId: '49wt93MiwouwkojKi0Z4',
@@ -109,15 +135,19 @@ class _WorkHistoriesExpansionTitleState
                           name: 'Khoa Công nghệ Thông tin',
                         ).obs,
                       );
-                      // Get.bottomSheet(
-                      //   //ChildRelativeExpansionTitle(relative: new Relative(uid: "uid", birthdate: birthdate, job: job, name: name, type: type), onEdit: true);
-                      //   AddRelative(
-                      //       relative: _relative,
-                      //       callback: (Relative _newRelative) {
-                      //         _relative = _newRelative;
-                      //       }),
-                      // );
-                      widget._workHistories.add(_workHistory);
+                      if (widget._workHistories[0].joinDate
+                              .toDate()
+                              .compareTo(_workHistory.joinDate.toDate()) <
+                          1) {
+                        widget._workHistories.add(_workHistory);
+                        widget._workHistories.sort((a, b) => b.dismissDate
+                            .toDate()
+                            .compareTo(a.dismissDate.toDate()));
+                      }
+                      // widget._workHistories.insert(0, _workHistory);
+                      // widget._workHistories.first.dismissDate =
+                      //     Timestamp.fromDate(
+                      //         DateTime.now().add(const Duration(days: -1)));
                       setState(() {});
                     },
                   ),
@@ -133,10 +163,15 @@ class _WorkHistoriesExpansionTitleState
 class ChildWorkHistoryExpansionTitle extends StatefulWidget {
   WorkHistory _workHistory;
   final bool _onEdit;
+  final Callback _callback;
   ChildWorkHistoryExpansionTitle(
-      {Key? key, required WorkHistory workHistory, required bool onEdit})
+      {Key? key,
+      required WorkHistory workHistory,
+      required bool onEdit,
+      required Callback callback})
       : _workHistory = workHistory,
         _onEdit = onEdit,
+        _callback = callback,
         super(key: key);
 
   @override
@@ -285,16 +320,18 @@ class _ChildWorkHistoryExpansionTitleState
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: DatePickerTextField(
-            labelText: "Join Date",
-            placeholder: "Sep 12, 1998",
-            textEditingController: _workHistoryJoinDateController,
-            editable: widget._onEdit,
-            icon: Icons.date_range,
-            callback: (String _newDateString) => widget._workHistory.joinDate =
-                Timestamp.fromDate(
-                    DateFormat('dd/MM/yyyy').parse(_newDateString)),
-          ),
+              labelText: "Join Date",
+              placeholder: "Sep 12, 1998",
+              textEditingController: _workHistoryJoinDateController,
+              editable: widget._onEdit,
+              icon: Icons.date_range,
+              callback: (String _newDateString) {
+                widget._callback(_newDateString);
+              }),
         ),
+        // => widget._workHistory.joinDate =
+        //         Timestamp.fromDate(
+        //             DateFormat('dd/MM/yyyy').parse(_newDateString)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: DatePickerTextField(
@@ -312,3 +349,5 @@ class _ChildWorkHistoryExpansionTitleState
     );
   }
 }
+
+typedef Callback = Function(String _newDateString);

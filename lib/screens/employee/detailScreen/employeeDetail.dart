@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:staff_management/models/additionHistory.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/models/relative.dart';
@@ -45,6 +46,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   late RxList<WorkHistory> _workHistory = <WorkHistory>[].obs;
   late RxList<Relative> _relative = <Relative>[].obs;
   late RxList<QuotaHistory> _quotaHistory = <QuotaHistory>[].obs;
+  late RxList<AdditionHistory> _additionHistory = <AdditionHistory>[].obs;
   late Employee employeeCopy;
   final WorkHistoryRepo workHistoryRepo = WorkHistoryRepo();
   bool onEdit = false;
@@ -72,6 +74,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _workHistory = widget.employee.workHistory;
     _relative = widget.employee.relative;
     _quotaHistory = widget.employee.quotaHistory;
+    _additionHistory = widget.employee.additionHistory;
   }
 
   @override
@@ -289,9 +292,12 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                       onAdd: onEdit,
                     ),
                     QuotaHistoriesExpansionTitle(
-                        quotaHistories: _quotaHistory, onEdit: onEdit),
+                      quotaHistories: _quotaHistory,
+                      onEdit: onEdit,
+                      onAdd: onEdit,
+                    ),
                     AdditionsExpansionTitle(
-                      additionHistories: employeeCopy.additionHistory,
+                      additionHistories: _additionHistory,
                       onEdit: onEdit,
                       onAdd: onEdit,
                     ),
@@ -333,7 +339,21 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     );
   }
 
+  // bool validateDateTime() {
+  //   if (_workHistory.length > 1) {
+  //     if (_workHistory[0]
+  //             .joinDate
+  //             .toDate()
+  //             .compareTo(_workHistory[1].dismissDate.toDate()) <=
+  //         0) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
+
   void updateVariables() {
+    // validateDateTime();
     employeeCopy.identityCard = _identityCardController.text;
     employeeCopy.name = _nameController.text;
     employeeCopy.address = _addressController.text;
@@ -344,6 +364,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     employeeCopy.workHistory = _workHistory;
     employeeCopy.relative = _relative;
     employeeCopy.quotaHistory = _quotaHistory;
+    employeeCopy.additionHistory = _additionHistory;
   }
 
   Future<void> updateEmployee() async {

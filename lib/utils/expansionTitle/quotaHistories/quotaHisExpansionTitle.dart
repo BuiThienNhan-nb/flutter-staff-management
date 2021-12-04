@@ -9,18 +9,28 @@ import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 import 'package:intl/intl.dart';
 import 'package:staff_management/utils/textField/datePickerTextField.dart';
+import 'package:get/get.dart';
 
-class QuotaHistoriesExpansionTitle extends StatelessWidget {
+class QuotaHistoriesExpansionTitle extends StatefulWidget {
   final List<QuotaHistory> _quotaHistories;
   final bool _onEdit;
-  const QuotaHistoriesExpansionTitle(
-      {Key? key,
-      required List<QuotaHistory> quotaHistories,
-      required bool onEdit})
-      : _quotaHistories = quotaHistories,
+  final bool _onAdd;
+  const QuotaHistoriesExpansionTitle({
+    Key? key,
+    required List<QuotaHistory> quotaHistories,
+    required bool onEdit,
+    required bool onAdd,
+  })  : _quotaHistories = quotaHistories,
         _onEdit = onEdit,
+        _onAdd = onAdd,
         super(key: key);
+  @override
+  State<QuotaHistoriesExpansionTitle> createState() =>
+      _QuotaHistoriesExpansionTitleState();
+}
 
+class _QuotaHistoriesExpansionTitleState
+    extends State<QuotaHistoriesExpansionTitle> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
@@ -47,7 +57,7 @@ class QuotaHistoriesExpansionTitle extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: _quotaHistories.length,
+          itemCount: widget._quotaHistories.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
             child: Container(
@@ -64,12 +74,44 @@ class QuotaHistoriesExpansionTitle extends StatelessWidget {
                 ],
               ),
               child: ChildQuotaHistoryExpansionTitle(
-                quotaHistory: _quotaHistories[index],
-                onEdit: _onEdit,
+                quotaHistory: widget._quotaHistories[index],
+                onEdit: widget._onEdit,
               ),
             ),
           ),
-        )
+        ),
+        widget._onAdd
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      QuotaHistory _quotaHistory = new QuotaHistory(
+                          uid: 'uid',
+                          quotaId: '',
+                          joinDate: Timestamp.fromDate(DateTime.now()),
+                          dismissDate: Timestamp.fromDate(DateTime.now()),
+                          quota: new Quota(
+                              uid: 'uid',
+                              duration: 3,
+                              name: 'Cán sự',
+                              ranks: []).obs);
+                      // Get.bottomSheet(
+                      //   //ChildRelativeExpansionTitle(relative: new Relative(uid: "uid", birthdate: birthdate, job: job, name: name, type: type), onEdit: true);
+                      //   AddRelative(
+                      //       relative: _relative,
+                      //       callback: (Relative _newRelative) {
+                      //         _relative = _newRelative;
+                      //       }),
+                      // );
+                      widget._quotaHistories.add(_quotaHistory);
+                      setState(() {});
+                    },
+                  ),
+                ],
+              )
+            : Container(),
       ],
     );
   }
@@ -162,7 +204,6 @@ class _ChildQuotaHistoryExpansionTitleState
               lable: "Quota",
               callback: (String _newValue) {
                 setState(() {
-                  // widget._quotaHistory.quota.value.name = _newValue;
                   _quotaHistoryNameController.text = _newValue;
                   updateQuota(_newValue);
                 });
