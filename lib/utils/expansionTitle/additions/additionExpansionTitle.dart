@@ -140,22 +140,9 @@ class _ChildAdditionExpansionTitleState
     super.initState();
   }
 
-  void updateVariables() {
-    // update addition
-    Addition _addition = additionController.listAdditions
-        .where((element) => element.content == _additionNameController.text)
-        .first;
-    widget._additionHistory.addition.value = _addition;
-    additionController.onInit();
-
-    // update date
-    widget._additionHistory.date = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy').parse(_additionDateController.text));
-  }
-
   @override
   void dispose() {
-    updateVariables();
+    // updateVariables();
     _additionNameController.dispose();
     _additionDateController.dispose();
     super.dispose();

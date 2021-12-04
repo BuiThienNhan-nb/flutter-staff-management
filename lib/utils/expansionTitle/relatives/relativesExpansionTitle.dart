@@ -143,14 +143,6 @@ class _ChildRelativeExpansionTitleState
     super.initState();
   }
 
-  void updateVariables() {
-    widget._relative.name = _relativeNameController.text;
-    widget._relative.type = _relativeTypeController.text;
-    widget._relative.job = _relativeJobController.text;
-    widget._relative.birthdate = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy').parse(_relativeBirthdateController.text));
-  }
-
   @override
   void dispose() {
     super.dispose();

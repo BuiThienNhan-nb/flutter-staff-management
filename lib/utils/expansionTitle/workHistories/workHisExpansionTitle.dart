@@ -33,6 +33,8 @@ class WorkHistoriesExpansionTitle extends StatefulWidget {
 
 class _WorkHistoriesExpansionTitleState
     extends State<WorkHistoriesExpansionTitle> {
+  var dmyNow =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
@@ -83,8 +85,8 @@ class _WorkHistoriesExpansionTitleState
                     if (widget._workHistories[index].joinDate
                             .toDate()
                             .compareTo(widget._workHistories[index + 1].joinDate
-                                .toDate()) <
-                        1) {
+                                .toDate()) >
+                        0) {
                       widget._workHistories[index].dismissDate =
                           Timestamp.fromDate(widget
                               ._workHistories[index].joinDate
@@ -95,6 +97,32 @@ class _WorkHistoriesExpansionTitleState
                               ._workHistories[index].joinDate
                               .toDate()
                               .add(const Duration(days: -1)));
+                    } else {
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Error'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: const <Widget>[
+                                  Text(
+                                      'Join day of the new object you just added is later than the join day of the old object'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Approve'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                   } else {
                     widget._workHistories[index].dismissDate =
@@ -111,46 +139,51 @@ class _WorkHistoriesExpansionTitleState
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      WorkHistory _workHistory = new WorkHistory(
-                        uid: 'uid',
-                        dismissDate: Timestamp.fromDate(
-                            DateTime.now().add(const Duration(days: -1))),
-                        joinDate: Timestamp.fromDate(DateTime.now()),
-                        positionId: 'X8hCmqAYiQUODZpsRBp1',
-                        unitId: '49wt93MiwouwkojKi0Z4',
-                        position: new Position(
-                          uid: 'X8hCmqAYiQUODZpsRBp1',
-                          name: 'Giảng viên',
-                          allowancePoint: 0.25,
-                          allowancePoints: {},
-                        ).obs,
-                        unit: new Unit(
-                          uid: '49wt93MiwouwkojKi0Z4',
-                          address: 'Phòng A2.1, tòa nhà A',
-                          foundedDate: Timestamp.fromDate(DateTime.now()),
-                          hotline: '0836613793',
-                          name: 'Khoa Công nghệ Thông tin',
-                        ).obs,
-                      );
-                      if (widget._workHistories[0].joinDate
+                  widget._workHistories[0].joinDate
                               .toDate()
-                              .compareTo(_workHistory.joinDate.toDate()) <
-                          1) {
-                        widget._workHistories.add(_workHistory);
-                        widget._workHistories.sort((a, b) => b.dismissDate
-                            .toDate()
-                            .compareTo(a.dismissDate.toDate()));
-                      }
-                      // widget._workHistories.insert(0, _workHistory);
-                      // widget._workHistories.first.dismissDate =
-                      //     Timestamp.fromDate(
-                      //         DateTime.now().add(const Duration(days: -1)));
-                      setState(() {});
-                    },
-                  ),
+                              .compareTo(dmyNow) >=
+                          0
+                      ? Container()
+                      : IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            WorkHistory _workHistory = new WorkHistory(
+                              uid: 'uid',
+                              dismissDate: Timestamp.fromDate(
+                                  dmyNow.add(const Duration(days: -1))),
+                              joinDate: Timestamp.fromDate(dmyNow),
+                              positionId: 'X8hCmqAYiQUODZpsRBp1',
+                              unitId: '49wt93MiwouwkojKi0Z4',
+                              position: Position.clone(positionController
+                                  .listPositions
+                                  .firstWhere((element) =>
+                                      element.uid ==
+                                      "X8hCmqAYiQUODZpsRBp1")).obs,
+                              unit: new Unit(
+                                uid: '49wt93MiwouwkojKi0Z4',
+                                address: 'Phòng A2.1, tòa nhà A',
+                                foundedDate:
+                                    Timestamp.fromDate(DateTime(2006, 6, 8)),
+                                hotline: '0836613793',
+                                name: 'Khoa Công nghệ Thông tin',
+                              ).obs,
+                            );
+                            if (widget._workHistories[0].joinDate
+                                    .toDate()
+                                    .compareTo(_workHistory.joinDate.toDate()) <
+                                1) {
+                              widget._workHistories.insert(0, _workHistory);
+                              // widget._workHistories.add(_workHistory);
+                              widget._workHistories[1].dismissDate =
+                                  Timestamp.fromDate(widget
+                                      ._workHistories[0].joinDate
+                                      .toDate()
+                                      .add(const Duration(days: -1)));
+                              setState(() {});
+                            }
+                            // setState(() {});
+                          },
+                        ),
                 ],
               )
             : Container(),
@@ -224,33 +257,6 @@ class _ChildWorkHistoryExpansionTitleState
     unitController.onInit();
   }
 
-  void updateVariables() {
-    // update unit
-    Unit _unit = unitController.listUnits
-        .where((element) => element.name == _workHistoryUnitController.text)
-        .first;
-    widget._workHistory.unitId = _unit.uid;
-    widget._workHistory.unit.value = _unit;
-    unitController.onInit();
-
-    // update position
-    Position _position = positionController.listPositions
-        .where((element) => element.name == _workHistoryPositionController.text)
-        .first;
-    widget._workHistory.positionId = _position.uid;
-    widget._workHistory.position.value = _position;
-    positionController.onInit();
-
-    // update date
-    widget._workHistory.joinDate = Timestamp.fromDate(
-        DateFormat('dd/MM/yyyy').parse(_workHistoryJoinDateController.text));
-    widget._workHistory.dismissDate =
-        _workHistoryDismissDateController.text == "Current"
-            ? widget._workHistory.dismissDate
-            : Timestamp.fromDate(DateFormat('dd/MM/yyyy')
-                .parse(_workHistoryDismissDateController.text));
-  }
-
   @override
   void dispose() {
     // updateVariables();
@@ -320,18 +326,18 @@ class _ChildWorkHistoryExpansionTitleState
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: DatePickerTextField(
-              labelText: "Join Date",
-              placeholder: "Sep 12, 1998",
-              textEditingController: _workHistoryJoinDateController,
-              editable: widget._onEdit,
-              icon: Icons.date_range,
-              callback: (String _newDateString) {
-                widget._callback(_newDateString);
-              }),
+            labelText: "Join Date",
+            placeholder: "Sep 12, 1998",
+            textEditingController: _workHistoryJoinDateController,
+            editable: widget._onEdit,
+            icon: Icons.date_range,
+            callback: (String _newDateString) {
+              widget._workHistory.joinDate = Timestamp.fromDate(
+                  DateFormat('dd/MM/yyyy').parse(_newDateString));
+              widget._callback(_newDateString);
+            },
+          ),
         ),
-        // => widget._workHistory.joinDate =
-        //         Timestamp.fromDate(
-        //             DateFormat('dd/MM/yyyy').parse(_newDateString)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: DatePickerTextField(

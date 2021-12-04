@@ -45,8 +45,3 @@ class Position {
     };
   }
 }
-
-// class PositionAllowancePoints {
-//   String year;
-
-// }

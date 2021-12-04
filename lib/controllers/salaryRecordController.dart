@@ -102,13 +102,6 @@ class SalaryRecordController extends GetxController {
     return ySalary;
   }
 
-  // String calculateYearSalaryToString(Employee employee, int year) {
-  //   double dSalary = 0.0;
-  //   final oCcy = new NumberFormat("#,##0", "en_US");
-
-  //   return "${oCcy.format(dSalary.ceil())} VNĐ";
-  // }
-
   double calculateMonthSalary(double point, int baseSalary) {
     return point *
         baseSalary *
