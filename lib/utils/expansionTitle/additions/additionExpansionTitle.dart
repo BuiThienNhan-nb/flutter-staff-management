@@ -145,6 +145,7 @@ class _ChildAdditionExpansionTitleState
     Addition _addition = additionController.listAdditions
         .where((element) => element.content == _additionNameController.text)
         .first;
+    widget._additionHistory.uid = _addition.uid;
     widget._additionHistory.addition.value = _addition;
     additionController.onInit();
 
@@ -155,7 +156,7 @@ class _ChildAdditionExpansionTitleState
 
   @override
   void dispose() {
-    updateVariables();
+    // updateVariables();
     _additionNameController.dispose();
     _additionDateController.dispose();
     super.dispose();

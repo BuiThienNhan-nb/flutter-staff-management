@@ -71,10 +71,10 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     _sexController.text = "${widget.employee.sex}";
     _salaryController.text =
         "${widget.employee.getSalaryWithAdditionsToCurrency()}";
-    _workHistory = widget.employee.workHistory;
-    _relative = widget.employee.relative;
-    _quotaHistory = widget.employee.quotaHistory;
-    _additionHistory = widget.employee.additionHistory;
+    _workHistory = employeeCopy.workHistory;
+    _relative = employeeCopy.relative;
+    _quotaHistory = employeeCopy.quotaHistory;
+    _additionHistory = employeeCopy.additionHistory;
   }
 
   @override
@@ -339,21 +339,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     );
   }
 
-  // bool validateDateTime() {
-  //   if (_workHistory.length > 1) {
-  //     if (_workHistory[0]
-  //             .joinDate
-  //             .toDate()
-  //             .compareTo(_workHistory[1].dismissDate.toDate()) <=
-  //         0) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
-
   void updateVariables() {
-    // validateDateTime();
     employeeCopy.identityCard = _identityCardController.text;
     employeeCopy.name = _nameController.text;
     employeeCopy.address = _addressController.text;
@@ -375,7 +361,6 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
       await EmployeeRepo()
           .updateEmployee(employeeCopy)
           .then((value) => widget.employee = Employee.clone(employeeCopy));
-      int i = 0;
     }
   }
 }

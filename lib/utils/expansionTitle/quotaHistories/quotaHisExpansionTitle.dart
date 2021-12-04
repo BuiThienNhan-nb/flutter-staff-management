@@ -31,6 +31,8 @@ class QuotaHistoriesExpansionTitle extends StatefulWidget {
 
 class _QuotaHistoriesExpansionTitleState
     extends State<QuotaHistoriesExpansionTitle> {
+  var dmyNow =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
@@ -75,7 +77,60 @@ class _QuotaHistoriesExpansionTitleState
               ),
               child: ChildQuotaHistoryExpansionTitle(
                 quotaHistory: widget._quotaHistories[index],
-                onEdit: widget._onEdit,
+                onEdit: index == 0 ? widget._onEdit : false,
+                callback: (_newDateString) {
+                  if (widget._quotaHistories.length > 1) {
+                    if (widget._quotaHistories[index].joinDate
+                            .toDate()
+                            .compareTo(widget
+                                ._quotaHistories[index + 1].joinDate
+                                .toDate()) >
+                        0) {
+                      widget._quotaHistories[index].dismissDate =
+                          Timestamp.fromDate(widget
+                              ._quotaHistories[index].joinDate
+                              .toDate()
+                              .add(const Duration(days: -1)));
+                      widget._quotaHistories[index + 1].dismissDate =
+                          Timestamp.fromDate(widget
+                              ._quotaHistories[index].joinDate
+                              .toDate()
+                              .add(const Duration(days: -1)));
+                    } else {
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Error'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: const <Widget>[
+                                  Text(
+                                      'Join day of the new object you just added is later than the join day of the old object'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Approve'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  } else {
+                    widget._quotaHistories[index].dismissDate =
+                        Timestamp.fromDate(widget
+                            ._quotaHistories[index].joinDate
+                            .toDate()
+                            .add(const Duration(days: -1)));
+                  }
+                },
               ),
             ),
           ),
@@ -84,31 +139,39 @@ class _QuotaHistoriesExpansionTitleState
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      QuotaHistory _quotaHistory = new QuotaHistory(
-                          uid: 'uid',
-                          quotaId: '',
-                          joinDate: Timestamp.fromDate(DateTime.now()),
-                          dismissDate: Timestamp.fromDate(DateTime.now()),
-                          quota: new Quota(
-                              uid: 'uid',
-                              duration: 3,
-                              name: 'Cán sự',
-                              ranks: []).obs);
-                      // Get.bottomSheet(
-                      //   //ChildRelativeExpansionTitle(relative: new Relative(uid: "uid", birthdate: birthdate, job: job, name: name, type: type), onEdit: true);
-                      //   AddRelative(
-                      //       relative: _relative,
-                      //       callback: (Relative _newRelative) {
-                      //         _relative = _newRelative;
-                      //       }),
-                      // );
-                      widget._quotaHistories.add(_quotaHistory);
-                      setState(() {});
-                    },
-                  ),
+                  widget._quotaHistories[0].joinDate
+                              .toDate()
+                              .compareTo(dmyNow) >=
+                          0
+                      ? Container()
+                      : IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            QuotaHistory _quotaHistory = new QuotaHistory(
+                                uid: 'uid',
+                                quotaId: 'gBOJPN189hQA3uglbvwc',
+                                joinDate: Timestamp.fromDate(DateTime.now()),
+                                dismissDate: Timestamp.fromDate(DateTime.now()),
+                                quota: new Quota(
+                                    uid: 'gBOJPN189hQA3uglbvwc',
+                                    duration: 2,
+                                    name: 'Cán sự',
+                                    ranks: [0]).obs);
+                            if (widget._quotaHistories[0].joinDate
+                                    .toDate()
+                                    .compareTo(
+                                        _quotaHistory.joinDate.toDate()) <
+                                1) {
+                              widget._quotaHistories.insert(0, _quotaHistory);
+                              widget._quotaHistories[1].dismissDate =
+                                  Timestamp.fromDate(widget
+                                      ._quotaHistories[0].joinDate
+                                      .toDate()
+                                      .add(const Duration(days: -1)));
+                            }
+                            setState(() {});
+                          },
+                        ),
                 ],
               )
             : Container(),
@@ -121,10 +184,15 @@ class _QuotaHistoriesExpansionTitleState
 class ChildQuotaHistoryExpansionTitle extends StatefulWidget {
   QuotaHistory _quotaHistory;
   final bool _onEdit;
+  final Callback _callback;
   ChildQuotaHistoryExpansionTitle(
-      {Key? key, required QuotaHistory quotaHistory, required bool onEdit})
+      {Key? key,
+      required QuotaHistory quotaHistory,
+      required bool onEdit,
+      required Callback callback})
       : _quotaHistory = quotaHistory,
         _onEdit = onEdit,
+        _callback = callback,
         super(key: key);
 
   @override
@@ -223,15 +291,16 @@ class _ChildQuotaHistoryExpansionTitleState
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: DatePickerTextField(
-            labelText: "Join Date",
-            placeholder: "Sep 12, 1998",
-            textEditingController: _quotaHistoryJoinDateController,
-            editable: widget._onEdit,
-            icon: Icons.date_range,
-            callback: (String _newDateString) => widget._quotaHistory.joinDate =
-                Timestamp.fromDate(DateFormat('dd/MM/yyyy')
-                    .parse(_quotaHistoryJoinDateController.text)),
-          ),
+              labelText: "Join Date",
+              placeholder: "Sep 12, 1998",
+              textEditingController: _quotaHistoryJoinDateController,
+              editable: widget._onEdit,
+              icon: Icons.date_range,
+              callback: (String _newDateString) {
+                widget._quotaHistory.joinDate = Timestamp.fromDate(
+                    DateFormat('dd/MM/yyyy').parse(_newDateString));
+                widget._callback(_newDateString);
+              }),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -250,3 +319,5 @@ class _ChildQuotaHistoryExpansionTitleState
     );
   }
 }
+
+typedef Callback = Function(String _newDateString);
