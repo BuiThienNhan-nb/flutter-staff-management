@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:staff_management/const_value/value.dart';
+import 'package:staff_management/models/additionHistory.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/models/salaryRecords.dart';
@@ -20,17 +21,23 @@ class SalaryRecordController extends GetxController {
     _listSalaryRecord.bindStream(SalaryRecordRepo().salaryRecordStream());
   }
 
-  List<int> calculateYearSalary(Employee employee, int year,
-      List<WorkHistory> position, List<QuotaPoint> quota) {
+  List<int> calculateYearSalary(
+      Employee employee,
+      int year,
+      List<WorkHistory> position,
+      List<QuotaPoint> quota,
+      List<AdditionHistory> additions) {
     List<int> ySalary = [];
     int baseSalary = listSalaryRecords
-            .firstWhere((element) => element.year == year)
+            .firstWhere((element) => element.year == year,
+                orElse: () => SalaryRecord(uid: "uid", year: 0, baseSalary: 0))
             .baseSalary *
         1000;
     for (int i = 0; i < 12; i++) {
       ySalary.add(0);
     }
-    if (position.length == 0 && quota.length == 0) {
+    if (baseSalary == 0) return ySalary;
+    if (position.length == 0 || quota.length == 0) {
       // if in this year, this employee don't have any position and quota
     } else if (position.length == 1 && quota.length == 1) {
       // if in this year, this employee just has only one position and quota
@@ -99,6 +106,11 @@ class SalaryRecordController extends GetxController {
         ySalary[i] = 0;
       }
     }
+    additions.forEach((element) => (element.addition.value.isReward)
+        ? ySalary[element.date.toDate().month - 1] +=
+            element.addition.value.value * 1000
+        : ySalary[element.date.toDate().month - 1] -=
+            element.addition.value.value * 1000);
     return ySalary;
   }
 

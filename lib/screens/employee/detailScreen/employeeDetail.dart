@@ -7,6 +7,7 @@ import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/models/quotaHistories.dart';
 import 'package:staff_management/models/relative.dart';
 import 'package:staff_management/models/workHistory.dart';
+import 'package:staff_management/screens/employee/detailScreen/employeeSalary.dart';
 import 'package:staff_management/services/employeeRepo.dart';
 import 'package:staff_management/services/workHistoryRepo.dart';
 import 'package:staff_management/utils/dropdown/dropdownButton.dart';
@@ -102,6 +103,12 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Employee Detail"),
+        actions: [
+          IconButton(
+              onPressed: () =>
+                  Get.to(() => EmployeeSalary(employee: widget.employee)),
+              icon: Icon(Icons.bar_chart_rounded))
+        ],
       ),
       body: SingleChildScrollView(
         child: DefaultTextStyle(

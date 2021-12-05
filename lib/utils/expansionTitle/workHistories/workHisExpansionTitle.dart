@@ -82,21 +82,21 @@ class _WorkHistoriesExpansionTitleState
                 onEdit: index == 0 ? widget._onEdit : false,
                 callback: (_newDateString) {
                   if (widget._workHistories.length > 1) {
-                    if (widget._workHistories[index].joinDate
-                            .toDate()
-                            .compareTo(widget._workHistories[index + 1].joinDate
-                                .toDate()) >
+                    if (DateFormat('dd/MM/yyyy')
+                            .parse(_newDateString)
+                            .compareTo(
+                                widget._workHistories[1].joinDate.toDate()) >
                         0) {
-                      widget._workHistories[index].dismissDate =
-                          Timestamp.fromDate(widget
-                              ._workHistories[index].joinDate
-                              .toDate()
+                      widget._workHistories[0].dismissDate = Timestamp.fromDate(
+                          DateFormat('dd/MM/yyyy')
+                              .parse(_newDateString)
                               .add(const Duration(days: -1)));
-                      widget._workHistories[index + 1].dismissDate =
-                          Timestamp.fromDate(widget
-                              ._workHistories[index].joinDate
-                              .toDate()
+                      widget._workHistories[1].dismissDate = Timestamp.fromDate(
+                          DateFormat('dd/MM/yyyy')
+                              .parse(_newDateString)
                               .add(const Duration(days: -1)));
+                      setState(() {});
+                      return true;
                     } else {
                       showDialog<void>(
                         context: context,
@@ -123,12 +123,14 @@ class _WorkHistoriesExpansionTitleState
                           );
                         },
                       );
+                      return false;
                     }
                   } else {
-                    widget._workHistories[index].dismissDate =
-                        Timestamp.fromDate(widget._workHistories[index].joinDate
-                            .toDate()
+                    widget._workHistories[0].dismissDate = Timestamp.fromDate(
+                        DateFormat('dd/MM/yyyy')
+                            .parse(_newDateString)
                             .add(const Duration(days: -1)));
+                    return true;
                   }
                 },
               ),
@@ -181,7 +183,6 @@ class _WorkHistoriesExpansionTitleState
                                       .add(const Duration(days: -1)));
                               setState(() {});
                             }
-                            // setState(() {});
                           },
                         ),
                 ],
@@ -225,6 +226,12 @@ class _ChildWorkHistoryExpansionTitleState
 
   @override
   void initState() {
+    // TODO: implement initState
+    updateController();
+    super.initState();
+  }
+
+  void updateController() {
     _workHistoryUnitController.text = widget._workHistory.unit.value.name;
     _workHistoryPositionController.text =
         widget._workHistory.position.value.name;
@@ -236,7 +243,6 @@ class _ChildWorkHistoryExpansionTitleState
             .isBefore(widget._workHistory.joinDate.toDate())
         ? "Current"
         : "${DateFormat('dd/MM/yyyy').format(widget._workHistory.dismissDate.toDate())}";
-    super.initState();
   }
 
   void updatePosition(String _selectedPositionName) {
@@ -270,6 +276,7 @@ class _ChildWorkHistoryExpansionTitleState
   @override
   Widget build(BuildContext context) {
     final sizeWidth = MediaQuery.of(context).size.width;
+    updateController();
     return ExpansionTile(
       title: widget._onEdit
           ? MyDropdownButton(
@@ -332,9 +339,17 @@ class _ChildWorkHistoryExpansionTitleState
             editable: widget._onEdit,
             icon: Icons.date_range,
             callback: (String _newDateString) {
-              widget._workHistory.joinDate = Timestamp.fromDate(
-                  DateFormat('dd/MM/yyyy').parse(_newDateString));
-              widget._callback(_newDateString);
+              if (widget._callback(_newDateString)) {
+                widget._workHistory.joinDate = Timestamp.fromDate(
+                    DateFormat('dd/MM/yyyy').parse(_newDateString));
+              } else {
+                _workHistoryJoinDateController.text = DateFormat('dd/MM/yyyy')
+                    .format(widget._workHistory.joinDate.toDate());
+                // setState(() {
+                //   _workHistoryJoinDateController.text = DateFormat('dd/MM/yyyy')
+                //       .format(widget._workHistory.joinDate.toDate());
+                // });
+              }
             },
           ),
         ),
@@ -356,4 +371,4 @@ class _ChildWorkHistoryExpansionTitleState
   }
 }
 
-typedef Callback = Function(String _newDateString);
+typedef Callback = bool Function(String _newDateString);
