@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/screens/dashboard/addAddition.dart';
 import 'package:staff_management/screens/dashboard/addPosition.dart';
 import 'package:staff_management/screens/dashboard/addUnit.dart';
@@ -24,8 +25,16 @@ class _HomeScreenState extends State<HomeScreen> {
   List<HomeItemModel> _listHomeItem = [];
   int _selectedIndex = -1;
 
+  void initListName() {
+    additionController.initListAdditionName();
+    quotaController.initListQuoataName();
+    positionController.initListPositionName();
+    unitController.initListUnitName();
+  }
+
   @override
   void initState() {
+    initListName();
     _listHomeItem
       ..add(HomeItemModel(
         title: "Add Position",
@@ -82,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => setState(() {
                 _selectedIndex = index;
               }),
-              onDoubleTap: () => Get.to(() => _list[index]),
+              onDoubleTap: () => Get.bottomSheet(_list[_selectedIndex]),
               child: HomeItem(
                   title: _listHomeItem[index].title,
                   icon: _listHomeItem[index].icon,
