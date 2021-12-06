@@ -42,7 +42,7 @@ class WorkHistory {
       position: new Position(
         uid: 'uid',
         name: '',
-        allowancePoint: 0,
+        // allowancePoint: 0,
         allowancePoints: {},
       ).obs,
       unit: new Unit(

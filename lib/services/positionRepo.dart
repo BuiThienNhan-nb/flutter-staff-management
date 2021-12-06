@@ -24,7 +24,7 @@ class PositionRepo {
       Position _position = Position(
         uid: 'uid',
         name: '',
-        allowancePoint: 0.0,
+        // allowancePoint: 0.0,
         allowancePoints: {},
       );
       for (var element in query.docs) {
@@ -36,5 +36,12 @@ class PositionRepo {
       }
       return _position;
     });
+  }
+
+  Future<void> addPosition(Position position) async {
+    await _db
+        .collection("positions")
+        .add(position.toMap())
+        .then((value) => position.uid = value.id);
   }
 }

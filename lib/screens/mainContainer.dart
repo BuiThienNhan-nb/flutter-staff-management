@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:staff_management/screens/dashboard/home.dart';
 import 'package:staff_management/screens/employee/employeeDGV.dart';
 import 'package:staff_management/screens/employee/searchScreen/searchEmployee.dart';
-import 'package:staff_management/screens/login/loginScreen.dart';
 import 'package:staff_management/screens/revenue/revenueScreen.dart';
-import 'package:staff_management/screens/testScreen.dart';
 
 class MainContainer extends StatefulWidget {
   const MainContainer({Key? key}) : super(key: key);
@@ -17,13 +16,14 @@ class MainContainer extends StatefulWidget {
 class _MainContainerState extends State<MainContainer> {
   // List of app bar title
   List<String> _titles = [
+    "Home",
     "List Employees",
-    "List Units",
+    // "List Units",
     "Revenue Chart",
-    "Settings"
+    // "Settings"
   ];
 
-  String _title = "List Employees";
+  String _title = "Home";
 
   // update app bar title
   void updateTitle(int index) {
@@ -37,10 +37,10 @@ class _MainContainerState extends State<MainContainer> {
     //List screen navigate by bottom bar
     List<Widget> _buildScreens() {
       return [
+        HomeScreen(),
         EmployeeDataGridView(),
-        LoginScreen(),
         RevenueScreen(),
-        TestScreen(),
+        // TestScreen(),
       ];
     }
 
@@ -49,20 +49,20 @@ class _MainContainerState extends State<MainContainer> {
       return [
         PersistentBottomNavBarItem(
           icon: Icon(
-            Icons.person,
+            Icons.home,
             size: 32,
           ),
-          title: ("Employee"),
+          title: ("Home"),
           activeColorPrimary: Colors.blue,
           // activeColorSecondary: Colors.white,
           inactiveColorPrimary: CupertinoColors.systemGrey2,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(
-            Icons.home,
+            Icons.person,
             size: 32,
           ),
-          title: ("Units"),
+          title: ("Employee"),
           activeColorPrimary: Colors.blue,
           // activeColorSecondary: Colors.white,
           inactiveColorPrimary: CupertinoColors.systemGrey2,
@@ -77,16 +77,16 @@ class _MainContainerState extends State<MainContainer> {
           // activeColorSecondary: Colors.white,
           inactiveColorPrimary: CupertinoColors.systemGrey2,
         ),
-        PersistentBottomNavBarItem(
-          icon: Icon(
-            Icons.settings,
-            size: 32,
-          ),
-          title: ("Settings"),
-          activeColorPrimary: Colors.blue,
-          // activeColorSecondary: Colors.white,
-          inactiveColorPrimary: CupertinoColors.systemGrey2,
-        ),
+        // PersistentBottomNavBarItem(
+        //   icon: Icon(
+        //     Icons.settings,
+        //     size: 32,
+        //   ),
+        //   title: ("Settings"),
+        //   activeColorPrimary: Colors.blue,
+        //   // activeColorSecondary: Colors.white,
+        //   inactiveColorPrimary: CupertinoColors.systemGrey2,
+        // ),
       ];
     }
 

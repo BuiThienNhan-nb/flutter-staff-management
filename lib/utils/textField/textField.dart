@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final TextEditingController controller;
-  final IconData icon;
+  final IconData? icon;
   final String hintText;
   final bool onEdit;
   final TextInputFormatter textInputFormatter;

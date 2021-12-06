@@ -71,7 +71,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
                       _selectedUnit = _newValue;
                     });
                   },
-                  size: Size(200, 70)),
+                  size: Size(200, 60)),
               SizedBox(height: 10),
               Expanded(
                 child: SfCartesianChart(
