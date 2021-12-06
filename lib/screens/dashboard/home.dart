@@ -6,6 +6,7 @@ import 'package:staff_management/screens/dashboard/addAddition.dart';
 import 'package:staff_management/screens/dashboard/addPosition.dart';
 import 'package:staff_management/screens/dashboard/addUnit.dart';
 import 'package:staff_management/screens/dashboard/homeItem.dart';
+import 'package:staff_management/screens/dashboard/retirementEmployee.dart';
 import 'package:staff_management/screens/dashboard/updateSalary.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AddUnitScreen(),
     AddAdditionScreen(),
     UpdateSalaryScreen(),
+    RetirementEmployee(),
   ];
   List<HomeItemModel> _listHomeItem = [];
   int _selectedIndex = -1;
@@ -51,6 +53,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ..add(HomeItemModel(
         title: "Update Salary",
         icon: Icons.money_rounded,
+      ))
+      ..add(HomeItemModel(
+        title: 'Retirement Employee',
+        icon: Icons.person,
       ));
     super.initState();
   }
@@ -85,13 +91,18 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
             ),
-            physics: NeverScrollableScrollPhysics(),
             itemCount: _listHomeItem.length,
             itemBuilder: (BuildContext context, int index) => GestureDetector(
               onTap: () => setState(() {
                 _selectedIndex = index;
               }),
-              onDoubleTap: () => Get.bottomSheet(_list[_selectedIndex]),
+              onDoubleTap: () {
+                if (_selectedIndex == 4) {
+                  Get.to(_list[_selectedIndex]);
+                } else {
+                  Get.bottomSheet(_list[_selectedIndex]);
+                }
+              },
               child: HomeItem(
                   title: _listHomeItem[index].title,
                   icon: _listHomeItem[index].icon,
