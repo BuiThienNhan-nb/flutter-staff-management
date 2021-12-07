@@ -106,6 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     _selectedIndex = index;
                   }),
                   onDoubleTap: () {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
                     if (_selectedIndex == 4) {
                       Get.to(_list[_selectedIndex]);
                     } else {
