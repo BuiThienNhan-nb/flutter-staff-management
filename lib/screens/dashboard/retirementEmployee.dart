@@ -17,33 +17,16 @@ class RetirementEmployee extends StatefulWidget {
 
 class _RetirementEmployeeState extends State<RetirementEmployee> {
   late EmployeeDataSource employeeDataSource;
-  EmployeeQuery _employeeQuery =
-      EmployeeQuery(position: "All", quota: "All", unit: "All", year: "All");
-  String _selectedPosition = "All";
-  String _selectedUnit = "All";
-  String _selectedQuota = "All";
+  EmployeeQuery _employeeQuery = EmployeeQuery(
+      position: "All", quota: "All", unit: "All", year: "All", month: 'All');
   String _selectedYear = 'All';
   String _selectedMonth = 'All';
   List<String> _listPositionNames = ["All"];
   List<String> _listUnitNames = ["All"];
   List<String> _listQuotaNames = ["All"];
-  var _listYear =
-      new List<String>.generate(6, (i) => '${DateTime.now().year + i}');
-  List<String> _listMonth = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    'All'
-  ];
+  var _listYear = ['All'];
+  // new List<String>.generate(6, (i) => '${DateTime.now().year + i}');
+  List<String> _listMonth = ['All'];
   @override
   void initState() {
     super.initState();
@@ -58,7 +41,9 @@ class _RetirementEmployeeState extends State<RetirementEmployee> {
     _listPositionNames.addAll(positionController.listPositionName);
     _listUnitNames.addAll(unitController.listUnitName);
     _listQuotaNames.addAll(quotaController.listQuotaName);
-    _listYear.add("All");
+    _listYear
+        .addAll(List<String>.generate(6, (i) => '${DateTime.now().year + i}'));
+    _listMonth.addAll(List<String>.generate(12, (i) => '${i + 1}'));
   }
 
   void calculateSalary() {
@@ -150,41 +135,6 @@ class _RetirementEmployeeState extends State<RetirementEmployee> {
                         setState(() {});
                       },
                       size: Size(120, 60)),
-                  // MyDropdownButton(
-                  //     selectedValue: _selectedPosition,
-                  //     values: _listPositionNames,
-                  //     icon: IconData(0),
-                  //     lable: "Position",
-                  //     callback: (String _newValue) {
-                  //       _employeeQuery.position = _newValue;
-                  //       updateDataGird();
-                  //       setState(() {});
-                  //     },
-                  //     size: Size(120, 60)),
-                  // SizedBox(width: 10),
-                  // MyDropdownButton(
-                  //     selectedValue: _selectedUnit,
-                  //     values: _listUnitNames,
-                  //     icon: IconData(0),
-                  //     lable: "Unit",
-                  //     callback: (String _newValue) {
-                  //       _employeeQuery.unit = _newValue;
-                  //       updateDataGird();
-                  //       setState(() {});
-                  //     },
-                  //     size: Size(120, 60)),
-                  // SizedBox(width: 10),
-                  // MyDropdownButton(
-                  //     selectedValue: _selectedQuota,
-                  //     values: _listQuotaNames,
-                  //     icon: IconData(0),
-                  //     lable: "Quota",
-                  //     callback: (String _newValue) {
-                  //       _employeeQuery.quota = _newValue;
-                  //       updateDataGird();
-                  //       setState(() {});
-                  //     },
-                  //     size: Size(120, 60))
                 ],
               ),
             ),
