@@ -76,8 +76,13 @@ class _AddPositionScreenState extends State<AddPositionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(height: 10),
                     Text(
                       "Position name",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                     SizedBox(height: 5),
                     TextFieldWidget(
@@ -90,7 +95,13 @@ class _AddPositionScreenState extends State<AddPositionScreen> {
                       callback: (String _newValue) {},
                     ),
                     SizedBox(height: 20),
-                    Text("List allowance Points"),
+                    Text(
+                      "List allowance Points",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                     SizedBox(height: 5),
                     TextNumFieldWidget(
                       controller: _2015Controller,
@@ -134,11 +145,9 @@ class _AddPositionScreenState extends State<AddPositionScreen> {
                         style: ButtonStyle(
                           alignment: Alignment.center,
                         ),
-                        onPressed: () async {
-                          await addPosition()
-                              .then((value) => showSnackBar(context, value));
-                        },
-                        child: Text("Add"),
+                        onPressed: () async => await addPosition()
+                            .then((value) => showSnackBar(context, value)),
+                        child: Text("Add Position"),
                       ),
                     ),
                   ],

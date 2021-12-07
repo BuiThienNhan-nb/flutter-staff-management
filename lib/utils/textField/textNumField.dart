@@ -37,7 +37,7 @@ class _TextNumFieldWidgetState extends State<TextNumFieldWidget> {
 
   bool validate(String _str) {
     for (int i = 0; i < _str.length; i++) {
-      if (_str[0] == ",") return false;
+      if (_str[i] == ",") return false;
     }
     return true;
   }
