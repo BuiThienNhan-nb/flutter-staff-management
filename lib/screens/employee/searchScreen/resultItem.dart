@@ -6,8 +6,11 @@ import 'package:staff_management/screens/employee/detailScreen/employeeDetail.da
 
 class EmployeeResultItem extends StatelessWidget {
   final Employee _employee;
-  const EmployeeResultItem({Key? key, required Employee employee})
+  final bool _onSearchScreen;
+  const EmployeeResultItem(
+      {Key? key, required Employee employee, required bool onSearchScreen})
       : _employee = employee,
+        _onSearchScreen = onSearchScreen,
         super(key: key);
 
   @override
@@ -15,7 +18,9 @@ class EmployeeResultItem extends StatelessWidget {
     return InkWell(
       splashColor: Colors.grey.shade400,
       borderRadius: BorderRadius.circular(8),
-      onTap: () => Get.to(() => EmployeeDetail(employee: _employee)),
+      onTap: () => _onSearchScreen
+          ? Get.to(() => EmployeeDetail(employee: _employee))
+          : null,
       child: Container(
         padding: EdgeInsets.fromLTRB(12, 10, 6, 10),
         child: Row(

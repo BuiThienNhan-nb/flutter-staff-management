@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staff_management/const_value/controller.dart';
-import 'package:staff_management/screens/dashboard/addAddition.dart';
-import 'package:staff_management/screens/dashboard/addPosition.dart';
-import 'package:staff_management/screens/dashboard/addUnit.dart';
+import 'package:staff_management/screens/dashboard/addAddition/addAddition.dart';
+import 'package:staff_management/screens/dashboard/addPosition/addPosition.dart';
+import 'package:staff_management/screens/dashboard/addUnit/addUnit.dart';
 import 'package:staff_management/screens/dashboard/homeItem.dart';
-import 'package:staff_management/screens/dashboard/retirementEmployee.dart';
+import 'package:staff_management/screens/dashboard/retirementScreen/retirementEmployee.dart';
 import 'package:staff_management/screens/dashboard/updateSalary.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:staff_management/models/additionHistory.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/services/additionHistoryRepo.dart';
 import 'package:staff_management/services/quotaHistoryRepo.dart';
@@ -140,5 +141,15 @@ class EmployeeRepo {
           .add(element.toMap())
           .then((value) => element.uid = value.id);
     });
+  }
+
+  Future<void> updateEmployeeAddition(
+      List<Employee> employee, AdditionHistory additionHistory) async {
+    employee.forEach((element) async => await _db
+        .collection("employees")
+        .doc(element.uid)
+        .collection("additions")
+        .add(additionHistory.toMap())
+        .then((value) => additionHistory.uid = value.id));
   }
 }
