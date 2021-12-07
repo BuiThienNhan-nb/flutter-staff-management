@@ -237,6 +237,7 @@ class _ChildWorkHistoryExpansionTitleState
         widget._workHistory.position.value.name;
     _workHistoryJoinDateController.text =
         "${DateFormat('dd/MM/yyyy').format(widget._workHistory.joinDate.toDate())}";
+    //_workHistoryJoinDateController ?? = TextEditingController(text: "aa");
 
     _workHistoryDismissDateController.text = widget._workHistory.dismissDate
             .toDate()

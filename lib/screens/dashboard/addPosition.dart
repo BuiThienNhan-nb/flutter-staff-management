@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/position.dart';
-import 'package:staff_management/screens/dashboard/textNumField.dart';
+import 'package:staff_management/utils/textField/textNumField.dart';
 import 'package:staff_management/services/positionRepo.dart';
 import 'package:staff_management/utils/textField/textField.dart';
 
@@ -16,7 +16,7 @@ class AddPositionScreen extends StatefulWidget {
 }
 
 class _AddPositionScreenState extends State<AddPositionScreen> {
-  final GlobalKey _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   TextEditingController _2015Controller = TextEditingController(text: "0.0");
   TextEditingController _2016Controller = TextEditingController(text: "0.0");
@@ -47,100 +47,115 @@ class _AddPositionScreenState extends State<AddPositionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              child: Text(
-                "Add Position",
-                style: GoogleFonts.varelaRound(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+    return Scaffold(
+      appBar: AppBar(
+        // backgroundColor: Colors.white,
+        // iconTheme: IconThemeData(
+        //   color: Colors.black,
+        // ),
+        centerTitle: true,
+        title: Text(
+          "Add Position",
+          style: GoogleFonts.varelaRound(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: Container(
+        color: Colors.white,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Position name",
+                    ),
+                    SizedBox(height: 5),
+                    TextFieldWidget(
+                      controller: _nameController,
+                      icon: Icons.work_rounded,
+                      hintText: "Position Name",
+                      onEdit: true,
+                      textInputFormatter:
+                          FilteringTextInputFormatter.singleLineFormatter,
+                      callback: (String _newValue) {},
+                    ),
+                    SizedBox(height: 20),
+                    Text("List allowance Points"),
+                    SizedBox(height: 5),
+                    TextNumFieldWidget(
+                      controller: _2015Controller,
+                      hintText: "2015 allowance point",
+                      callback: (String _newValue) {},
+                    ),
+                    TextNumFieldWidget(
+                      controller: _2016Controller,
+                      hintText: "2016 allowance point",
+                      callback: (String _newValue) {},
+                    ),
+                    TextNumFieldWidget(
+                      controller: _2017Controller,
+                      hintText: "2017 allowance point",
+                      callback: (String _newValue) {},
+                    ),
+                    TextNumFieldWidget(
+                      controller: _2018Controller,
+                      hintText: "2018 allowance point",
+                      callback: (String _newValue) {},
+                    ),
+                    TextNumFieldWidget(
+                      controller: _2019Controller,
+                      hintText: "2019 allowance point",
+                      callback: (String _newValue) {},
+                    ),
+                    TextNumFieldWidget(
+                      controller: _2020Controller,
+                      hintText: "2020 allowance point",
+                      callback: (String _newValue) {},
+                    ),
+                    TextNumFieldWidget(
+                      controller: _2021Controller,
+                      hintText: "2021 allowance point",
+                      callback: (String _newValue) {},
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          alignment: Alignment.center,
+                        ),
+                        onPressed: () async {
+                          await addPosition()
+                              .then((value) => showSnackBar(context, value));
+                        },
+                        child: Text("Add"),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Position name",
-                  ),
-                  SizedBox(height: 5),
-                  TextFieldWidget(
-                    controller: _nameController,
-                    icon: Icons.work_rounded,
-                    hintText: "Position Name",
-                    onEdit: true,
-                    textInputFormatter:
-                        FilteringTextInputFormatter.singleLineFormatter,
-                    callback: (String _newValue) {},
-                  ),
-                  SizedBox(height: 20),
-                  Text("List allowance Points"),
-                  SizedBox(height: 5),
-                  TextNumFieldWidget(
-                    controller: _2015Controller,
-                    hintText: "2015 allowance point",
-                    callback: (String _newValue) {},
-                  ),
-                  TextNumFieldWidget(
-                    controller: _2016Controller,
-                    hintText: "2016 allowance point",
-                    callback: (String _newValue) {},
-                  ),
-                  TextNumFieldWidget(
-                    controller: _2017Controller,
-                    hintText: "2017 allowance point",
-                    callback: (String _newValue) {},
-                  ),
-                  TextNumFieldWidget(
-                    controller: _2018Controller,
-                    hintText: "2018 allowance point",
-                    callback: (String _newValue) {},
-                  ),
-                  TextNumFieldWidget(
-                    controller: _2019Controller,
-                    hintText: "2019 allowance point",
-                    callback: (String _newValue) {},
-                  ),
-                  TextNumFieldWidget(
-                    controller: _2020Controller,
-                    hintText: "2020 allowance point",
-                    callback: (String _newValue) {},
-                  ),
-                  TextNumFieldWidget(
-                    controller: _2021Controller,
-                    hintText: "2021 allowance point",
-                    callback: (String _newValue) {},
-                  ),
-                  SizedBox(height: 5),
-                  ElevatedButton(
-                    onPressed: () => addPosition()
-                        .then((value) => showSnackBar(context, value)),
-                    child: Text("Add"),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Future<bool> addPosition() async {
-    if (positionController.listPositionName.contains(_nameController.text)) {
+    if (positionController.listPositionName.contains(_nameController.text) ||
+        !_formKey.currentState!.validate()) {
+      return false;
+    } else {
       Map<String, num> allowancePoints = {
         "2015": double.parse(_2015Controller.text),
         "2016": double.parse(_2016Controller.text),
@@ -151,13 +166,12 @@ class _AddPositionScreenState extends State<AddPositionScreen> {
         "2021": double.parse(_2021Controller.text),
       };
       Position position = Position(
-          uid: "uid",
-          name: _nameController.text,
-          allowancePoints: allowancePoints);
+        uid: "uid",
+        name: _nameController.text,
+        allowancePoints: allowancePoints,
+      );
       await PositionRepo().addPosition(position);
       return true;
-    } else {
-      return false;
     }
   }
 
@@ -176,7 +190,7 @@ class _AddPositionScreenState extends State<AddPositionScreen> {
       final snackBar = SnackBar(
         duration: Duration(milliseconds: 500),
         content: Text(
-          "This position already provided",
+          "Some fields are invalid or This position already provided",
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
         ),
       );

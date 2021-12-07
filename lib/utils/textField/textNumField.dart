@@ -35,6 +35,13 @@ class _TextNumFieldWidgetState extends State<TextNumFieldWidget> {
 
   void onListen() => setState(() {});
 
+  bool validate(String _str) {
+    for (int i = 0; i < _str.length; i++) {
+      if (_str[0] == ",") return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final textFielHiegh = 70.0;
@@ -57,6 +64,8 @@ class _TextNumFieldWidgetState extends State<TextNumFieldWidget> {
             TextInputType.numberWithOptions(decimal: true, signed: true),
         validator: (input) {
           if (input == null || input.isEmpty) return 'This field is required';
+          if (!validate(input))
+            return 'Point mustnot contains "," use "." instead';
         },
         onFieldSubmitted: (String submittedValue) {
           widget._callback(submittedValue);

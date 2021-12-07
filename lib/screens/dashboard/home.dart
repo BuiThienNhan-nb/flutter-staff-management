@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Container(
           // padding: EdgeInsets.only(top: _deviceSize.height * 0.13),
-          height: _deviceSize.height * 0.6,
+          height: _deviceSize.height * 0.5,
           child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -91,7 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => setState(() {
                 _selectedIndex = index;
               }),
-              onDoubleTap: () => Get.bottomSheet(_list[_selectedIndex]),
+              onDoubleTap: () {
+                setState(() {
+                  _selectedIndex = index;
+                });
+                Get.to(() => _list[_selectedIndex]);
+                // Get.bottomSheet(_list[_selectedIndex]);
+              },
               child: HomeItem(
                   title: _listHomeItem[index].title,
                   icon: _listHomeItem[index].icon,
