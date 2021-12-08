@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staff_management/const_value/controller.dart';
-import 'package:staff_management/screens/dashboard/addAddition.dart';
-import 'package:staff_management/screens/dashboard/addPosition.dart';
-import 'package:staff_management/screens/dashboard/addUnit.dart';
+import 'package:staff_management/screens/dashboard/addAddition/addAddition.dart';
+import 'package:staff_management/screens/dashboard/addPosition/addPosition.dart';
+import 'package:staff_management/screens/dashboard/addQuota/addQuota.dart';
+import 'package:staff_management/screens/dashboard/addUnit/addUnit.dart';
 import 'package:staff_management/screens/dashboard/homeItem.dart';
-import 'package:staff_management/screens/dashboard/relative.dart';
-import 'package:staff_management/screens/dashboard/retirementEmployee.dart';
+import 'package:staff_management/screens/dashboard/relativeScreen/relative.dart';
+import 'package:staff_management/screens/dashboard/retirementScreen/retirementEmployee.dart';
 import 'package:staff_management/screens/dashboard/updateSalary.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AddPositionScreen(),
     AddUnitScreen(),
     AddAdditionScreen(),
-    UpdateSalaryScreen(),
+    AddQuotaScreen(),
     RetirementEmployee(),
     RelativeScreen(),
   ];
@@ -53,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.card_giftcard_rounded,
       ))
       ..add(HomeItemModel(
-        title: "Update Salary",
-        icon: Icons.money_rounded,
+        title: "Add Quota",
+        icon: Icons.assignment_ind_rounded,
       ))
       ..add(HomeItemModel(
         title: 'Retirement Employee',
@@ -122,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     } else {
                       Get.bottomSheet(_list[_selectedIndex]);
                     }
+                    Get.to(() => _list[_selectedIndex]);
                   },
                   child: HomeItem(
                       title: _listHomeItem[index].title,

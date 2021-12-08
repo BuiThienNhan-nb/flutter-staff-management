@@ -66,7 +66,8 @@ class _EmailFieldWidgetState extends State<TextFieldWidget> {
         ),
         enabled: widget.onEdit,
         inputFormatters: [widget.textInputFormatter],
-        keyboardType: widget.hintText == 'Identity card'
+        keyboardType: (widget.hintText == 'Identity card' ||
+                widget.hintText.contains('phone'))
             ? TextInputType.phone
             : TextInputType.emailAddress,
         // autofillHints: [AutofillHints.email],

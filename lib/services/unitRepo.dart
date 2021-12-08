@@ -34,4 +34,11 @@ class UnitRepo {
       return _unit;
     });
   }
+
+  Future<void> addUnit(Unit unit) async {
+    await _db
+        .collection("units")
+        .add(unit.toMap())
+        .then((value) => unit.uid = value.id);
+  }
 }
