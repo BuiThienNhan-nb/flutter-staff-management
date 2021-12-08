@@ -4,6 +4,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:staff_management/screens/dashboard/home.dart';
 import 'package:staff_management/screens/employee/employeeDGV.dart';
 import 'package:staff_management/screens/employee/searchScreen/searchEmployee.dart';
+import 'package:staff_management/screens/notification/notifcationScreen.dart';
 import 'package:staff_management/screens/revenue/revenueScreen.dart';
 
 class MainContainer extends StatefulWidget {
@@ -18,9 +19,8 @@ class _MainContainerState extends State<MainContainer> {
   List<String> _titles = [
     "Home",
     "List Employees",
-    // "List Units",
     "Revenue Chart",
-    // "Settings"
+    "Notifications",
   ];
 
   String _title = "Home";
@@ -40,7 +40,7 @@ class _MainContainerState extends State<MainContainer> {
         HomeScreen(),
         EmployeeDataGridView(),
         RevenueScreen(),
-        // TestScreen(),
+        NotificationScreen(),
       ];
     }
 
@@ -77,16 +77,16 @@ class _MainContainerState extends State<MainContainer> {
           // activeColorSecondary: Colors.white,
           inactiveColorPrimary: CupertinoColors.systemGrey2,
         ),
-        // PersistentBottomNavBarItem(
-        //   icon: Icon(
-        //     Icons.settings,
-        //     size: 32,
-        //   ),
-        //   title: ("Settings"),
-        //   activeColorPrimary: Colors.blue,
-        //   // activeColorSecondary: Colors.white,
-        //   inactiveColorPrimary: CupertinoColors.systemGrey2,
-        // ),
+        PersistentBottomNavBarItem(
+          icon: Icon(
+            Icons.notifications_on_rounded,
+            size: 32,
+          ),
+          title: ("Notifications"),
+          activeColorPrimary: Colors.blue,
+          // activeColorSecondary: Colors.white,
+          inactiveColorPrimary: CupertinoColors.systemGrey2,
+        ),
       ];
     }
 

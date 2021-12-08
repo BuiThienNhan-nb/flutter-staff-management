@@ -116,6 +116,7 @@ class _AddAdditionScreenState extends State<AddAdditionScreen> {
       );
       await EmployeeRepo()
           .updateEmployeeAddition(_selectedEmployee, additionHistory);
+      await notificationController.addAdditionNotification(addition);
       return true;
     }
   }

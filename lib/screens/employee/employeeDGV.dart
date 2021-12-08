@@ -48,11 +48,7 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
   }
 
   void dataGridRefresh() {
-    // employeeController.retreiveDetailData();
     calculateSalary();
-    // employeeDataSource.buildDataGridRow();
-    // employeeDataSource._employeeData
-    //     .forEach((element) => employeeDataSource.buildRow(element));
     updateDataGird();
     setState(() {});
   }
@@ -158,8 +154,6 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
                         .getCells()
                         .first
                         .value as String;
-                    // print(_uidSorted);
-
                     Get.to(
                       () => EmployeeDetail(
                           employee: employeeController.listEmployees.firstWhere(
@@ -269,7 +263,7 @@ class EmployeeDataSource extends DataGridSource {
         alignment: (e.columnName == "salary")
             ? Alignment.center
             : Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Text(
           e.value.toString(),
           overflow: TextOverflow.ellipsis,

@@ -180,6 +180,7 @@ class _AddPositionScreenState extends State<AddPositionScreen> {
         allowancePoints: allowancePoints,
       );
       await PositionRepo().addPosition(position);
+      await notificationController.addPositionNotification(position);
       return true;
     }
   }

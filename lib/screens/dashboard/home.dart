@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/screens/dashboard/addAddition/addAddition.dart';
 import 'package:staff_management/screens/dashboard/addPosition/addPosition.dart';
@@ -8,7 +7,6 @@ import 'package:staff_management/screens/dashboard/addQuota/addQuota.dart';
 import 'package:staff_management/screens/dashboard/addUnit/addUnit.dart';
 import 'package:staff_management/screens/dashboard/homeItem.dart';
 import 'package:staff_management/screens/dashboard/retirementScreen/retirementEmployee.dart';
-import 'package:staff_management/screens/dashboard/updateSalary.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -75,19 +73,19 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 30),
-            Container(
-              padding: const EdgeInsets.only(left: 20, bottom: 20),
-              // height: _deviceSize.height * 0.05,
-              child: Text(
-                "Dashboard",
-                style: GoogleFonts.varelaRound(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
+            // SizedBox(height: 30),
+            // Container(
+            //   padding: const EdgeInsets.only(left: 20, bottom: 20),
+            //   // height: _deviceSize.height * 0.05,
+            //   child: Text(
+            //     "Dashboard",
+            //     style: GoogleFonts.varelaRound(
+            //       fontSize: 30,
+            //       fontWeight: FontWeight.bold,
+            //       color: Colors.black,
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 10),
             Container(
               // padding: EdgeInsets.only(top: _deviceSize.height * 0.13),
@@ -111,11 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       _selectedIndex = index;
                     });
                     Get.to(() => _list[_selectedIndex]);
-                    // if (_selectedIndex == 4) {
-                    //   Get.to(_list[_selectedIndex]);
-                    // } else {
-                    //   Get.bottomSheet(_list[_selectedIndex]);
-                    // }
                   },
                   child: HomeItem(
                       title: _listHomeItem[index].title,
