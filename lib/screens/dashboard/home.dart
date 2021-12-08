@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/screens/dashboard/addAddition/addAddition.dart';
 import 'package:staff_management/screens/dashboard/addPosition/addPosition.dart';
+import 'package:staff_management/screens/dashboard/addQuota/addQuota.dart';
 import 'package:staff_management/screens/dashboard/addUnit/addUnit.dart';
 import 'package:staff_management/screens/dashboard/homeItem.dart';
 import 'package:staff_management/screens/dashboard/retirementScreen/retirementEmployee.dart';
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AddPositionScreen(),
     AddUnitScreen(),
     AddAdditionScreen(),
-    UpdateSalaryScreen(),
+    AddQuotaScreen(),
     RetirementEmployee(),
   ];
   List<HomeItemModel> _listHomeItem = [];
@@ -51,12 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.card_giftcard_rounded,
       ))
       ..add(HomeItemModel(
-        title: "Update Salary",
-        icon: Icons.money_rounded,
+        title: "Add Quota",
+        icon: Icons.assignment_ind_rounded,
       ))
       ..add(HomeItemModel(
         title: 'Retirement Employee',
-        icon: Icons.person,
+        icon: Icons.person_off_rounded,
       ));
     super.initState();
   }

@@ -28,4 +28,11 @@ class QuotaRepo {
       return _quota;
     });
   }
+
+  Future<void> addQuota(Quota quota) async {
+    await _db
+        .collection("quotas")
+        .add(quota.toMap())
+        .then((value) => quota.uid = value.id);
+  }
 }

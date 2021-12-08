@@ -42,6 +42,13 @@ class _TextNumFieldWidgetState extends State<TextNumFieldWidget> {
     return true;
   }
 
+  bool validateDuration(String _str) {
+    for (int i = 0; i < _str.length; i++) {
+      if (_str[i] == "," || _str[i] == ".") return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final textFielHiegh = 70.0;
@@ -64,8 +71,12 @@ class _TextNumFieldWidgetState extends State<TextNumFieldWidget> {
             TextInputType.numberWithOptions(decimal: true, signed: true),
         validator: (input) {
           if (input == null || input.isEmpty) return 'This field is required';
-          if (!validate(input))
-            return 'Point mustnot contains "," use "." instead';
+          if (widget._hintText == "Durations") {
+            if (!validateDuration(input)) return 'Duration must be an integer';
+          } else {
+            if (!validate(input))
+              return 'Point mustnot contains "," use "." instead';
+          }
         },
         onFieldSubmitted: (String submittedValue) {
           widget._callback(submittedValue);

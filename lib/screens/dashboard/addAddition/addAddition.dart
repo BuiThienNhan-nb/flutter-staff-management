@@ -143,38 +143,3 @@ class _AddAdditionScreenState extends State<AddAdditionScreen> {
     }
   }
 }
-
-// class AdditionEmployeeBottomSheet extends StatelessWidget {
-//   const AdditionEmployeeBottomSheet({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         centerTitle: true,
-//         title: Text(
-//           "List Employee",
-//           style: GoogleFonts.varelaRound(
-//             // fontSize: 25,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//         backgroundColor: Colors.white,
-//         iconTheme: IconThemeData(
-//           color: Colors.black,
-//         ),
-//       ),
-//       body: Column(
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Text("Select Employee"),
-//           SizedBox(height: 10),
-//           ListEmployee(listEmployee: employeeController.listEmployees),
-//         ],
-//       ),
-//     );
-//   }
-// }
