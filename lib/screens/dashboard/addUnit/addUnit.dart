@@ -128,6 +128,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         name: _nameController.text,
       );
       await UnitRepo().addUnit(unit);
+      await notificationController.addUnitNotification(unit);
       return true;
     }
   }

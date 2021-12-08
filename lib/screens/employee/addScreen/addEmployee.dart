@@ -101,6 +101,9 @@ class AddEmployee extends StatelessWidget {
         salary: 0);
     employeeController.listEmployees.add(employee);
     await employeeRepo.addEmployee(employee);
+    await notificationController
+        .addEmployeeNotification(employee)
+        .then((value) => employeeController.retreiveDetailData());
   }
 
   @override

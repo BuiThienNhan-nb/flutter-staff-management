@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/additionHistory.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/models/quotaHistories.dart';
@@ -357,6 +358,9 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
       await EmployeeRepo()
           .updateEmployee(employeeCopy)
           .then((value) => widget.employee = Employee.clone(employeeCopy));
+      await notificationController
+          .addUpdateEmployeeNotification(employeeCopy)
+          .then((value) => employeeController.retreiveDetailData());
     }
   }
 }

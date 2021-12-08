@@ -135,6 +135,7 @@ class _AddQuotaScreenState extends State<AddQuotaScreen> {
           name: _nameController.text,
           ranks: ranks);
       await QuotaRepo().addQuota(quota);
+      await notificationController.addQuotaNotification(quota);
       return true;
     }
   }

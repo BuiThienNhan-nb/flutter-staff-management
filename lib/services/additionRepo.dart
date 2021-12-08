@@ -22,7 +22,7 @@ class AdditionRepo {
   Stream<Addition> additionByIdStream(String _uid) {
     return _db
         .collection('additions')
-        .orderBy('date', descending: true)
+        // .orderBy('date', descending: true)
         .snapshots()
         .map((QuerySnapshot query) {
       Addition _addition =
