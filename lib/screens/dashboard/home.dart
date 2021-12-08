@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staff_management/const_value/controller.dart';
-import 'package:staff_management/screens/dashboard/addAddition.dart';
-import 'package:staff_management/screens/dashboard/addPosition.dart';
-import 'package:staff_management/screens/dashboard/addUnit.dart';
+import 'package:staff_management/screens/dashboard/addAddition/addAddition.dart';
+import 'package:staff_management/screens/dashboard/addPosition/addPosition.dart';
+import 'package:staff_management/screens/dashboard/addQuota/addQuota.dart';
+import 'package:staff_management/screens/dashboard/addUnit/addUnit.dart';
 import 'package:staff_management/screens/dashboard/homeItem.dart';
+import 'package:staff_management/screens/dashboard/retirementScreen/retirementEmployee.dart';
 import 'package:staff_management/screens/dashboard/updateSalary.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
     AddPositionScreen(),
     AddUnitScreen(),
     AddAdditionScreen(),
-    UpdateSalaryScreen(),
+    AddQuotaScreen(),
+    RetirementEmployee(),
   ];
   List<HomeItemModel> _listHomeItem = [];
   int _selectedIndex = -1;
@@ -49,8 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.card_giftcard_rounded,
       ))
       ..add(HomeItemModel(
-        title: "Update Salary",
-        icon: Icons.money_rounded,
+        title: "Add Quota",
+        icon: Icons.assignment_ind_rounded,
+      ))
+      ..add(HomeItemModel(
+        title: 'Retirement Employee',
+        icon: Icons.person_off_rounded,
       ));
     super.initState();
   }
@@ -58,48 +65,68 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final Size _deviceSize = MediaQuery.of(context).size;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 50),
-        Container(
-          padding: const EdgeInsets.only(left: 20, bottom: 20),
-          // height: _deviceSize.height * 0.05,
-          child: Text(
-            "Update University database",
-            style: GoogleFonts.varelaRound(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      physics: AlwaysScrollableScrollPhysics(),
+      child: Container(
+        // height: _deviceSize.height,
+        padding: const EdgeInsets.only(bottom: 55),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 30),
+            Container(
+              padding: const EdgeInsets.only(left: 20, bottom: 20),
+              // height: _deviceSize.height * 0.05,
+              child: Text(
+                "Dashboard",
+                style: GoogleFonts.varelaRound(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
             ),
-          ),
+            SizedBox(height: 10),
+            Container(
+              // padding: EdgeInsets.only(top: _deviceSize.height * 0.13),
+              height: _deviceSize.height * 0.8,
+              child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.0,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                ),
+                itemCount: _listHomeItem.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    GestureDetector(
+                  onTap: () => setState(() {
+                    _selectedIndex = index;
+                  }),
+                  onDoubleTap: () {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                    Get.to(() => _list[_selectedIndex]);
+                    // if (_selectedIndex == 4) {
+                    //   Get.to(_list[_selectedIndex]);
+                    // } else {
+                    //   Get.bottomSheet(_list[_selectedIndex]);
+                    // }
+                  },
+                  child: HomeItem(
+                      title: _listHomeItem[index].title,
+                      icon: _listHomeItem[index].icon,
+                      isSelected: _selectedIndex == index),
+                ),
+              ),
+            ),
+          ],
         ),
-        Container(
-          // padding: EdgeInsets.only(top: _deviceSize.height * 0.13),
-          height: _deviceSize.height * 0.6,
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1.0,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-            ),
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: _listHomeItem.length,
-            itemBuilder: (BuildContext context, int index) => GestureDetector(
-              onTap: () => setState(() {
-                _selectedIndex = index;
-              }),
-              onDoubleTap: () => Get.bottomSheet(_list[_selectedIndex]),
-              child: HomeItem(
-                  title: _listHomeItem[index].title,
-                  icon: _listHomeItem[index].icon,
-                  isSelected: _selectedIndex == index),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

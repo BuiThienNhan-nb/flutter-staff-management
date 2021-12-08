@@ -80,22 +80,21 @@ class _QuotaHistoriesExpansionTitleState
                 onEdit: index == 0 ? widget._onEdit : false,
                 callback: (_newDateString) {
                   if (widget._quotaHistories.length > 1) {
-                    if (widget._quotaHistories[index].joinDate
-                            .toDate()
-                            .compareTo(widget
-                                ._quotaHistories[index + 1].joinDate
-                                .toDate()) >
+                    if (DateFormat('dd/MM/yyyy')
+                            .parse(_newDateString)
+                            .compareTo(
+                                widget._quotaHistories[1].joinDate.toDate()) >
                         0) {
-                      widget._quotaHistories[index].dismissDate =
-                          Timestamp.fromDate(widget
-                              ._quotaHistories[index].joinDate
-                              .toDate()
+                      widget._quotaHistories[0].dismissDate =
+                          Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                              .parse(_newDateString)
                               .add(const Duration(days: -1)));
-                      widget._quotaHistories[index + 1].dismissDate =
-                          Timestamp.fromDate(widget
-                              ._quotaHistories[index].joinDate
-                              .toDate()
+                      widget._quotaHistories[1].dismissDate =
+                          Timestamp.fromDate(DateFormat('dd/MM/yyyy')
+                              .parse(_newDateString)
                               .add(const Duration(days: -1)));
+                      setState(() {});
+                      return true;
                     } else {
                       showDialog<void>(
                         context: context,
@@ -122,13 +121,14 @@ class _QuotaHistoriesExpansionTitleState
                           );
                         },
                       );
+                      return false;
                     }
                   } else {
-                    widget._quotaHistories[index].dismissDate =
-                        Timestamp.fromDate(widget
-                            ._quotaHistories[index].joinDate
-                            .toDate()
+                    widget._quotaHistories[0].dismissDate = Timestamp.fromDate(
+                        DateFormat('dd/MM/yyyy')
+                            .parse(_newDateString)
                             .add(const Duration(days: -1)));
+                    return true;
                   }
                 },
               ),
@@ -168,8 +168,8 @@ class _QuotaHistoriesExpansionTitleState
                                       ._quotaHistories[0].joinDate
                                       .toDate()
                                       .add(const Duration(days: -1)));
+                              setState(() {});
                             }
-                            setState(() {});
                           },
                         ),
                 ],
@@ -211,6 +211,11 @@ class _ChildQuotaHistoryExpansionTitleState
 
   @override
   void initState() {
+    updateController();
+    super.initState();
+  }
+
+  void updateController() {
     _quotaHistoryNameController.text = widget._quotaHistory.quota.value.name;
     _quotaHistoryJoinDateController.text =
         "${DateFormat('dd/MM/yyyy').format(widget._quotaHistory.joinDate.toDate())}";
@@ -219,7 +224,6 @@ class _ChildQuotaHistoryExpansionTitleState
             .isBefore(widget._quotaHistory.joinDate.toDate())
         ? "Current"
         : "${DateFormat('dd/MM/yyyy').format(widget._quotaHistory.dismissDate.toDate())}";
-    super.initState();
   }
 
   void updateQuota(String _selectedQuotaName) {
@@ -263,6 +267,7 @@ class _ChildQuotaHistoryExpansionTitleState
 
   @override
   Widget build(BuildContext context) {
+    updateController();
     return ExpansionTile(
       title: widget._onEdit
           ? MyDropdownButton(
@@ -297,9 +302,14 @@ class _ChildQuotaHistoryExpansionTitleState
               editable: widget._onEdit,
               icon: Icons.date_range,
               callback: (String _newDateString) {
-                widget._quotaHistory.joinDate = Timestamp.fromDate(
-                    DateFormat('dd/MM/yyyy').parse(_newDateString));
-                widget._callback(_newDateString);
+                if (widget._callback(_newDateString)) {
+                  widget._quotaHistory.joinDate = Timestamp.fromDate(
+                      DateFormat('dd/MM/yyyy').parse(_newDateString));
+                } else {
+                  _quotaHistoryJoinDateController.text =
+                      DateFormat('dd/MM/yyyy')
+                          .format(widget._quotaHistory.joinDate.toDate());
+                }
               }),
         ),
         Padding(
@@ -320,4 +330,4 @@ class _ChildQuotaHistoryExpansionTitleState
   }
 }
 
-typedef Callback = Function(String _newDateString);
+typedef Callback = bool Function(String _newDateString);

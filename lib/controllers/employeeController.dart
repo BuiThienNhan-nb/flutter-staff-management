@@ -37,4 +37,12 @@ class EmployeeController extends GetxController {
     });
     update();
   }
+
+  bool checkIfEmployeeUpSalary(Employee employee, DateTime date) =>
+      countQuotaRank(employee, DateTime.now()) ==
+      countQuotaRank(employee, date);
+
+  int countQuotaRank(Employee employee, DateTime date) =>
+      date.difference(employee.quotaHistory.first.joinDate.toDate()).inDays ~/
+      365;
 }

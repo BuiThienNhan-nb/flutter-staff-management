@@ -76,7 +76,10 @@ class EmployeeSearchData extends SearchDelegate<Employee> {
               ),
             ],
           ),
-          child: EmployeeResultItem(employee: result[index]),
+          child: EmployeeResultItem(
+            employee: result[index],
+            onSearchScreen: true,
+          ),
         ),
       ),
     );

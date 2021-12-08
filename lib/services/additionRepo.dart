@@ -20,7 +20,11 @@ class AdditionRepo {
   }
 
   Stream<Addition> additionByIdStream(String _uid) {
-    return _db.collection('additions').snapshots().map((QuerySnapshot query) {
+    return _db
+        .collection('additions')
+        .orderBy('date', descending: true)
+        .snapshots()
+        .map((QuerySnapshot query) {
       Addition _addition =
           Addition(uid: "uid", content: "", isReward: true, value: 0);
       for (var element in query.docs) {

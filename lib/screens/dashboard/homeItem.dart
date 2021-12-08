@@ -39,11 +39,11 @@ class _HomeItemState extends State<HomeItem> {
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(widget._icon, size: 30),
+            Icon(widget._icon, size: 60),
             SizedBox(height: 10),
             Text(
               "${widget._tile}",
-              style: TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: 16),
             )
           ]),
     );
