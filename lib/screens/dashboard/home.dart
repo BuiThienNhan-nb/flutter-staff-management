@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ))
       ..add(HomeItemModel(
         title: 'Retirement Employee',
-        icon: Icons.person,
+        icon: Icons.person_off_rounded,
       ))
       ..add(HomeItemModel(
         title: 'Relative',
@@ -116,14 +116,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     setState(() {
                       _selectedIndex = index;
                     });
-                    if (_selectedIndex == 4) {
-                      Get.to(_list[_selectedIndex]);
-                    } else if (_selectedIndex == 5) {
-                      Get.to(() => _list[_selectedIndex]);
-                    } else {
-                      Get.bottomSheet(_list[_selectedIndex]);
-                    }
                     Get.to(() => _list[_selectedIndex]);
+                    // if (_selectedIndex == 4) {
+                    //   Get.to(_list[_selectedIndex]);
+                    // } else {
+                    //   Get.bottomSheet(_list[_selectedIndex]);
+                    // }
                   },
                   child: HomeItem(
                       title: _listHomeItem[index].title,
