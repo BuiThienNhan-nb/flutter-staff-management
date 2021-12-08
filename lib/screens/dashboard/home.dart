@@ -6,6 +6,7 @@ import 'package:staff_management/screens/dashboard/addAddition.dart';
 import 'package:staff_management/screens/dashboard/addPosition.dart';
 import 'package:staff_management/screens/dashboard/addUnit.dart';
 import 'package:staff_management/screens/dashboard/homeItem.dart';
+import 'package:staff_management/screens/dashboard/relative.dart';
 import 'package:staff_management/screens/dashboard/retirementEmployee.dart';
 import 'package:staff_management/screens/dashboard/updateSalary.dart';
 
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AddAdditionScreen(),
     UpdateSalaryScreen(),
     RetirementEmployee(),
+    RelativeScreen(),
   ];
   List<HomeItemModel> _listHomeItem = [];
   int _selectedIndex = -1;
@@ -57,6 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ..add(HomeItemModel(
         title: 'Retirement Employee',
         icon: Icons.person,
+      ))
+      ..add(HomeItemModel(
+        title: 'Relative',
+        icon: Icons.family_restroom,
       ));
     super.initState();
   }
@@ -111,6 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                     if (_selectedIndex == 4) {
                       Get.to(_list[_selectedIndex]);
+                    } else if (_selectedIndex == 5) {
+                      Get.to(() => _list[_selectedIndex]);
                     } else {
                       Get.bottomSheet(_list[_selectedIndex]);
                     }
