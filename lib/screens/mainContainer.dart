@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:staff_management/screens/dashboard/home.dart';
 import 'package:staff_management/screens/employee/employeeDGV.dart';
@@ -17,13 +19,13 @@ class MainContainer extends StatefulWidget {
 class _MainContainerState extends State<MainContainer> {
   // List of app bar title
   List<String> _titles = [
-    "Home",
+    "Navigator",
     "List Employees",
     "Revenue Chart",
     "Notifications",
   ];
 
-  String _title = "Home";
+  String _title = "Navigator";
 
   // update app bar title
   void updateTitle(int index) {
@@ -100,8 +102,23 @@ class _MainContainerState extends State<MainContainer> {
               ? IconButton(
                   onPressed: () => showSearch(
                       context: context, delegate: EmployeeSearchData()),
-                  icon: Icon(Icons.search, color: Colors.white))
-              : SizedBox(),
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                )
+              : _title == "Navigator"
+                  ? IconButton(
+                      onPressed: () async =>
+                          await FirebaseAuth.instance.signOut().then(
+                                (value) => Get.offAllNamed('/loginScreen'),
+                              ),
+                      icon: Icon(
+                        Icons.logout_outlined,
+                        color: Colors.white,
+                      ),
+                    )
+                  : SizedBox(),
         ],
       ),
       body: PersistentTabView(

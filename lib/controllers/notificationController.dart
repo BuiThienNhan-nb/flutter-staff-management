@@ -72,6 +72,19 @@ class NotificationController extends GetxController {
     await addNotification(notifications);
   }
 
+  Future<void> createAdditionNotification(Addition addition) async {
+    String content = addition.isReward ? "Khen thưởng" : "Kỷ luật";
+    Notifications notifications = Notifications(
+      uid: "uid",
+      title: "Thêm mới một $content",
+      description:
+          "Thêm mới một $content được quy thành tiền để cập nhật lương tháng của các nhân viên",
+      userName: "",
+      time: Timestamp.fromDate(DateTime.now()),
+    );
+    await addNotification(notifications);
+  }
+
   Future<void> addUpdateEmployeeNotification(Employee employee) async {
     Notifications notifications = Notifications(
       uid: "uid",

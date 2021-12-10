@@ -69,55 +69,56 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 40),
               SafeArea(
-                  child: Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: Column(
-                  children: [
-                    Text(
-                      'Log In',
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue[900],
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Log In',
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[900],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 30),
-                    Form(
-                      key: _formKey,
-                      child: SingleChildScrollView(
-                        // padding: EdgeInsets.only(left: 10, right: 10),
-                        child: AutofillGroup(
-                          child: Column(
-                            children: [
-                              NameFieldWidget(controller: _emailController),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              PasswordFieldWidget(
-                                controller: _passwordController,
-                                hintText: 'Password',
-                                currentPassword: '',
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              ButtonWidget(
-                                text: 'Login',
-                                onClicked: login,
-                                color: Colors.blue,
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                            ],
+                      SizedBox(height: 30),
+                      Form(
+                        key: _formKey,
+                        child: SingleChildScrollView(
+                          // padding: EdgeInsets.only(left: 10, right: 10),
+                          child: AutofillGroup(
+                            child: Column(
+                              children: [
+                                NameFieldWidget(controller: _emailController),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                PasswordFieldWidget(
+                                  controller: _passwordController,
+                                  hintText: 'Password',
+                                  currentPassword: '',
+                                ),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                ButtonWidget(
+                                  text: 'Login',
+                                  onClicked: login,
+                                  color: Colors.blue,
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ))
+              )
             ],
           ),
         ),
