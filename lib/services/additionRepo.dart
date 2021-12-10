@@ -37,4 +37,11 @@ class AdditionRepo {
       return _addition;
     });
   }
+
+  Future<void> addAddition(Addition addition) async {
+    await _db
+        .collection("additions")
+        .add(addition.toMap())
+        .then((value) => addition.uid = value.id);
+  }
 }
