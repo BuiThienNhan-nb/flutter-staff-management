@@ -7,7 +7,7 @@ import 'package:staff_management/screens/dashboard/addPosition/addPosition.dart'
 import 'package:staff_management/screens/dashboard/addQuota/addQuota.dart';
 import 'package:staff_management/screens/dashboard/addUnit/addUnit.dart';
 import 'package:staff_management/screens/dashboard/homeItem.dart';
-import 'package:staff_management/screens/dashboard/relativeScreen/relative.dart';
+import 'package:staff_management/screens/dashboard/presentScreen/present.dart';
 import 'package:staff_management/screens/dashboard/retirementScreen/retirementEmployee.dart';
 import 'package:staff_management/screens/dashboard/updateSalary.dart';
 
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AddAdditionScreen(),
     AddQuotaScreen(),
     RetirementEmployee(),
-    RelativeScreen(),
+    PresentScreen(),
   ];
   List<HomeItemModel> _listHomeItem = [];
   int _selectedIndex = -1;
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ))
       ..add(HomeItemModel(
         title: "Add Addition",
-        icon: Icons.card_giftcard_rounded,
+        icon: Icons.card_travel_rounded,
       ))
       ..add(HomeItemModel(
         title: "Add Quota",
@@ -62,9 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.person_off_rounded,
       ))
       ..add(HomeItemModel(
-        title: 'Relative',
-        icon: Icons.family_restroom,
-      ));
+          title: 'Present', icon: Icons.wallet_giftcard_outlined));
     super.initState();
   }
 

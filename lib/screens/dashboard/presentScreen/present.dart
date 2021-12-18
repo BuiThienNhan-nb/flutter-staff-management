@@ -6,42 +6,41 @@ import 'package:staff_management/utils/dropdown/dropdownButton.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/intl.dart';
 
-class RelativeScreen extends StatefulWidget {
-  const RelativeScreen({Key? key}) : super(key: key);
+class PresentScreen extends StatefulWidget {
+  const PresentScreen({Key? key}) : super(key: key);
 
   @override
-  _RelativeScreenState createState() => _RelativeScreenState();
+  _PresentScreenState createState() => _PresentScreenState();
 }
 
-class _RelativeScreenState extends State<RelativeScreen> {
+class _PresentScreenState extends State<PresentScreen> {
   late EmployeeDataSource employeeDataSource;
-  RelativeQuery _relativeQuery = RelativeQuery(year: "none");
+  YearQuery _yearQuery = YearQuery(year: "none");
+  HolidayQuery _holidayQuery = HolidayQuery(holiday: "none");
   String _selectedYear = "none";
+  String _selectedHoliday = "none";
   List<String> _listYearNames = [
     "none",
     "2021",
-    "2020",
-    "2019",
-    "2018",
-    "2017",
-    "2003",
-    "2000",
-    "1995"
+    "2022",
+    "2023",
+    "2024",
+    "2025"
+  ];
+  List<String> _listHolidays = [
+    "none",
+    "International Children",
+    "Lunar New Year",
   ];
 
   @override
   void initState() {
     super.initState();
-    // employeeController.listEmployees.forEach((element) => (element.relative.forEach((relative) => relative.type == "Con cái" ? _listRelative.add(relative) : {},)),);
     employeeDataSource = EmployeeDataSource(
         employeeData: employeeController.listEmployees,
         onRefresh: dataGridRefresh,
-        year: "none");
-    additionController.initListAdditionName();
-    quotaController.initListQuoataName();
-    positionController.initListPositionName();
-    unitController.initListUnitName();
-    // _listTypeNames.addAll(unitController.listUnitName);
+        year: "none",
+        holidayName: "none");
   }
 
   void dataGridRefresh() {
@@ -49,15 +48,23 @@ class _RelativeScreenState extends State<RelativeScreen> {
     setState(() {});
   }
 
-  bool checkRelative(Employee employee, int year) {
+  bool checkRelative(Employee employee, int year, String holidayName) {
     bool flag = false;
-
+    int limitAge = 0;
+    switch (holidayName) {
+      case "International Children":
+        limitAge = 10;
+        break;
+      case "Lunar New Year":
+        limitAge = 5;
+        break;
+      default:
+    }
     employee.relative.forEach((relative) {
       int age =
           DateTime(year, 1, 1).difference(relative.birthdate.toDate()).inDays ~/
               365;
-
-      if (relative.type == "Con cái" && age <= 10 && age >= 0) {
+      if (relative.type == "Con cái" && age <= limitAge && age >= 0) {
         flag = true;
       }
     });
@@ -67,9 +74,14 @@ class _RelativeScreenState extends State<RelativeScreen> {
   List<Employee> queryEmployee(List<Employee> employees) {
     return employees
         .where(
-          (element) => (_relativeQuery.year == "none" ||
+          (element) => (_yearQuery.year == "none" ||
+              _holidayQuery.holiday == "none" ||
               checkRelative(
-                  element, int.parse(_relativeQuery.year.toString()))),
+                  element,
+                  int.parse(
+                    _yearQuery.year.toString(),
+                  ),
+                  _holidayQuery.holiday.toString())),
         )
         .toList();
   }
@@ -78,8 +90,8 @@ class _RelativeScreenState extends State<RelativeScreen> {
     employeeDataSource = EmployeeDataSource(
         employeeData: queryEmployee(employeeController.listEmployees),
         onRefresh: dataGridRefresh,
-        year: _relativeQuery.year.toString());
-    // employeeDataSource.buildDataGridRow();
+        year: _yearQuery.year.toString(),
+        holidayName: _holidayQuery.holiday.toString());
     employeeDataSource._employeeData
         .forEach((element) => employeeDataSource.buildRow(element));
   }
@@ -89,7 +101,7 @@ class _RelativeScreenState extends State<RelativeScreen> {
     // Build UI
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text('Relative'), centerTitle: true),
+        appBar: AppBar(title: Text('Present'), centerTitle: true),
         body: Column(
           children: [
             SingleChildScrollView(
@@ -102,9 +114,21 @@ class _RelativeScreenState extends State<RelativeScreen> {
                       selectedValue: _selectedYear,
                       values: _listYearNames,
                       icon: IconData(0),
-                      lable: "Gift date",
+                      lable: "Gift year",
                       callback: (String _newValue) {
-                        _relativeQuery.year = _newValue;
+                        _yearQuery.year = _newValue;
+                        updateDataGird();
+                        setState(() {});
+                      },
+                      size: Size(120, 60)),
+                  SizedBox(width: 10),
+                  MyDropdownButton(
+                      selectedValue: _selectedHoliday,
+                      values: _listHolidays,
+                      icon: IconData(0),
+                      lable: "Holiday",
+                      callback: (String _newValue) {
+                        _holidayQuery.holiday = _newValue;
                         updateDataGird();
                         setState(() {});
                       },
@@ -187,10 +211,12 @@ class _RelativeScreenState extends State<RelativeScreen> {
 class EmployeeDataSource extends DataGridSource {
   List<Employee> _employees;
   String year;
+  String holidayName;
   EmployeeDataSource(
       {required List<Employee> employeeData,
       required this.onRefresh,
-      required this.year})
+      required this.year,
+      required this.holidayName})
       : _employees = employeeData {
     buildDataGridRow(); //employeeData);
   }
@@ -199,7 +225,16 @@ class EmployeeDataSource extends DataGridSource {
 
   void buildDataGridRow() {
     int i = 0;
-    // int age =
+    int limitAge = 0;
+    switch (holidayName) {
+      case "International Children":
+        limitAge = 10;
+        break;
+      case "Lunar New Year":
+        limitAge = 5;
+        break;
+      default:
+    }
     List<List<DataGridRow>> _listEmployeeData =
         List.filled(_employees.length, []);
 
@@ -207,13 +242,19 @@ class EmployeeDataSource extends DataGridSource {
       _listEmployeeData[i] = employee.relative
           .map<DataGridRow>(
             (relative) => DataGridRow(
-              cells: (relative.type == "Con cái" && year == "none") ||
+              cells: (relative.type == "Con cái" &&
+                          (year == "none" || holidayName == "none")) ||
                       (relative.type == "Con cái" &&
                           DateTime(int.parse(year), 1, 1)
                                       .difference(relative.birthdate.toDate())
                                       .inDays ~/
                                   365 >=
-                              0)
+                              0 &&
+                          DateTime(int.parse(year), 1, 1)
+                                      .difference(relative.birthdate.toDate())
+                                      .inDays ~/
+                                  365 <=
+                              limitAge)
                   ? [
                       DataGridCell<String>(
                           columnName: 'uid', value: employee.uid),
@@ -284,7 +325,12 @@ class EmployeeDataSource extends DataGridSource {
   }
 }
 
-class RelativeQuery {
+class YearQuery {
   String? year;
-  RelativeQuery({this.year});
+  YearQuery({this.year});
+}
+
+class HolidayQuery {
+  String? holiday;
+  HolidayQuery({this.holiday});
 }
