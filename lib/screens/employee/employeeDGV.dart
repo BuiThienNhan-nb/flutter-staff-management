@@ -137,70 +137,74 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
               height: 0.6,
             ),
             Expanded(
-              child: SfDataGrid(
-                gridLinesVisibility: GridLinesVisibility.both,
-                headerGridLinesVisibility: GridLinesVisibility.horizontal,
-                columnWidthMode: ColumnWidthMode.auto,
-                allowSorting: true,
-                sortingGestureType: SortingGestureType.tap,
-                showSortNumbers: true,
-                allowPullToRefresh: true,
-                source: employeeDataSource,
-                selectionMode: SelectionMode.single,
-                onCellTap: (DataGridCellTapDetails details) {
-                  if (details.rowColumnIndex.rowIndex > 0) {
-                    String _uidSorted = employeeDataSource.effectiveRows
-                        .elementAt(details.rowColumnIndex.rowIndex - 1)
-                        .getCells()
-                        .first
-                        .value as String;
-                    Get.to(
-                      () => EmployeeDetail(
-                          employee: employeeController.listEmployees.firstWhere(
-                              (element) => element.uid == _uidSorted)),
-                      transition: Transition.rightToLeft,
-                      duration: const Duration(milliseconds: 400),
-                    );
-                  }
-                },
-                columns: [
-                  GridColumn(
-                      columnName: 'uid',
-                      label: Container(
-                          // padding: EdgeInsets.all(8.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'ID',
-                            overflow: TextOverflow.ellipsis,
-                          ))),
-                  GridColumn(
-                      columnName: 'name',
-                      label: Container(
-                          // padding: EdgeInsets.all(8.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Tên',
-                            overflow: TextOverflow.ellipsis,
-                          ))),
-                  GridColumn(
-                      columnName: 'position',
-                      label: Container(
-                          // padding: EdgeInsets.all(8.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Chức vụ',
-                            overflow: TextOverflow.ellipsis,
-                          ))),
-                  GridColumn(
-                      columnName: 'salary',
-                      label: Container(
-                          // padding: EdgeInsets.all(8.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Lương',
-                            overflow: TextOverflow.ellipsis,
-                          ))),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 70),
+                child: SfDataGrid(
+                  gridLinesVisibility: GridLinesVisibility.both,
+                  headerGridLinesVisibility: GridLinesVisibility.horizontal,
+                  columnWidthMode: ColumnWidthMode.auto,
+                  allowSorting: true,
+                  sortingGestureType: SortingGestureType.tap,
+                  showSortNumbers: true,
+                  allowPullToRefresh: true,
+                  source: employeeDataSource,
+                  selectionMode: SelectionMode.single,
+                  onCellTap: (DataGridCellTapDetails details) {
+                    if (details.rowColumnIndex.rowIndex > 0) {
+                      String _uidSorted = employeeDataSource.effectiveRows
+                          .elementAt(details.rowColumnIndex.rowIndex - 1)
+                          .getCells()
+                          .first
+                          .value as String;
+                      Get.to(
+                        () => EmployeeDetail(
+                            employee: employeeController.listEmployees
+                                .firstWhere(
+                                    (element) => element.uid == _uidSorted)),
+                        transition: Transition.rightToLeft,
+                        duration: const Duration(milliseconds: 400),
+                      );
+                    }
+                  },
+                  columns: [
+                    GridColumn(
+                        columnName: 'uid',
+                        label: Container(
+                            // padding: EdgeInsets.all(8.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'ID',
+                              overflow: TextOverflow.ellipsis,
+                            ))),
+                    GridColumn(
+                        columnName: 'name',
+                        label: Container(
+                            // padding: EdgeInsets.all(8.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Tên',
+                              overflow: TextOverflow.ellipsis,
+                            ))),
+                    GridColumn(
+                        columnName: 'position',
+                        label: Container(
+                            // padding: EdgeInsets.all(8.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Chức vụ',
+                              overflow: TextOverflow.ellipsis,
+                            ))),
+                    GridColumn(
+                        columnName: 'salary',
+                        label: Container(
+                            // padding: EdgeInsets.all(8.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Lương',
+                              overflow: TextOverflow.ellipsis,
+                            ))),
+                  ],
+                ),
               ),
             ),
           ],

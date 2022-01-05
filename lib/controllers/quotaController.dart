@@ -171,7 +171,7 @@ class QuotaController extends GetxController {
     }
     while (jDate.compareTo(end) < 1) {
       _newList.add(QuotaPoint(
-          quotaPoint: quotaHistory.quota.value.ranks[rankIndex],
+          quotaPoint: quotaHistory.quota.value.ranks[rankIndex].toDouble(),
           joinDate: (jDate.compareTo(begin) != 0 &&
                   jDate
                           .add(Duration(

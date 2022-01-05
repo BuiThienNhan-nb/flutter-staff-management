@@ -24,7 +24,12 @@ class Quota {
           ? data['name'] as String
           : '',
       ranks: (data.containsKey('ranks') && data['ranks'] != null)
-          ? (data['ranks'] as List<dynamic>).cast<double>()
+          ? (data['ranks'] as List<dynamic>).cast<num>().map(
+              (e) {
+                if (e is double) return e;
+                return e.toDouble();
+              },
+            ).toList()
           : [],
     );
   }
