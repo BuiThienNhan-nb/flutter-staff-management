@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:staff_management/const_value/controller.dart';
 import 'package:staff_management/models/employee.dart';
 import 'package:staff_management/screens/employee/addScreen/addEmployee.dart';
@@ -142,7 +143,7 @@ class _EmployeeDataGridViewState extends State<EmployeeDataGridView> {
                 child: SfDataGrid(
                   gridLinesVisibility: GridLinesVisibility.both,
                   headerGridLinesVisibility: GridLinesVisibility.horizontal,
-                  columnWidthMode: ColumnWidthMode.auto,
+                  columnWidthMode: ColumnWidthMode.fitByCellValue,
                   allowSorting: true,
                   sortingGestureType: SortingGestureType.tap,
                   showSortNumbers: true,
@@ -245,9 +246,7 @@ class EmployeeDataSource extends DataGridSource {
               DataGridCell<String>(
                   columnName: 'position',
                   value: e.workHistory.first.position.value.name),
-              DataGridCell<String>(
-                  columnName: 'salary',
-                  value: e.getSalaryWithoutAdditionsToCurrency()),
+              DataGridCell<int>(columnName: 'salary', value: e.salary),
             ],
           ),
         )
@@ -261,6 +260,7 @@ class EmployeeDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
+    final oCcy = new NumberFormat("#,##0", "en_US");
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
       return Container(
@@ -269,8 +269,10 @@ class EmployeeDataSource extends DataGridSource {
             : Alignment.centerLeft,
         padding: const EdgeInsets.all(8),
         child: Text(
-          e.value.toString(),
-          overflow: TextOverflow.ellipsis,
+          e.columnName == "salary"
+              ? "${oCcy.format(e.value)} VNĐ"
+              : e.value.toString(),
+          overflow: TextOverflow.clip,
         ),
       );
     }).toList());
